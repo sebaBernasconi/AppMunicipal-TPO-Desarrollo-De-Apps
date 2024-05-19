@@ -8,7 +8,7 @@ public class Barrio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "cod_barrio")
     private int idBarrio;
 
     @Column(name = "nombre")
