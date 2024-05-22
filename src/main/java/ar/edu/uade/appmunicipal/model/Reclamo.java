@@ -2,6 +2,8 @@ package ar.edu.uade.appmunicipal.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "reclamos")
 public class Reclamo {
@@ -34,6 +36,12 @@ public class Reclamo {
     //Patron state?(jodaaaa)
     @Column(name = "estado")
     private String estado;
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinTable(name = "reclamo_unificado",
+    joinColumns = @JoinColumn(name = "id_reclamo"),
+            inverseJoinColumns = @JoinColumn(name = "id_movimiento"))
+    private List<MovimientoReclamo>movimientosDelReclamo;
 
     
 
