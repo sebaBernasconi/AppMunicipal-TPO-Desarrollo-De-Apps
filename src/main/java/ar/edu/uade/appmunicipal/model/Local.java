@@ -20,7 +20,7 @@ public class Local {
     private Rubro rubro;
 
     @OneToOne
-    @Column(name = "id_sitio")
+    @JoinColumn(name = "id_sitio")
     private Sitio sitio;
 
     @Column(name = "contacto")
