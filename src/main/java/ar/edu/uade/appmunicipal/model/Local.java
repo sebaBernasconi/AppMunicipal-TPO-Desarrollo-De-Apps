@@ -12,11 +12,11 @@ public class Local {
     private Integer idLocal;
 
     @ManyToOne
-    @Column(name = "id_vecino")
+    @JoinColumn(name = "id_vecino")
     private Vecino vecino;
 
     @ManyToOne
-    @Column(name = "id_rubro")
+    @JoinColumn(name = "id_rubro")
     private Rubro rubro;
 
     @OneToOne
