@@ -11,7 +11,7 @@ public class Reclamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reclamo")
-    private int idReclamo;
+    private Integer idReclamo;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @Column(name = "dni_vecino")
@@ -37,10 +37,10 @@ public class Reclamo {
     @Column(name = "estado")
     private String estado;
 
+    @Column(name = "id_reclamo_unificado")
+    private  Integer idReclamoUnificado;
+
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable(name = "reclamo_unificado",
-    joinColumns = @JoinColumn(name = "id_reclamo"),
-            inverseJoinColumns = @JoinColumn(name = "id_movimiento"))
     private List<MovimientoReclamo>movimientosDelReclamo;
 
     //Constructor
@@ -56,6 +56,7 @@ public class Reclamo {
         this.desperfecto = desperfecto;
         this.descripcion = descripcion;
         this.estado = estado;
+        this.idReclamoUnificado = null;
         this.movimientosDelReclamo = movimientosDelReclamo;
     }
 
