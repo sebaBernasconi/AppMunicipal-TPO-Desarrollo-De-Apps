@@ -14,19 +14,19 @@ public class Reclamo {
     private Integer idReclamo;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "dni_vecino")
+    @JoinColumn(name = "dni_vecino")
     private Vecino vecino;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "legajo")
+    @JoinColumn(name = "legajo")
     private PersonalMunicipal personalMunicipal;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "id_sitio")
+    @JoinColumn(name = "id_sitio")
     private Sitio sitio;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @Column(name = "id_desperfecto")
+    @JoinColumn(name = "id_desperfecto")
     private Desperfecto desperfecto;
 
     @Column(name = "descripcion")
@@ -41,6 +41,7 @@ public class Reclamo {
     private  Integer idReclamoUnificado;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_movimiento")
     private List<MovimientoReclamo>movimientosDelReclamo;
 
     //Constructor
