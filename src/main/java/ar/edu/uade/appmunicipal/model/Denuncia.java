@@ -12,11 +12,11 @@ public class Denuncia {
     private Integer idDenuncia;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "dni_vecino")
+    @JoinColumn(name = "dni")
     private Vecino vecino;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "id_sitio")
+    @JoinColumn(name = "id_sitio")
     private Sitio sitio;
 
     @Column(name = "descripcion")
