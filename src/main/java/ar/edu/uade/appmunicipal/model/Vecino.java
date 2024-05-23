@@ -8,7 +8,7 @@ public class Vecino {
 
     @Id
     @Column(name = "dni")
-    private int dni;
+    private Integer dni;
 
     @Column(name = "nombre")
     private String nombre;
