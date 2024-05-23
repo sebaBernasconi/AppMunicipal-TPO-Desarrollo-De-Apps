@@ -12,7 +12,7 @@ public class Desperfecto {
     private Integer idDesperfecto;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "id_rubro")
+    @JoinColumn(name = "id_rubro")
     private Rubro rubro;
 
     @Column(name = "descripcion")
