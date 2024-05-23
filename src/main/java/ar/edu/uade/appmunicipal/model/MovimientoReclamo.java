@@ -14,11 +14,11 @@ public class MovimientoReclamo {
     private Integer idMovimiento;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name ="id_reclamo")
+    @JoinColumn(name ="id_reclamo")
     private Reclamo reclamo;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "responsable")
+    @JoinColumn(name = "responsable")
     private PersonalMunicipal personalMunicipal;
 
     @Column(name = "causa")
