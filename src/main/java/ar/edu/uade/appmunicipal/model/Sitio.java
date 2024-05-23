@@ -12,7 +12,7 @@ public class Sitio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sitio")
-    private int idSitio;
+    private Integer idSitio;
 
     @Column(name = "latitud")
     private int latitud;

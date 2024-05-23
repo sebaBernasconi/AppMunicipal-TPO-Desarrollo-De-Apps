@@ -9,7 +9,7 @@ public class Rubro {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_rubro")
-    private int idRubro;
+    private Integer idRubro;
 
     @Column(name = "descripcion")
     private String descripcion;

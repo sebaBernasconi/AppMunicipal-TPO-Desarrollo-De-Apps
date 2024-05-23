@@ -11,7 +11,7 @@ public class MovimientoReclamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_movimiento")
-    private int idMovimiento;
+    private Integer idMovimiento;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @Column(name ="id_reclamo")

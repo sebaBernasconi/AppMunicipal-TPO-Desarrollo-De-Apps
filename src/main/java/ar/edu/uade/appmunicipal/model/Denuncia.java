@@ -9,7 +9,7 @@ public class Denuncia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_denuncia")
-    private int idDenuncia;
+    private Integer idDenuncia;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @Column(name = "dni_vecino")

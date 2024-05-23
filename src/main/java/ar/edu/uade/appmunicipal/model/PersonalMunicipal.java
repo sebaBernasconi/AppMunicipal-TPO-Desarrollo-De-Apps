@@ -12,7 +12,7 @@ import java.sql.Date;
 public class PersonalMunicipal {
     @Id
     @Column(name = "legajo")
-    private int legajo;
+    private Integer legajo;
 
     @Column(name = "dni")
     private int dni;
