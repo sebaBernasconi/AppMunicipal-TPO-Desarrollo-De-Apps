@@ -15,7 +15,7 @@ public class Promocion {
     private String descripcion;
 
     @OneToOne
-    @Column(name = "id_local")
+    @JoinColumn(name = "id_local")
     private Local local;
 
     //Constructor
