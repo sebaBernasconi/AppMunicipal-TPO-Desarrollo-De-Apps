@@ -36,7 +36,7 @@ public class Sitio {
     private String descripcion;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @Column(name = "legajo")
+    @JoinColumn(name = "legajo")
     private PersonalMunicipal personalMunicipal;
 
     @Column(name = "fecha_apertura")
