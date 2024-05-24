@@ -10,8 +10,5 @@ import java.util.List;
 @Repository
 public interface MovimientoReclamoRepository extends JpaRepository<MovimientoReclamo,Integer> {
 
-    List<MovimientoReclamo>findMovimientoReclamoByPersonalMunicipal(int legajo);
-    List<MovimientoReclamo>findMovimientoReclamoByReclamo(int idReclamo);
-    List<MovimientoReclamo>findMovimientoReclamoByFechaMovimiento(Date fecha);
 
 }

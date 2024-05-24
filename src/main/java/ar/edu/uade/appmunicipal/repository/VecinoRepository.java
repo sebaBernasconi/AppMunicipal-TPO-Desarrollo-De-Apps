@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface VecinoRepository extends JpaRepository<Vecino, Integer> {
-     List<Vecino> findAllByBarrio(int codigoBarrio);
 }
