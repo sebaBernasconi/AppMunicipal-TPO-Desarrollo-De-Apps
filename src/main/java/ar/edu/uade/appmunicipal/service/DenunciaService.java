@@ -18,17 +18,18 @@ public class DenunciaService {
         return denunciaRepository.findAll();
     }
 
+    /*
     public List<Denuncia>listarDenunciasPorVecino(int dni){
-        return denunciaRepository.findDenunciaByVecino(dni);
+        return denunciaRepository.findDenunciaByVecino(dni).orElse(null);
     }
 
     public List<Denuncia>listarDenunciaPorSitio(int idSitio){
-        return denunciaRepository.findDenunciaBySitio(idSitio);
+        return denunciaRepository.findDenunciaBySitio(idSitio).orElse(null);
     }
 
     public List<Denuncia>listarDenunciaPorEstado(String estado){
-        return denunciaRepository.findDenunciaByEstado(estado);
-    }
+        return denunciaRepository.findDenunciaByEstado(estado).orElse(null);
+    }*/
 
     public Denuncia buscarDenuncia(int idDenuncia){
         Optional<Denuncia>denuncia = denunciaRepository.findById(idDenuncia);

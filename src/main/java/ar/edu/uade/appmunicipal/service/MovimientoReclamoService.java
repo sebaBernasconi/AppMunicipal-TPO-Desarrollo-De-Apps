@@ -19,7 +19,7 @@ public class MovimientoReclamoService {
     public List<MovimientoReclamo>listarMovimientosEnTodosLosReclamos(){
         return movimientoReclamoRepository.findAll();
     }
-
+  /*
     public List<MovimientoReclamo>listarMovimientosEnReclamosPorEmpleadoMunicipal(int legajo){
         return movimientoReclamoRepository.findMovimientoReclamoByPersonalMunicipal(legajo);
     }
@@ -35,7 +35,7 @@ public class MovimientoReclamoService {
     public MovimientoReclamo buscarMovimentoEnUnReclamo(int idMovimiento){
         Optional<MovimientoReclamo>movimientoReclamo = movimientoReclamoRepository.findById(idMovimiento);
         return movimientoReclamo.orElse(null);
-    }
+    }*/
 
     public MovimientoReclamo guardarMovmientoReclamo(MovimientoReclamo movimientoReclamo){
         return movimientoReclamoRepository.save(movimientoReclamo);

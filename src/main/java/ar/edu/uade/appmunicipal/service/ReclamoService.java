@@ -18,26 +18,28 @@ public class ReclamoService {
         return reclamoRepository.findAll();
     }
 
-    public List<Reclamo>listarReclamosPorVecino(int dni){
-        return reclamoRepository.findReclamoByVecino(dni);
-    }
+    /*
+  public List<Reclamo>listarReclamosPorVecino(int dni){
+      return reclamoRepository.findReclamoByVecino(dni);
+  }
 
-    public List<Reclamo>listarReclamosPorEmpleadoMunicipal(int legajo){
-        return reclamoRepository.findReclamoByPersonalMunicipal(legajo);
-    }
 
-    public List<Reclamo>listarReclamosPorSitio(int idSitio){
-        return reclamoRepository.findReclamoBySitio(idSitio);
-    }
+  public List<Reclamo>listarReclamosPorEmpleadoMunicipal(int legajo){
+      return reclamoRepository.findReclamoByPersonalMunicipal(legajo);
+  }
 
-    public List<Reclamo>listarReclamosPorDesperfecto(int idDesperfecto){
-        return reclamoRepository.findReclamoByDesperfecto(idDesperfecto);
-    }
+  public List<Reclamo>listarReclamosPorSitio(int idSitio){
+      return reclamoRepository.findReclamoBySitio(idSitio);
+  }
 
-    public List<Reclamo>listarReclamosPorEstado(String estado){
-        return reclamoRepository.findReclamoByEstado(estado);
-    }
+  public List<Reclamo>listarReclamosPorDesperfecto(int idDesperfecto){
+      return reclamoRepository.findReclamoByDesperfecto(idDesperfecto);
+  }
 
+  public List<Reclamo>listarReclamosPorEstado(String estado){
+      return reclamoRepository.findReclamoByEstado(estado);
+  }
+  */
     public Reclamo buscarReclamo(int idReclamo){
         Optional<Reclamo>reclamo = reclamoRepository.findById(idReclamo);
         return reclamo.orElse(null);
