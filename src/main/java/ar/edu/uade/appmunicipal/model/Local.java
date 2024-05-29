@@ -24,7 +24,7 @@ public class Local {
     private Sitio sitio;
 
     @OneToOne
-    @Column(name = "id_promocion")
+    @JoinColumn(name = "id_promocion")
     private Promocion promocion;
 
     @Column(name = "contacto")
