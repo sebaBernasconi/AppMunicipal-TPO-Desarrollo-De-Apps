@@ -23,17 +23,27 @@ public class Local {
     @JoinColumn(name = "id_sitio")
     private Sitio sitio;
 
+    @OneToOne
+    @Column(name = "id_promocion")
+    private Promocion promocion;
+
     @Column(name = "contacto")
     private String contacto;
 
+
+
+
     //Constructor
 
-    public Local(Integer idLocal, Vecino vecino, Rubro rubro, Sitio sitio, String contacto) {
+    public Local(Integer idLocal, Vecino vecino, Rubro rubro, Sitio sitio, Promocion promocion,
+                 String contacto) {
         this.idLocal = idLocal;
         this.vecino = vecino;
         this.rubro = rubro;
         this.sitio = sitio;
+        this.promocion = promocion;
         this.contacto = contacto;
+
     }
 
     //Constructor vacio para la persistencia
@@ -73,6 +83,14 @@ public class Local {
 
     public void setSitio(Sitio sitio) {
         this.sitio = sitio;
+    }
+
+    public Promocion getPromocion() {
+        return promocion;
+    }
+
+    public void setPromocion(Promocion promocion) {
+        this.promocion = promocion;
     }
 
     public String getContacto() {
