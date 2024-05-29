@@ -20,8 +20,8 @@ public class AppMunicipalApplication {
     }
     @EventListener(ApplicationReadyEvent.class)
     public void sendMail(){
-        sendMailService.sendEmail("bernaseba1@gmail.com","Prueba java mail"
-                ,"la rompi");
+        sendMailService.sendEmail("matiasmarano65@gmail.com","App Municipio"
+                ,"Ejecutaste la app");
     }
 
 }
