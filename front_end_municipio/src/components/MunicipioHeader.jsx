@@ -1,13 +1,26 @@
 import {Image, StyleSheet, View} from 'react-native'
-import React from 'react'
+import React, {useEffect} from 'react'
 import {colors} from "../global/colors";
 import logo_municipio from "../../assets/images/logo_municipio_blanco.png";
+import Animated, {ReduceMotion, Easing, useSharedValue, withTiming} from "react-native-reanimated";
 
 export default function MunicipioHeader() {
+    const headerHeight = useSharedValue(220);
+
+    useEffect(() => {
+        setTimeout(() => {
+            headerHeight.value = withTiming(headerHeight.value-130, {
+                duration: 1000,
+                easing: Easing.inOut(Easing.quad),
+                reduceMotion: ReduceMotion.System,
+            })
+        }, 2000)
+    }, []);
+
     return (
-        <View style={styles.container}>
+        <Animated.View style={[styles.container, {height: headerHeight}]}>
             <Image source={logo_municipio} style={styles.image}/>
-        </View>
+        </Animated.View>
     )
 }
 const styles = StyleSheet.create({
@@ -17,11 +30,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue300,
         borderBottomStartRadius: 10,
         borderBottomEndRadius: 10,
-        height: 250
     },
     image: {
-        width: 450,
-        height: 450,
+        width: "150%",
+        height: "150%",
         resizeMode: "contain"
     }
 })

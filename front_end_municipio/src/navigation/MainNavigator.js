@@ -5,7 +5,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import TabNavigation from "./TabNavigation";
 
 export default function MainNavigator() {
-    const user = true /*TODO eliminar luego*/
+    const user = false /*TODO eliminar luego*/
 
     return (
         <NavigationContainer>

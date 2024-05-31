@@ -1,4 +1,4 @@
-import {Pressable} from 'react-native'
+import {Pressable, View} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {useDispatch} from "react-redux";
 import {useSignUpMutation} from "../services/authService";
@@ -14,10 +14,10 @@ import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 export default function Signup({navigation}) {
     const [email, setEmail] = useState("");
     const [errorMail, setErrorMail] = useState("");
-    const [password, setPassword] = useState("");
-    const [errorPassword, setErrorPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [errorConfirmPassword, setErrorConfirmPassword] = useState("");
+    const [dni, setDni] = useState("");
+    const [errorDni, setErrorDni] = useState("");
+    const [nombreCompleto, setNombreCompleto] = useState("");
+    const [errorNombreCompleto, setErrorNombreCompleto] = useState("");
     const [globalError, setGlobalError] = useState(false);
     const [triggerSignup, result] = useSignUpMutation();
 
@@ -26,22 +26,22 @@ export default function Signup({navigation}) {
     const onSubmit = () => {
         try {
             setErrorMail("");
-            setErrorPassword("");
-            setErrorConfirmPassword("");
+            setErrorDni("");
+            setErrorNombreCompleto("");
 
-            signupSchema.validateSync({password, confirmPassword, email});
-            triggerSignup({email, password});
+            signupSchema.validateSync({email, dni, nombreCompleto});
+            triggerSignup({email, dni, nombreCompleto});
 
         } catch (err) {
             switch (err.path) {
                 case "email":
                     setErrorMail(err.message);
                     break;
-                case "password":
-                    setErrorPassword(err.message);
+                case "dni":
+                    setErrorDni(err.message);
                     break;
-                case "confirmPassword":
-                    setErrorConfirmPassword(err.message);
+                case "nombreCompleto":
+                    setErrorNombreCompleto(err.message);
                     break;
                 default:
                     break;
@@ -56,29 +56,40 @@ export default function Signup({navigation}) {
     }, [result]);
 
     return (
-        <StyledScreenWrapper align_center>
+        <StyledScreenWrapper>
             {!globalError ?
                 (!result.isLoading ? (
                     <>
-                        <StyledText size30>Sign Up</StyledText>
-                        <InputForm
-                            label={"DNI"}
-                            error={errorMail}
-                            onChange={setEmail}
-                            placeholder={"DNI: 11111111"}
-                        />
-                        <InputForm
-                            label={"Nombre Completo"}
-                            error={errorPassword}
-                            onChange={setPassword}
-                            isSecure={true}
-                            placeholder={"Nombre Completo"}
-                        />
-                        <Pressable onPress={() => navigation.navigate("Login")}
-                                   style={{marginTop: 10, marginBottom: 20}}>
-                            <StyledText size20>¿Ya tiene cuenta?</StyledText>
-                            <StyledText size20 light_blue>Inicie sesion</StyledText>
-                        </Pressable>
+                        <View style={{flex: 1}}>
+                            <View style={{alignItems: "center"}}>
+                                <StyledText size30>Sign Up</StyledText>
+                            </View>
+                            <InputForm
+                                label={"DNI"}
+                                error={errorDni}
+                                onChange={setDni}
+                                placeholder={"DNI: 11111111"}
+                            />
+                            <InputForm
+                                label={"Nombre completo"}
+                                error={errorNombreCompleto}
+                                onChange={setNombreCompleto}
+                                placeholder={"Nombre completo"}
+                            />
+                            <InputForm
+                                label={"Email"}
+                                error={setErrorMail}
+                                onChange={setEmail}
+                                placeholder={"ejemplo@email.com"}
+                            />
+                            <View style={{alignItems: "flex-end"}}>
+                                <Pressable onPress={() => navigation.navigate("Login")}
+                                           style={{marginTop: 10, marginBottom: 20}}>
+                                    <StyledText size20>¿Ya tiene cuenta?</StyledText>
+                                    <StyledText size20 light_blue>Inicie sesion</StyledText>
+                                </Pressable>
+                            </View>
+                        </View>
                         <StyledButton text={"Solicitar"} onPress={onSubmit} text_white/>
                     </>
                 ) : (
