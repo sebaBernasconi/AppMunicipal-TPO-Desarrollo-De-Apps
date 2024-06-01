@@ -8,5 +8,5 @@ export const signupSchema = object().shape({
         .min(7, "DNI debe ser de al menos 7 caracteres"),
 
     nombreCompleto: string()
-        .required("El nombre es requerido").matches(/^[a-zA-Z]+$/, "No se permiten numeros o caracteres especiales"),
+        .required("El nombre es requerido").matches(/^[a-zA-Z ]+$/, "No se permiten numeros o caracteres especiales"),
 });

@@ -3,9 +3,10 @@ import React from "react";
 import AuthStack from "./AuthStack";
 import {NavigationContainer} from "@react-navigation/native";
 import TabNavigation from "./TabNavigation";
+import {useSelector} from "react-redux";
 
 export default function MainNavigator() {
-    const user = false /*TODO eliminar luego*/
+    const {user} = useSelector((state) => state.authReducer.value)
 
     return (
         <NavigationContainer>

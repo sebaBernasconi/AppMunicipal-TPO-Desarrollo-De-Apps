@@ -10,6 +10,8 @@ import StyledText from "../styledComponents/StyledText";
 import StyledButton from "../styledComponents/StyledButton";
 import ErrorMessage from "../components/ErrorMessage";
 import {colors} from "../global/colors";
+import {setUser} from "../features/auth/authSlice";
+import {useDispatch} from "react-redux";
 
 export default function Login({navigation}) {
     const [dni, setDni] = useState("");
@@ -18,6 +20,8 @@ export default function Login({navigation}) {
     const [errorPassword, setErrorPassword] = useState("");
     const [globalError, setGlobalError] = useState(false);
     const [triggerLogin, result] = useLoginMutation();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (result.error) {
@@ -36,7 +40,9 @@ export default function Login({navigation}) {
     const onSubmit = () => {
         try {
             loginSchema.validateSync({dni, password});
-            triggerLogin({dni, password});
+            // triggerLogin({dni, password});
+            dispatch(setUser())
+
         } catch (err) {
             switch (err.path) {
                 case "dni":

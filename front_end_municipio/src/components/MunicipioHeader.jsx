@@ -9,7 +9,7 @@ export default function MunicipioHeader() {
 
     useEffect(() => {
         setTimeout(() => {
-            headerHeight.value = withTiming(headerHeight.value-130, {
+            headerHeight.value = withTiming(headerHeight.value / 2.2, {
                 duration: 1000,
                 easing: Easing.inOut(Easing.quad),
                 reduceMotion: ReduceMotion.System,
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blue300,
         borderBottomStartRadius: 10,
         borderBottomEndRadius: 10,
+        paddingTop: 10
     },
     image: {
         width: "150%",

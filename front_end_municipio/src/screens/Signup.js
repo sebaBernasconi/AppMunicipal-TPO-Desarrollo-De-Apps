@@ -30,8 +30,8 @@ export default function Signup({navigation}) {
             setErrorNombreCompleto("");
 
             signupSchema.validateSync({email, dni, nombreCompleto});
-            triggerSignup({email, dni, nombreCompleto});
-
+            // triggerSignup({email, dni, nombreCompleto});
+            navigation.navigate("ConfirmacionVecino")
         } catch (err) {
             switch (err.path) {
                 case "email":
@@ -78,7 +78,7 @@ export default function Signup({navigation}) {
                             />
                             <InputForm
                                 label={"Email"}
-                                error={setErrorMail}
+                                error={errorMail}
                                 onChange={setEmail}
                                 placeholder={"ejemplo@email.com"}
                             />
