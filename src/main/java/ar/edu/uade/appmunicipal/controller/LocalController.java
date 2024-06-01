@@ -3,6 +3,7 @@ package ar.edu.uade.appmunicipal.controller;
 import ar.edu.uade.appmunicipal.model.Local;
 import ar.edu.uade.appmunicipal.model.Promocion;
 import ar.edu.uade.appmunicipal.service.LocalService;
+import ar.edu.uade.appmunicipal.service.PromocionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,9 @@ public class LocalController {
 
     @Autowired
     LocalService localService;
+
+    @Autowired
+    PromocionService promocionService;
 
     public static LocalController instancia;
 
@@ -46,6 +50,8 @@ public class LocalController {
     public ResponseEntity<Local>agregarPromocion(@PathVariable("id")Integer idLocal,
                                                  @RequestBody Promocion promocion){
         try {
+            promocionService.guardarPromocion(promocion);
+
             Local localModificado = localService.agregarPromocion(idLocal,promocion);
             return new ResponseEntity<>(localModificado,HttpStatus.OK);
         }catch (EmptyResultDataAccessException e){
