@@ -27,7 +27,7 @@ public class PromocionController {
 
     //getInstancia para singleton
 
-    public PromocionController getInstancia(){
+    public static PromocionController getInstancia(){
         if (instancia == null){
             return instancia = new PromocionController();
         }else {
