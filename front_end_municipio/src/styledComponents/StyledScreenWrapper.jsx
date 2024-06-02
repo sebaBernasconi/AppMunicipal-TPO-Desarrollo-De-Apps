@@ -3,13 +3,14 @@ import React from 'react'
 import Constants from "expo-constants";
 import {colors} from "../global/colors";
 
-export default function StyledScreenWrapper({children, align_center, justify_center, pdHorizontal16, noPadding, style}) {
+export default function StyledScreenWrapper({children, align_center, no_padding_top, justify_center, pd_horizontal16, no_padding, style}) {
     const viewStyle = [
         styles.general,
         align_center && styles.align_center,
         justify_center && styles.justify_center,
-        pdHorizontal16 && styles.pdHorizontal16,
-        noPadding && styles.noPadding
+        pd_horizontal16 && styles.pd_horizontal16,
+        no_padding && styles.no_padding,
+        no_padding_top && styles.no_padding_top
     ]
 
     return (
@@ -31,11 +32,14 @@ const styles = StyleSheet.create({
     justify_center: {
         justifyContent: "center"
     },
-    pdHorizontal16: {
+    pd_horizontal16: {
         paddingHorizontal: 16
     },
-    noPadding: {
+    no_padding: {
         paddingHorizontal: 0,
+        paddingTop: 0
+    },
+    no_padding_top: {
         paddingTop: 0
     }
 })
