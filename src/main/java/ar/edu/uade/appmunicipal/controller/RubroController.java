@@ -53,8 +53,8 @@ public class RubroController {
     @GetMapping(value = "/buscar/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Rubro>buscarRubro(@PathVariable("id")Integer idRubro){
         try {
-            Rubro rubroABuscar = rubroService.buscarRubro(idRubro);
-            return new ResponseEntity<>(rubroABuscar,HttpStatus.OK);
+            Rubro rubroBuscado = rubroService.buscarRubro(idRubro);
+            return new ResponseEntity<>(rubroBuscado,HttpStatus.OK);
         }catch (EmptyResultDataAccessException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
