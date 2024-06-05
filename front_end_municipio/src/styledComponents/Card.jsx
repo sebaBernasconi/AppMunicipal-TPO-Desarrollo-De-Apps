@@ -2,9 +2,9 @@ import {StyleSheet, View} from 'react-native'
 import React from 'react'
 import {colors} from "../global/colors";
 
-export default function Card({children, style}) {
+export default function Card({children, borderColor, style}) {
     return (
-        <View style={{...styles.container, ...style}}>
+        <View style={[styles.container, {borderColor: borderColor ? borderColor : colors.blue400}, {...style}]}>
             {children}
         </View>
     )
@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
     container: {
         borderRadius: 15,
         marginVertical: 16,
-        borderColor: colors.blue400,
         borderWidth: 2,
         padding: 5,
         elevation: 10,

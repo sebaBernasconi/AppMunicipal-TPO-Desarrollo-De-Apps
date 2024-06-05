@@ -3,7 +3,7 @@ import React from 'react'
 import {colors} from "../global/colors";
 
 export default function StyledText({
-    children, letters_spaced, light_blue, dark_blue, capitalized, size16, size20, size24, size30, size36, numberOfLines, style}) {
+    children, letters_spaced, light_blue, dark_blue, capitalized, size16, size20, size30, size36, numberOfLines, style}) {
     const textStyle = [
         styles.general,
         letters_spaced && styles.letters_spaced,
@@ -12,7 +12,6 @@ export default function StyledText({
         dark_blue && styles.dark_blue,
         size16 && styles.size16,
         size20 && styles.size20,
-        size24 && styles.size24,
         size30 && styles.size30,
         size36 && styles.size36
     ]
@@ -43,9 +42,6 @@ const styles = StyleSheet.create({
     },
     size20: {
         fontSize: 20
-    },
-    size24: {
-        fontSize: 24
     },
     size30: {
         fontSize: 30

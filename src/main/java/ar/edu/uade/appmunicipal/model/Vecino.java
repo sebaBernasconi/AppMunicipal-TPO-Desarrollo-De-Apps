@@ -19,7 +19,6 @@ public class Vecino {
     @Column(name = "direccion")
     private String direccion;
 
-
     //Falta mappedBy?
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cod_barrio")

@@ -4,7 +4,7 @@ import {colors} from "../global/colors";
 import Card from "../styledComponents/Card";
 import StyledText from "../styledComponents/StyledText";
 
-export default function InputForm({label, error, onChange, isSecure, placeholder}) {
+export default function InputForm({label, error, onChange, isSecure, color, placeholder}) {
     const [input, setInput] = useState("");
 
     const onChangeText = (text) => {
@@ -14,8 +14,8 @@ export default function InputForm({label, error, onChange, isSecure, placeholder
 
     return (
         <View style={styles.inputContainer}>
-            <StyledText size20 style={styles.label}>{label}</StyledText>
-            <Card style={{marginVertical: 25}}>
+            <StyledText size20 style={[styles.label, {color: color? color : colors.blue400}]}>{label}</StyledText>
+            <Card style={{marginVertical: 25}} borderColor={color}>
                 <TextInput
                     style={styles.input}
                     value={input}
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         padding: 5,
         fontFamily: "OpenSans",
         backgroundColor: colors.white,
-        color: colors.blue400
     },
     input: {
         padding: 5,

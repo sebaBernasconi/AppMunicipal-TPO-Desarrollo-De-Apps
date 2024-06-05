@@ -91,7 +91,9 @@ export default function Login({navigation}) {
                             text={"Continuar como invitado"}
                             no_margin_vertical
                             onPress={onSubmit}
-                            text_white backgroundColor={colors.grey400}/>
+                            text_white
+                            backgroundColor={colors.grey400}
+                        />
                         <StyledButton text={"Iniciar Sesion"} onPress={onSubmit} text_white/>
                     </>
                 ) : (
