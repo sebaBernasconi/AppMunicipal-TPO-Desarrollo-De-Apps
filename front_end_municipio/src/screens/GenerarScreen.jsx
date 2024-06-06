@@ -38,7 +38,9 @@ export default function GenerarScreen( {navigation} ) {
                 </View>
 
                 <View style={styles.fila}>
-                    <FontAwesome5 name="tools" size={50} color="black" />
+                    <View style={styles.iconoServicio}>
+                        <FontAwesome5 name="tools" size={50} color="black" />
+                    </View>
                     <Pressable onPress={() =>
                         RootNaigation.navigate({screen: GenerarScreen})}>
                         <StyledText style={styles.texto}>Cargar Servicio / Comercio</StyledText>
@@ -71,5 +73,9 @@ const styles = StyleSheet.create({
     iconoDenuncia:{
         borderRadius: 400,
         backgroundColor: colors.orange500
+    },
+    iconoServicio:{
+        borderRadius: 400,
+        backgroundColor: colors.green
     }
 })
