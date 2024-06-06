@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UsuarioCambioPasswordDTO {
     private String dni;
-    private String tokenMunicipio;
+    private String oldPassword;
     private String newPassword;
 }

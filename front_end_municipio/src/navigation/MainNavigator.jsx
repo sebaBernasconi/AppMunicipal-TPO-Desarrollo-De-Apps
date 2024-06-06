@@ -8,7 +8,7 @@ import {navigationRef} from "./RootNavigation";
 
 export default function MainNavigator() {
     // const {user} = useSelector((state) => state.authReducer.value)
-    const user = true;
+    const user = false;
 
     return (
         <NavigationContainer ref={navigationRef}>

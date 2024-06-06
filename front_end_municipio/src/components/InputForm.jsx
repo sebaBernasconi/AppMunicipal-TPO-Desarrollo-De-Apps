@@ -14,7 +14,7 @@ export default function InputForm({label, error, onChange, isSecure, color, plac
 
     return (
         <View style={styles.inputContainer}>
-            <StyledText size20 style={[styles.label, {color: color? color : colors.blue400}]}>{label}</StyledText>
+            <StyledText size20 style={styles.label}>{label}</StyledText>
             <Card style={{marginVertical: 25}} borderColor={color}>
                 <TextInput
                     style={styles.input}

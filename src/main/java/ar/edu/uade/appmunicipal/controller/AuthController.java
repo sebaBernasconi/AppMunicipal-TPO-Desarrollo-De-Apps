@@ -6,6 +6,7 @@ import ar.edu.uade.appmunicipal.model.UsuarioDTO;
 import ar.edu.uade.appmunicipal.service.UsuarioService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+@Slf4j
 @CrossOrigin
 @RestController
 @RequestMapping("/auth")
@@ -47,9 +49,13 @@ public class AuthController {
         }
     }
 
-    @PatchMapping("/changePass")
+    @PatchMapping("/changePassword")
     public ResponseEntity<String> changePass(@RequestBody UsuarioCambioPasswordDTO userDTO) {
-        Usuario usuario = this.usuarioService.findUsuario(userDTO.getDni(), userDTO.getTokenMunicipio());
+        Usuario usuario = this.usuarioService.findUsuario(userDTO.getDni(), userDTO.getOldPassword());
+        log.info("Cambio contrasenia");
+        log.info("Contrasenia vieja: " + userDTO.getOldPassword());
+        log.info("Contrasenia nueva: " + userDTO.getNewPassword());
+
         if (usuario != null) {
             this.usuarioService.changePassword(usuario, userDTO.getNewPassword());
             return new ResponseEntity<>("Usuario actualizado con exito.", HttpStatus.OK);

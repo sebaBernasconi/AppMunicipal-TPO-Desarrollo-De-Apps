@@ -14,7 +14,7 @@ export default function ConfirmacionVecino({navigation}) {
                     <Text style={styles.body_bold}>Si ya te llego el mail podes volver al login para iniciar sesion!</Text>
                 </View>
             </View>
-            <StyledButton text={"Iniciar Sesion"} onPress={() => navigation.navigate("Login")} text_white/>
+            <StyledButton text={"Iniciar Sesion"} onPress={() => navigation.navigate("CambiarPassword")} text_white/>
         </StyledScreenWrapper>
     )
 }

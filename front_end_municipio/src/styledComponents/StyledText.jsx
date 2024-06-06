@@ -13,11 +13,11 @@ export default function StyledText({
         size16 && styles.size16,
         size20 && styles.size20,
         size30 && styles.size30,
-        size36 && styles.size36
+        size36 && styles.size36,
     ]
 
     return (
-        <Text numberOfLines={numberOfLines} style={[textStyle, {...style}]}>{children}</Text>
+        <Text numberOfLines={numberOfLines} style={[textStyle, {...style}, ]}>{children}</Text>
     )
 }
 const styles = StyleSheet.create({

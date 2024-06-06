@@ -31,7 +31,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("tpo_apis/usuarios/signUp", "auth/login", "auth/changePass");
+        return (web) -> web.ignoring().requestMatchers("tpo_apis/usuarios/signUp", "auth/login", "auth/changePassword");
     }
 
     @Bean
