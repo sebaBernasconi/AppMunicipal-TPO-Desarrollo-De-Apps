@@ -1,9 +1,18 @@
 package ar.edu.uade.appmunicipal.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "vecinos")
+
+@Getter
+@Setter
+@AllArgsConstructor //Constructor
+@NoArgsConstructor //Constructor vacio para persistencia
 public class Vecino {
 
     @Id
@@ -23,62 +32,6 @@ public class Vecino {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cod_barrio")
     private Barrio barrio;
-
-    //Constructor
-    public Vecino(int dni, String nombre, String apellido, String direccion, Barrio barrio) {
-        this.dni = dni;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.direccion = direccion;
-        this.barrio = barrio;
-    }
-
-    //Constructor vacio para la persistencia
-
-    public Vecino() {
-    }
-
-    //Getters y Setters
-
-    public int getDni() {
-        return dni;
-    }
-
-    public void setDni(int dni) {
-        this.dni = dni;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public String getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    public Barrio getBarrio() {
-        return barrio;
-    }
-
-    public void setBarrio(Barrio barrio) {
-        this.barrio = barrio;
-    }
 
     //To String
 
