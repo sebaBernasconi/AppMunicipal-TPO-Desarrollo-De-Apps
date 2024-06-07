@@ -1,9 +1,18 @@
 package ar.edu.uade.appmunicipal.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "local")
+
+@Getter
+@Setter
+@AllArgsConstructor //Constructor
+@NoArgsConstructor //Constructor vacio para la persistencia
 public class Local {
 
     @Id
@@ -29,77 +38,6 @@ public class Local {
 
     @Column(name = "contacto")
     private String contacto;
-
-
-
-
-    //Constructor
-
-    public Local(Integer idLocal, Vecino vecino, Rubro rubro, Sitio sitio, Promocion promocion,
-                 String contacto) {
-        this.idLocal = idLocal;
-        this.vecino = vecino;
-        this.rubro = rubro;
-        this.sitio = sitio;
-        this.promocion = promocion;
-        this.contacto = contacto;
-
-    }
-
-    //Constructor vacio para la persistencia
-
-    public Local() {
-    }
-
-    //Getters y Setters
-
-    public Integer getIdLocal() {
-        return idLocal;
-    }
-
-    public void setIdLocal(Integer idLocal) {
-        this.idLocal = idLocal;
-    }
-
-    public Vecino getVecino() {
-        return vecino;
-    }
-
-    public void setVecino(Vecino vecino) {
-        this.vecino = vecino;
-    }
-
-    public Rubro getRubro() {
-        return rubro;
-    }
-
-    public void setRubro(Rubro rubro) {
-        this.rubro = rubro;
-    }
-
-    public Sitio getSitio() {
-        return sitio;
-    }
-
-    public void setSitio(Sitio sitio) {
-        this.sitio = sitio;
-    }
-
-    public Promocion getPromocion() {
-        return promocion;
-    }
-
-    public void setPromocion(Promocion promocion) {
-        this.promocion = promocion;
-    }
-
-    public String getContacto() {
-        return contacto;
-    }
-
-    public void setContacto(String contacto) {
-        this.contacto = contacto;
-    }
 
     //ToString
 
