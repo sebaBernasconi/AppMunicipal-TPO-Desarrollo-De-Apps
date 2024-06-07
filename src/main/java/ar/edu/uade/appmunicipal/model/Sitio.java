@@ -1,12 +1,21 @@
 package ar.edu.uade.appmunicipal.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "sitio")
+
+@Getter
+@Setter
+@AllArgsConstructor //Constructor
+@NoArgsConstructor //Constructor vacio para persistencia
 
 public class Sitio {
     @Id
@@ -49,128 +58,6 @@ public class Sitio {
     private String comentarios;
     /*¿Comentarios del sitio como estaba en el momento del reclamo/denuncia?
     * Si es algo que se actualiza y puede haber muchos transformar a List<String>*/
-
-    //Constructor
-
-    public Sitio(int idSitio, int latitud, int longitud, String calle, int nroCalle, String entreCalleA,
-                 String entreCalleB, String descripcion, PersonalMunicipal personalMunicipal,
-                 Date fechaApertura, Date fechaCierre, String comentarios) {
-        this.idSitio = idSitio;
-        this.latitud = latitud;
-        this.longitud = longitud;
-        this.calle = calle;
-        this.nroCalle = nroCalle;
-        this.entreCalleA = entreCalleA;
-        this.entreCalleB = entreCalleB;
-        this.descripcion = descripcion;
-        this.personalMunicipal = personalMunicipal;
-        this.fechaApertura = fechaApertura;
-        this.fechaCierre = fechaCierre;
-        this.comentarios = comentarios;
-    }
-
-    //Constructor vacio para la persistencia
-
-    public Sitio() {
-    }
-
-    //Getters y Setters
-
-    public int getIdSitio() {
-        return idSitio;
-    }
-
-    public void setIdSitio(int idSitio) {
-        this.idSitio = idSitio;
-    }
-
-    public int getLatitud() {
-        return latitud;
-    }
-
-    public void setLatitud(int latitud) {
-        this.latitud = latitud;
-    }
-
-    public int getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(int longitud) {
-        this.longitud = longitud;
-    }
-
-    public String getCalle() {
-        return calle;
-    }
-
-    public void setCalle(String calle) {
-        this.calle = calle;
-    }
-
-    public int getNroCalle() {
-        return nroCalle;
-    }
-
-    public void setNroCalle(int nroCalle) {
-        this.nroCalle = nroCalle;
-    }
-
-    public String getEntreCalleA() {
-        return entreCalleA;
-    }
-
-    public void setEntreCalleA(String entreCalleA) {
-        this.entreCalleA = entreCalleA;
-    }
-
-    public String getEntreCalleB() {
-        return entreCalleB;
-    }
-
-    public void setEntreCalleB(String entreCalleB) {
-        this.entreCalleB = entreCalleB;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public PersonalMunicipal getPersonalMunicipal() {
-        return personalMunicipal;
-    }
-
-    public void setPersonalMunicipal(PersonalMunicipal personalMunicipal) {
-        this.personalMunicipal = personalMunicipal;
-    }
-
-    public Date getFechaApertura() {
-        return fechaApertura;
-    }
-
-    public void setFechaApertura(Date fechaApertura) {
-        this.fechaApertura = fechaApertura;
-    }
-
-    public Date getFechaCierre() {
-        return fechaCierre;
-    }
-
-    public void setFechaCierre(Date fechaCierre) {
-        this.fechaCierre = fechaCierre;
-    }
-
-    public String getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
-    }
 
     //ToString
 
