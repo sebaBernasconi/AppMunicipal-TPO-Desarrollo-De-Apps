@@ -1,9 +1,18 @@
 package ar.edu.uade.appmunicipal.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "desperfectos")
+
+@Getter
+@Setter
+@AllArgsConstructor //Constructor
+@NoArgsConstructor //Constructor vacio para la persistencia
 public class Desperfecto {
 
     @Id
@@ -17,43 +26,6 @@ public class Desperfecto {
 
     @Column(name = "descripcion")
     private String descripcion;
-
-    //Constructor
-    public Desperfecto(int idDesperfecto, Rubro rubro, String descripcion) {
-        this.idDesperfecto = idDesperfecto;
-        this.rubro = rubro;
-        this.descripcion = descripcion;
-    }
-
-    //Constructor vacio para la persistencia
-    public Desperfecto() {
-    }
-
-    //Getters y Setters
-
-    public int getIdDesperfecto() {
-        return idDesperfecto;
-    }
-
-    public void setIdDesperfecto(int idDesperfecto) {
-        this.idDesperfecto = idDesperfecto;
-    }
-
-    public Rubro getRubro() {
-        return rubro;
-    }
-
-    public void setRubro(Rubro rubro) {
-        this.rubro = rubro;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     //ToString
 
