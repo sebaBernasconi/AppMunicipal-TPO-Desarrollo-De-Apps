@@ -1,9 +1,18 @@
 package ar.edu.uade.appmunicipal.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "promocion")
+
+@Getter
+@Setter
+@AllArgsConstructor //Constructor
+@NoArgsConstructor //Constructor vacio para persistencia
 public class Promocion {
 
     @Id
@@ -17,45 +26,6 @@ public class Promocion {
     @OneToOne
     @JoinColumn(name = "id_local")
     private Local local;
-
-    //Constructor
-
-    public Promocion(Integer idPromocion, String descripcion, Local local) {
-        this.idPromocion = idPromocion;
-        this.descripcion = descripcion;
-        this.local = local;
-    }
-
-    //Constructor vacio para la persistencia
-
-    public Promocion() {
-    }
-
-    //Getters y Setters
-
-    public Integer getIdPromocion() {
-        return idPromocion;
-    }
-
-    public void setIdPromocion(Integer idPromocion) {
-        this.idPromocion = idPromocion;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public Local getLocal() {
-        return local;
-    }
-
-    public void setLocal(Local local) {
-        this.local = local;
-    }
 
     //ToString
 
