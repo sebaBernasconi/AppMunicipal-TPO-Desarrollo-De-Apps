@@ -39,4 +39,13 @@ public class DenunciaService {
     public Denuncia guardarDenuncia(Denuncia denuncia){
         return denunciaRepository.save(denuncia);
     }
+
+    public Denuncia actualizarEstado(Integer idDenuncia, String nuevoEstado){
+        Optional<Denuncia>denunciaParaActualizar = denunciaRepository.findById(idDenuncia);
+        denunciaParaActualizar.orElse(null).actualizarEstado(nuevoEstado);
+
+        denunciaRepository.save(denunciaParaActualizar.orElse(null));
+
+        return denunciaParaActualizar.orElse(null);
+    }
 }

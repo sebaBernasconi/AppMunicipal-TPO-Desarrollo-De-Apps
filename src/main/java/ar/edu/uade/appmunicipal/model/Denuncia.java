@@ -39,6 +39,10 @@ public class Denuncia {
     @Column(name = "acepta_responsabilidad")
     private boolean aceptaResponsabilidad;
 
+    //Metodos de la clase
+    public void actualizarEstado(String nuevoEstado){
+        this.estado = nuevoEstado;
+    }
     //ToString
 
     @Override
