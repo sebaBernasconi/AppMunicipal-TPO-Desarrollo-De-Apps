@@ -121,6 +121,20 @@ export default function HomeScreen({navigation}) {
         }
     ]
 
+    /*
+    componentDidMount = () =>{
+        fetch('http://localhost:8080/servicios/listarLocales',{
+            method: 'GET'
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                   //para ver si lo estoy consumiendo bien
+                console.log(responseJson);
+            })
+            .catch((error) => {
+                console.error(error);
+            })
+    }*/
     return (
         <>
             <HomeHeader/>
