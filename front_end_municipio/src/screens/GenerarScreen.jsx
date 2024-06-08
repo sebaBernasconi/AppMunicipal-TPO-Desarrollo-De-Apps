@@ -7,6 +7,7 @@ import {colors} from "../global/colors";
 import ReclamosScreen from "./ReclamosScreen";
 import * as RootNaigation from "../navigation/RootNavigation";
 import ServicioConfirmado from "./ServicioConfirmado";
+import GenerarServicios from "./GenerarServicios";
 
 
 

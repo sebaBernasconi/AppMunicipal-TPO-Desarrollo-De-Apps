@@ -2,6 +2,8 @@
 import React from 'react'
 import InputForm from '../components/InputForm'
 import { NavigationContainer } from '@react-navigation/native'
+import {StyleSheet} from 'react-native';
+
 
 
 export default function GenerarServicios() {
