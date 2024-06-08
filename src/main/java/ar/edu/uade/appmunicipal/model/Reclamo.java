@@ -53,6 +53,20 @@ public class Reclamo {
     @JoinColumn(name = "id_movimiento")
     private List<MovimientoReclamo>movimientosDelReclamo;
 
+
+    //Metodos de la clase
+    /*
+    * actualizar estado
+    * asignar personal municipal
+    * asignar fotos + atributo(clase img + limite de 7 imgs)*/
+
+    public void actualizarEstado (String nuevoEstado){
+        this.estado = nuevoEstado;
+    }
+
+    public void asignarPersonalMunicipal(PersonalMunicipal personalMunicipalAsignado){
+        this.personalMunicipal = personalMunicipalAsignado;
+    }
     //ToString
 
     @Override

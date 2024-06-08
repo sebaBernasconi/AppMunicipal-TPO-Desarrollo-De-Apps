@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.service;
 
+import ar.edu.uade.appmunicipal.model.PersonalMunicipal;
 import ar.edu.uade.appmunicipal.model.Reclamo;
 import ar.edu.uade.appmunicipal.repository.ReclamoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,20 @@ public class ReclamoService {
 
     public Reclamo guardarReclamo(Reclamo reclamo){
         return reclamoRepository.save(reclamo);
+    }
+
+    public Reclamo actualizarEstado(Integer idReclamo, String nuevoEstado){
+        Optional<Reclamo>reclamoParaActualizar = reclamoRepository.findById(idReclamo);
+        reclamoParaActualizar.orElse(null).actualizarEstado(nuevoEstado);
+        reclamoRepository.save(reclamoParaActualizar.orElse(null));
+
+        return reclamoParaActualizar.orElse(null);
+    }
+
+    public Reclamo asignarPersonalMunicipal(Integer idReclamo, PersonalMunicipal personalMunicipal){
+        Optional<Reclamo>reclamoParaActualizar = reclamoRepository.findById(idReclamo);
+        reclamoParaActualizar.orElse(null).asignarPersonalMunicipal(personalMunicipal);
+        reclamoRepository.save(reclamoParaActualizar.orElse(null));
+        return reclamoParaActualizar.orElse(null);
     }
 }
