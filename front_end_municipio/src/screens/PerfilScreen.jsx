@@ -17,8 +17,6 @@ export default function PerfilScreen({navigation}) {
 
             </View>
 
-
-
             <View style={styles.contenedor}>
 
                 <StyledText>Mail</StyledText>
