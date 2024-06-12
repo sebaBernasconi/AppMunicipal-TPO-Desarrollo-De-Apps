@@ -40,11 +40,21 @@ public class LocalController {
         return new ResponseEntity<>(local, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/agregarPromocion/{id}/{promo}",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/agregarPromocion/{id}/{promo}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Local>agregarPromocion(@PathVariable("id")Integer idLocal,
                                                   @PathVariable("promo") String promocion){
         try {
             Local localModificado = localService.agregarPromocion(idLocal,promocion);
+            return new ResponseEntity<>(localModificado,HttpStatus.OK);
+        }catch (EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping(value = "eliminarPromocion/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<Local>eliminarPromocion(@PathVariable("id")Integer idLocal){
+        try {
+            Local localModificado = localService.eliminarPromocion(idLocal);
             return new ResponseEntity<>(localModificado,HttpStatus.OK);
         }catch (EmptyResultDataAccessException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

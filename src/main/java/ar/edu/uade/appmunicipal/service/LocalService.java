@@ -34,11 +34,11 @@ public class LocalService {
         return localRepository.save(local.orElse(null));
     }
 
-    /*public Local modificarContacto(Integer idLocal,String nuevoContacto){
-       Optional<Local> local = localRepository.findById(idLocal);
+    public Local eliminarPromocion(Integer idLocal){
+        Optional<Local>local = localRepository.findById(idLocal);
 
-        local.orElse(null).setContacto(nuevoContacto);
+        local.orElse(null).setPromocion("");
         return localRepository.save(local.orElse(null));
-    }*/
+    }
 
 }
