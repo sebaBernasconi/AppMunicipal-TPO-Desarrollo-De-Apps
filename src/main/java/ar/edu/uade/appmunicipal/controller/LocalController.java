@@ -1,9 +1,7 @@
 package ar.edu.uade.appmunicipal.controller;
 
 import ar.edu.uade.appmunicipal.model.Local;
-import ar.edu.uade.appmunicipal.model.Promocion;
 import ar.edu.uade.appmunicipal.service.LocalService;
-import ar.edu.uade.appmunicipal.service.PromocionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/servicios")
@@ -20,9 +17,6 @@ public class LocalController {
 
     @Autowired
     LocalService localService;
-
-    @Autowired
-    PromocionService promocionService;
 
     public static LocalController instancia;
 
@@ -46,12 +40,10 @@ public class LocalController {
         return new ResponseEntity<>(local, HttpStatus.CREATED);
     }
 
-    @PutMapping(value = "/agregarPromocion/{id}",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/agregarPromocion/{id}/{promo}",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Local>agregarPromocion(@PathVariable("id")Integer idLocal,
-                                                 @RequestBody Promocion promocion){
+                                                  @PathVariable("promo") String promocion){
         try {
-            promocionService.guardarPromocion(promocion);
-
             Local localModificado = localService.agregarPromocion(idLocal,promocion);
             return new ResponseEntity<>(localModificado,HttpStatus.OK);
         }catch (EmptyResultDataAccessException e){

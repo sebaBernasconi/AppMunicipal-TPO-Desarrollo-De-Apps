@@ -1,7 +1,6 @@
 package ar.edu.uade.appmunicipal.service;
 
 import ar.edu.uade.appmunicipal.model.Local;
-import ar.edu.uade.appmunicipal.model.Promocion;
 import ar.edu.uade.appmunicipal.repository.LocalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +27,7 @@ public class LocalService {
         return localRepository.save(local);
     }
 
-    public Local agregarPromocion(Integer idLocal, Promocion promocion){
+    public Local agregarPromocion(Integer idLocal, String promocion){
         Optional<Local> local = localRepository.findById(idLocal);
 
         local.orElse(null).setPromocion(promocion);

@@ -34,9 +34,9 @@ public class Local {
     @JoinColumn(name = "id_sitio")
     private Sitio sitio;
 
-    @OneToOne
-    @JoinColumn(name = "id_promocion")
-    private Promocion promocion;
+
+    @Column(name = "promocion")
+    private String promocion;
 
     @Column(name = "contacto")
     private String contacto;
@@ -50,6 +50,7 @@ public class Local {
                 ", vecino=" + vecino +
                 ", rubro=" + rubro +
                 ", sitio=" + sitio +
+                ", promocion=" + promocion +
                 ", contacto='" + contacto + '\'' +
                 '}';
     }
