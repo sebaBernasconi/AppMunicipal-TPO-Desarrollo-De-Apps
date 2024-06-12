@@ -1,4 +1,4 @@
-import {Pressable, View} from "react-native";
+import {Image, Pressable, View} from "react-native";
 import React, {useEffect, useState} from "react";
 import {useLoginMutation} from "../services/authService";
 import {loginSchema} from "../validations/loginSchema";

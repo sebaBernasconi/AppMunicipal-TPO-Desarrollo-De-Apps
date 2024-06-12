@@ -4,7 +4,7 @@ import {colors} from "../global/colors";
 import Card from "../styledComponents/Card";
 import StyledText from "../styledComponents/StyledText";
 
-export default function InputForm({label, error, onChange, isSecure, color, placeholder}) {
+export default function InputForm({label, error, height, onChange, isSecure, color, placeholder}) {
     const [input, setInput] = useState("");
 
     const onChangeText = (text) => {
@@ -15,7 +15,7 @@ export default function InputForm({label, error, onChange, isSecure, color, plac
     return (
         <View style={styles.inputContainer}>
             <StyledText size20 style={styles.label}>{label}</StyledText>
-            <Card style={{marginVertical: 25}} borderColor={color}>
+            <Card style={{marginVertical: 15, height: height}} borderColor={color}>
                 <TextInput
                     style={styles.input}
                     value={input}
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     label: {
         position: "absolute",
         zIndex: 100,
-        top: 7,
+        top: -3,
         left: 23,
         padding: 5,
         fontFamily: "OpenSans",

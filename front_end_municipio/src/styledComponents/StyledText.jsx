@@ -17,7 +17,7 @@ export default function StyledText({
     ]
 
     return (
-        <Text numberOfLines={numberOfLines} style={[textStyle, {...style}, ]}>{children}</Text>
+        <Text numberOfLines={numberOfLines} style={[textStyle, {...style}]}>{children}</Text>
     )
 }
 const styles = StyleSheet.create({

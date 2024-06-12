@@ -15,8 +15,7 @@ export default function GenerarScreen({navigation}) {
                     <FontAwesome5 name="clipboard" size={40}/>
                 </View>
 
-                <Pressable onPress={() =>
-                    RootNaigation.navigate("ReclamosStack", {screen: "ReclamosScreen"})}>
+                <Pressable onPress={() => navigation.navigate("GenerarReclamo")}>
                     <StyledText style={styles.texto}>Generar Reclamo</StyledText>
                 </Pressable>
             </View>
@@ -25,8 +24,7 @@ export default function GenerarScreen({navigation}) {
                 <View style={styles.iconoDenuncia}>
                     <AntDesign name="exception1" size={40}/>
                 </View>
-                <Pressable onPress={() =>
-                    RootNaigation.navigate("DenunciasStack", {screen: "DenunciasScreen"})}>
+                <Pressable onPress={() => navigation.navigate("GenerarDenuncia")}>
                     <StyledText style={styles.texto}>Generar Denuncia</StyledText>
                 </Pressable>
             </View>
