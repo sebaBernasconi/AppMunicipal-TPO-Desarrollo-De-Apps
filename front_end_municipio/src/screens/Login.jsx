@@ -29,9 +29,8 @@ export default function Login({navigation}) {
         }
         if (result.data) {
             insertSession({
-                email: result.data.email,
-                localId: result.data.localId,
-                token: result.data.idToken
+                dni: dni,
+                jwt: result.data.jwt
             })
                 .catch(err => console.log(err.message))
         }
@@ -41,7 +40,7 @@ export default function Login({navigation}) {
         try {
             loginSchema.validateSync({dni, password});
             // triggerLogin({dni, password});
-            dispatch(setUser())
+            login()
 
         } catch (err) {
             switch (err.path) {
@@ -56,6 +55,26 @@ export default function Login({navigation}) {
             }
         }
     };
+
+    async function login() {
+        try {
+            const data = {dni, password}
+            const response = await fetch("http://192.168.68.61:8080/auth/login", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            if (!response.ok) {
+                throw new Error("Error en el login")
+            }
+            const jwt = await response.text();
+            dispatch(setUser({jwt, dni}));
+        } catch (err) {
+            console.error(err)
+        }
+    }
 
     return (
         <StyledScreenWrapper>

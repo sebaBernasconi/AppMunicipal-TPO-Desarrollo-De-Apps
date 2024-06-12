@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class Local {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_local")
+    @JsonIgnore
     private Integer idLocal;
 
     @ManyToOne

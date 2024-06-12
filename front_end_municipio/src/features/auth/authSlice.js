@@ -4,10 +4,10 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: {
         value: {
-            dni: false,
-            token: null,
+            dni: null,
+            jwt: null,
             imageCamera: null,
-            localId: null,
+            // localId: null,
             profileImage: null,
         },
     },
@@ -15,8 +15,8 @@ export const authSlice = createSlice({
         setUser: (state, action) => {
             state.value = {
                 dni: action.payload.dni,
-                token: action.payload.token,
-                localId: action.payload.localId
+                jwt: action.payload.jwt,
+                // localId: action.payload.localId
             };
         },
         clearUser: (state) => (state.value = { user: null, token: null }),

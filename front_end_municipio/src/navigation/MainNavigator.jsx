@@ -1,19 +1,37 @@
 import {StatusBar} from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import AuthStack from "./AuthStack";
 import {NavigationContainer} from "@react-navigation/native";
 import TabNavigation from "./TabNavigation";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {navigationRef} from "./RootNavigation";
+import {fetchSession} from "../db";
+import {setUser} from "../features/auth/authSlice";
 
 export default function MainNavigator() {
-    // const {user} = useSelector((state) => state.authReducer.value)
-    const user = false;
+    const {dni} = useSelector((state) => state.authReducer.value)
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const session = await fetchSession();
+                if (session?.rows.length) {
+                    const dni = session.rows._array[0];
+                    dispatch(setUser(dni));
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        })();
+
+    }, []);
 
     return (
         <NavigationContainer ref={navigationRef}>
             <StatusBar />
-            {user ? <TabNavigation/> : <AuthStack/>}
+            {dni ? <TabNavigation/> : <AuthStack/>}
         </NavigationContainer>
     );
 };
