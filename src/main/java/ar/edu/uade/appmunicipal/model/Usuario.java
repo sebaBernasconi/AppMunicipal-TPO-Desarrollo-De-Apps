@@ -1,9 +1,9 @@
 package ar.edu.uade.appmunicipal.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +25,10 @@ public class Usuario {
 
     @Column(name = "tipo_usuario")
     private String tipoUsuario;
+
+    @Lob
+    @Nullable
+    @JsonIgnore
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imagenPerfil;
 }

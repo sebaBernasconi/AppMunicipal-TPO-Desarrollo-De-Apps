@@ -15,7 +15,7 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
 
     public Usuario createUsuario(Usuario newUsuario) throws Exception {
-        Optional<Usuario> usuarioOp = this.usuarioRepository.findUserByDni(newUsuario.getDni());
+        Optional<Usuario> usuarioOp = this.usuarioRepository.findUsuarioByDni(newUsuario.getDni());
         if (usuarioOp.isPresent()) {
             throw new Exception("El usuario que esta intentando crear ya se encuentra en la base de datos");
         }
@@ -26,7 +26,7 @@ public class UsuarioService {
     }
     
     public Usuario findUsuario(String dni, String password){
-        Optional<Usuario> userOp = usuarioRepository.findUserByDni(dni);
+        Optional<Usuario> userOp = usuarioRepository.findUsuarioByDni(dni);
 
         if(userOp.isPresent() && checkPassword(password, userOp.get().getPassword())) {
             return userOp.get();
@@ -51,4 +51,27 @@ public class UsuarioService {
         return this.usuarioRepository.save(usuario);
     }
 
+    public byte[] subirImagenPerfil(String dni, byte[] imagenPerfil) throws Exception {
+        Optional<Usuario> usuarioOp = this.usuarioRepository.findUsuarioByDni(dni);
+        if (usuarioOp.isEmpty()) {
+            throw new Exception("El usuario no se encuentra en la base de datos");
+        }
+        Usuario usuario = usuarioOp.get();
+        usuario.setImagenPerfil(imagenPerfil);
+        this.usuarioRepository.save(usuario);
+        return usuario.getImagenPerfil();
+    }
+
+    public byte[] findImagenById(String dni) throws Exception {
+        Optional<Usuario> usuarioOp = this.usuarioRepository.findUsuarioByDni(dni);
+        if (usuarioOp.isEmpty()) {
+            throw new Exception("El usuario no se encuentra en la base de datos");
+        }
+        Usuario usuario = usuarioOp.get();
+        byte[] imagen = usuario.getImagenPerfil();
+        if (imagen == null) {
+            throw new Exception("El usuario no tiene imagen de perfil");
+        }
+        return imagen;
+    }
 }
