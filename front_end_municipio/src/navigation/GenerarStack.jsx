@@ -6,6 +6,7 @@ import Header from "../components/Header";
 import {colors} from "../global/colors";
 import GenerarReclamoScreen from "../screens/GenerarReclamoScreen";
 import GenerarDenunciaScreen from "../screens/GenerarDenunciaScreen";
+import GenerarServicioScreen from "../screens/GenerarServicioScreen";
 
 export default function GenerarStack() {
     const Stack = createNativeStackNavigator();
@@ -17,7 +18,7 @@ export default function GenerarStack() {
                 component={GenerarScreen}
                 options={{
                     header: () => (
-                        <Header color={colors.yellow} title={"¿Que necesitas hacer?"} style={{height: 80}}/>
+                        <Header color={colors.yellow} title={"¿Que necesitas hacer?"}/>
                     )
                 }}
             />
@@ -26,7 +27,7 @@ export default function GenerarStack() {
                 component={GenerarReclamoScreen}
                 options={{
                     header: () => (
-                        <Header color={colors.blue600} title={"Generar Reclamo"} style={{height: 80}}/>
+                        <Header color={colors.blue600} title={"Generar Reclamo"}/>
                     )
                 }}
             />
@@ -35,11 +36,19 @@ export default function GenerarStack() {
                 component={GenerarDenunciaScreen}
                 options={{
                     header: () => (
-                        <Header color={colors.orange500} title={"Generar Denuncia"} style={{height: 80}}/>
+                        <Header color={colors.orange500} title={"Generar Denuncia"}/>
+                    )
+                }}
+            />
+            <Stack.Screen
+                name={"GenerarServicio"}
+                component={GenerarServicioScreen}
+                options={{
+                    header: () => (
+                        <Header color={colors.green} title={"Generar Servicio / Local"}/>
                     )
                 }}
             />
         </Stack.Navigator>
     )
 }
-const styles = StyleSheet.create({})

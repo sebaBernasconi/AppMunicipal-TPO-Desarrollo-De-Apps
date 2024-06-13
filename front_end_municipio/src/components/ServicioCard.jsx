@@ -1,16 +1,20 @@
-import {Image, Pressable, StyleSheet, Text} from 'react-native'
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native'
 import React from 'react'
 import {colors} from "../global/colors";
 
 export default function ServicioCard({servicio, navigation, index}) {
+    const base64ImagePrefix = 'data:image/jpeg;base64,';
+
     return (
         <Pressable
             style={[styles.container, {marginRight: index % 2 === 0 ? 20 : 0}]}
             onPress={() => navigation.navigate("DetallesServicio", {servicio})}
         >
-            <Text style={styles.nombre} numberOfLines={2}>{servicio.nombre}</Text>
-            <Text style={styles.tipo} numberOfLines={1}>{servicio.tipo}</Text>
-            <Image style={styles.imagen} source={{uri: servicio.imagen}}/>
+            <View style={{flex: 1}}>
+                <Text style={styles.nombre} numberOfLines={2}>{servicio.nombre}</Text>
+                <Text style={styles.tipo} numberOfLines={1}>{servicio.rubro.descripcion}</Text>
+            </View>
+            <Image style={styles.imagen} source={{uri: `${base64ImagePrefix}${servicio.imagenLocal}`}}/>
         </Pressable>
     )
 }
@@ -36,7 +40,7 @@ const styles = StyleSheet.create({
     },
     imagen: {
         width: "100%",
-        height: "50%",
-        resizeMode: "contain"
+        height: 100,
+        resizeMode: "cover"
     }
 })

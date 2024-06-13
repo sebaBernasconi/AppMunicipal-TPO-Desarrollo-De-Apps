@@ -1,8 +1,11 @@
-import {FlatList, StyleSheet, View} from 'react-native'
-import React from 'react'
+import {FlatList, StyleSheet} from 'react-native'
+import React, {useEffect, useState} from 'react'
 import ServicioCard from "../components/ServicioCard";
 import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import HomeHeader from "../components/HomeHeader";
+import {fetchSession} from "../db";
+import {setUser} from "../features/auth/authSlice";
+import {useSelector} from "react-redux";
 
 export default function HomeScreen({navigation}) {
 
@@ -120,13 +123,37 @@ export default function HomeScreen({navigation}) {
             precio: "$$$$"
         }
     ]
+    const [data, setData] = useState([])
+    const {jwt} = useSelector((state) => state.authReducer.value)
+
+    useEffect(() => {
+        async function getLocales() {
+            try {
+                const response = await fetch("http://192.168.68.61:8080/servicios/listarLocales", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${jwt}`
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error("Error en el fetch de locales")
+                }
+                const res = await response.json();
+                setData(res)
+            } catch (err) {
+                console.error(err)
+            }
+        }
+
+        getLocales();
+    }, []);
 
     return (
         <>
             <HomeHeader/>
             <StyledScreenWrapper align_center no_padding_top>
                 <FlatList
-                    data={fakeData}
+                    data={data}
                     renderItem={({item, index}) => (
                         <ServicioCard
                             servicio={item}

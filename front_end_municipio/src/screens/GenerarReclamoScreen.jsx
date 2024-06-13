@@ -1,4 +1,4 @@
-import {Image, Pressable, StyleSheet, View} from "react-native";
+import {Image, Pressable, ScrollView, StyleSheet, View} from "react-native";
 import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import InputForm from "../components/InputForm";
 import {useState} from "react";
@@ -18,51 +18,55 @@ export default function GenerarReclamoScreen({navigation}) {
     const [checked, setChecked] = useState(false);
 
     return (
-        <StyledScreenWrapper>
-            <View style={{flex: 1}}>
-                <InputForm
-                    label={"Titulo"}
-                    placeholder={"Titulo del Reclamo"}
-                    onChange={setTitulo}
-                />
+        <StyledScreenWrapper no_padding_top>
+            <ScrollView>
+                <View style={{flex: 1}}>
+                    <InputForm
+                        label={"Titulo"}
+                        placeholder={"Titulo del Reclamo"}
+                        onChange={setTitulo}
+                    />
 
-                <InputForm
-                    label={"Descripcion"}
-                    placeholder={"Poste caido bloqueando calle"}
-                    onChange={setDescripcion}
-                    height={150}
-                />
+                    <InputForm
+                        label={"Descripcion"}
+                        placeholder={"Poste caido bloqueando calle"}
+                        onChange={setDescripcion}
+                        height={150}
+                    />
 
-                <InputForm
-                    label={"ubicacion"}
-                    placeholder={"calle y numero"}
-                    onChange={setUbicacion}
-                />
+                    <InputForm
+                        label={"ubicacion"}
+                        placeholder={"calle y numero"}
+                        onChange={setUbicacion}
+                    />
 
-                <InputForm
-                    label={"DNI"}
-                    placeholder={"11111111"}
-                    onChange={setDni}
-                />
+                    <InputForm
+                        label={"DNI"}
+                        placeholder={"11111111"}
+                        onChange={setDni}
+                    />
 
-                <Pressable style={{flexDirection: "row", gap: 10, alignItems: "center"}} onPress={() => setChecked(!checked)}>
-                    {checked ? (
-                        <Image source={checkbox_checked} style={{height: 30, width: 30}}/>
-                    ) : (
-                        <Image source={checkbox_not_checked} style={{height: 30, width: 30}}/>
-                    )}
-                    <StyledText size16>Acepto terminos y condiciones</StyledText>
-                </Pressable>
-            </View>
-            <View style={styles.botones}>
-                <View style={styles.botonCancelar}>
-                    <StyledButton text={"Cancelar"} backgroundColor={colors.grey}/>
+                    <Pressable style={{flexDirection: "row", gap: 10, alignItems: "center"}}
+                               onPress={() => setChecked(!checked)}>
+                        {checked ? (
+                            <Image source={checkbox_checked} style={{height: 30, width: 30}}/>
+                        ) : (
+                            <Image source={checkbox_not_checked} style={{height: 30, width: 30}}/>
+                        )}
+                        <StyledText size16>Acepto terminos y condiciones</StyledText>
+                    </Pressable>
                 </View>
+                <View style={styles.botones}>
+                    <View style={styles.botonCancelar}>
+                        <StyledButton text={"Cancelar"} backgroundColor={colors.grey}
+                                      onPress={() => navigation.goBack()}/>
+                    </View>
 
-                <View style={styles.botonAceptar}>
-                    <StyledButton text={"Reclamar"} backgroundColor={colors.blue400}/>
+                    <View style={styles.botonAceptar}>
+                        <StyledButton text={"Reclamar"} backgroundColor={colors.blue400}/>
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </StyledScreenWrapper>
     )
 }

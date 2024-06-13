@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch} from "react-redux";
 import {useSignUpMutation} from "../services/authService";
 import {signupSchema} from "../validations/signupSchema";
-import {setUser} from "../features/auth/authSlice";
+import {setUser, setUserWaitingConfirmation} from "../features/auth/authSlice";
 import InputForm from "../components/InputForm";
 import Loader from "../components/Loader";
 import ErrorMessage from "../components/ErrorMessage";
@@ -19,7 +19,7 @@ export default function Signup({navigation}) {
     const [nombreCompleto, setNombreCompleto] = useState("");
     const [errorNombreCompleto, setErrorNombreCompleto] = useState("");
     const [globalError, setGlobalError] = useState(false);
-    const [triggerSignup, result] = useSignUpMutation();
+    const [result, setResult] = useState("")
 
     const dispatch = useDispatch();
 
@@ -30,8 +30,9 @@ export default function Signup({navigation}) {
             setErrorNombreCompleto("");
 
             signupSchema.validateSync({email, dni, nombreCompleto});
-            // triggerSignup({email, dni, nombreCompleto});
+            dispatch(setUserWaitingConfirmation(true))
             navigation.navigate("ConfirmacionVecino")
+
         } catch (err) {
             switch (err.path) {
                 case "email":
@@ -48,12 +49,6 @@ export default function Signup({navigation}) {
             }
         }
     };
-
-    useEffect(() => {
-        if (result.data) {
-            dispatch(setUser(result.data));
-        }
-    }, [result]);
 
     return (
         <StyledScreenWrapper>

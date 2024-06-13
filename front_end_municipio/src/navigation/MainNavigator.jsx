@@ -9,7 +9,7 @@ import {fetchSession} from "../db";
 import {setUser} from "../features/auth/authSlice";
 
 export default function MainNavigator() {
-    const {dni} = useSelector((state) => state.authReducer.value)
+    const {dni, jwt} = useSelector((state) => state.authReducer.value)
 
     const dispatch = useDispatch()
 
@@ -19,7 +19,8 @@ export default function MainNavigator() {
                 const session = await fetchSession();
                 if (session?.rows.length) {
                     const dni = session.rows._array[0];
-                    dispatch(setUser(dni));
+                    const jwt = session.rows._array[1];
+                    dispatch(setUser(dni, jwt));
                 }
             } catch (error) {
                 console.log(error.message);

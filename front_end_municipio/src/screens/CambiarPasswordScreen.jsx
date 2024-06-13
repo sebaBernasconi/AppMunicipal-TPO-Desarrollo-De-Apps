@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import StyledText from "../styledComponents/StyledText";
 import InputForm from "../components/InputForm";
@@ -7,6 +7,7 @@ import StyledButton from "../styledComponents/StyledButton";
 import {changePasswordSchema} from "../validations/changePasswordSchema";
 import {useDispatch} from "react-redux";
 import {setUser} from "../features/auth/authSlice";
+import {insertSession} from "../db";
 
 export default function CambiarPasswordScreen() {
     const [dni, setDni] = useState("");
@@ -17,8 +18,20 @@ export default function CambiarPasswordScreen() {
     const [errorNewPassword, setErrorNewPassword] = useState("");
     const [confirmNewPassword, setConfirmNewPassword] = useState("");
     const [errorConfirmNewPassword, setErrorConfirmNewPassword] = useState("");
+    const [result, setResult] = useState("")
+    const [jwt, setJwt] = useState("");
 
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (result === "OK") {
+            insertSession({
+                dni: dni,
+                jwt: jwt
+            }).catch(err => console.log(err.message))
+            dispatch(setUser({jwt, dni}));
+        }
+    }, [result]);
 
     async function login() {
         try {
@@ -33,8 +46,9 @@ export default function CambiarPasswordScreen() {
             if (!response.ok) {
                 throw new Error("Error en el login")
             }
-            const token = await response.text();
-            dispatch(setUser({token, dni}));
+            const jwt = await response.text();
+            setJwt(jwt);
+            setResult("OK")
         } catch (err) {
             console.error(err)
         }
@@ -52,7 +66,6 @@ export default function CambiarPasswordScreen() {
                 body: JSON.stringify(data)
             })
             if (!response.ok) {
-                console.log(response)
                 throw new Error("Error en el cambio de contrasenia")
             }
             console.log(data)
@@ -95,7 +108,7 @@ export default function CambiarPasswordScreen() {
                     break;
             }
         }
-    };
+    }
 
     return (
         <StyledScreenWrapper>

@@ -7,8 +7,8 @@ export const authSlice = createSlice({
             dni: null,
             jwt: null,
             imageCamera: null,
-            // localId: null,
             profileImage: null,
+            userWaitingConfirmation: false
         },
     },
     reducers: {
@@ -16,8 +16,13 @@ export const authSlice = createSlice({
             state.value = {
                 dni: action.payload.dni,
                 jwt: action.payload.jwt,
-                // localId: action.payload.localId
             };
+        },
+        setUserWaitingConfirmation: (state, action) => {
+            state.value = {
+                ...state.value,
+                userWaitingConfirmation: action.payload
+            }
         },
         clearUser: (state) => (state.value = { user: null, token: null }),
         setCameraImage: (state, action) => {
@@ -44,6 +49,6 @@ export const authSlice = createSlice({
     },
 });
 
-export const { setUser, clearUser, setCameraImage, setProfileImage, logout } = authSlice.actions;
+export const { setUser, clearUser, setCameraImage, setProfileImage, logout, setUserWaitingConfirmation } = authSlice.actions;
 
 export default authSlice.reducer;

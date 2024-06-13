@@ -19,7 +19,6 @@ export const createSchema = object().shape({
               .min(1,"Por favor ingrese telefono"),
 
     precio: number()
-            .require("Por favor ingrese precio")
             .min(1,"Por favor ingrese precio"),
     
 });

@@ -4,16 +4,19 @@ import StyledText from "../styledComponents/StyledText";
 import {colors} from "../global/colors";
 
 export default function DetalleServicioCard({servicio}) {
+    const base64ImagePrefix = 'data:image/jpeg;base64,';
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.card}>
-                <Image style={styles.imagen} source={{uri: servicio.imagen}}/>
+                <Image style={styles.imagen} source={{ uri: `${base64ImagePrefix}${servicio.imagenLocal}` }}/>
                 <View style={styles.body}>
                     <StyledText size30 style={styles.nombre}>{servicio.nombre}</StyledText>
-                    <StyledText size24 style={styles.tipo}>{servicio.tipo}</StyledText>
-                    <StyledText size20>Precio: {servicio.precio}</StyledText>
+                    <StyledText size24 style={styles.tipo}>{servicio.rubro.descripcion}</StyledText>
+                    <StyledText size24 style={styles.tipo}>Duenio: {servicio.vecino.nombre} {servicio.vecino.apellido}</StyledText>
+                    <StyledText size16 style={styles.tipo}>Contacto: {servicio.contacto}</StyledText>
                     <StyledText size16>{servicio.descripcion}</StyledText>
+                    <StyledText size16 dark_blue style={{marginVertical: 10}}>{servicio.promocion}</StyledText>
                 </View>
             </View>
         </ScrollView>

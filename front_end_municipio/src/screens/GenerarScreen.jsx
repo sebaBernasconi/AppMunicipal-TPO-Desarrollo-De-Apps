@@ -33,8 +33,7 @@ export default function GenerarScreen({navigation}) {
                 <View style={styles.iconoServicio}>
                     <FontAwesome5 name="tools" size={40} color="black"/>
                 </View>
-                <Pressable onPress={() =>
-                    RootNaigation.navigate({screen: GenerarScreen})}>
+                <Pressable onPress={() => navigation.navigate("GenerarServicio")}>
                     <StyledText style={styles.texto}>Cargar Servicio/Comercio</StyledText>
                 </Pressable>
             </View>

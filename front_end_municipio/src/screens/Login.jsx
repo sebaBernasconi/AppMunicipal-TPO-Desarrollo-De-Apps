@@ -11,7 +11,7 @@ import StyledButton from "../styledComponents/StyledButton";
 import ErrorMessage from "../components/ErrorMessage";
 import {colors} from "../global/colors";
 import {setUser} from "../features/auth/authSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 export default function Login({navigation}) {
     const [dni, setDni] = useState("");
@@ -19,27 +19,28 @@ export default function Login({navigation}) {
     const [password, setPassword] = useState("");
     const [errorPassword, setErrorPassword] = useState("");
     const [globalError, setGlobalError] = useState(false);
-    const [triggerLogin, result] = useLoginMutation();
+    const [result, setResult] = useState("");
+    const [jwt, setJwt] = useState("");
 
     const dispatch = useDispatch();
 
+
     useEffect(() => {
-        if (result.error) {
+        if (result === "ERROR") {
             setGlobalError(true)
         }
-        if (result.data) {
+        if (result === "OK") {
             insertSession({
                 dni: dni,
-                jwt: result.data.jwt
-            })
-                .catch(err => console.log(err.message))
+                jwt: jwt
+            }).catch(err => console.log(err.message))
+            dispatch(setUser({jwt, dni}));
         }
     }, [result]);
 
     const onSubmit = () => {
         try {
             loginSchema.validateSync({dni, password});
-            // triggerLogin({dni, password});
             login()
 
         } catch (err) {
@@ -67,10 +68,12 @@ export default function Login({navigation}) {
                 body: JSON.stringify(data)
             })
             if (!response.ok) {
+                setResult("ERROR")
                 throw new Error("Error en el login")
             }
-            const jwt = await response.text();
-            dispatch(setUser({jwt, dni}));
+            const token = await response.text();
+            setJwt(token)
+            setResult("OK")
         } catch (err) {
             console.error(err)
         }
