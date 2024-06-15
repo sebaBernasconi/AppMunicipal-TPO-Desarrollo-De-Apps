@@ -18,22 +18,6 @@ public class RubroController {
     @Autowired
     RubroService rubroService;
 
-    public static RubroController instancia;
-
-    //Consturctor
-    public RubroController() {
-    }
-
-    //getInstancia() para singleton
-    public static RubroController getInstancia(){
-        if (instancia == null){
-            return instancia = new RubroController();
-        }else {
-            return instancia;
-        }
-    }
-
-    //Metodos del controller
     @PostMapping(value = "/agregar",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Rubro>guardarRubro(@RequestBody Rubro rubro){
         rubroService.guardarRubro(rubro);

@@ -20,25 +20,6 @@ public class DenunciaController {
     @Autowired
     DenunciaService denunciaService;
 
-    public static DenunciaController instancia;
-
-    //Constructor
-
-    public DenunciaController() {
-    }
-
-    //getInstancia para singleton
-
-    public static DenunciaController getInstancia(){
-        if (instancia == null){
-            return instancia = new DenunciaController();
-        }else {
-            return instancia;
-        }
-    }
-
-    //Metodos del controller
-
     @PostMapping(value = "/registrar",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Denuncia>guardarDenuncia(@RequestBody Denuncia denuncia){
         Denuncia denunciaConfirmada = denunciaService.guardarDenuncia(denuncia);

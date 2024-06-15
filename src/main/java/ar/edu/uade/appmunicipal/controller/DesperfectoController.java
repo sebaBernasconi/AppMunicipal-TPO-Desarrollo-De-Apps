@@ -18,23 +18,6 @@ public class DesperfectoController {
     @Autowired
     DesperfectoService desperfectoService;
 
-    public static DesperfectoController instancia;
-
-    //Constructor
-    public DesperfectoController() {
-    }
-
-    //getInstancia() para singleton
-    public static DesperfectoController getInstancia(){
-        if (instancia == null) {
-            return instancia = new DesperfectoController();
-        }else {
-            return instancia;
-        }
-    }
-
-    //Metodos del controller
-
     @PostMapping(value = "/agregar",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Desperfecto>guardarDesperfecto(@RequestBody Desperfecto desperfecto){
         Desperfecto desperfectoGuardado = desperfectoService.guardarDesperfecto(desperfecto);

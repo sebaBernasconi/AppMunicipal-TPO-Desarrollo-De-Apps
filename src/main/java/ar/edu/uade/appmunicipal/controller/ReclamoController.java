@@ -20,23 +20,6 @@ public class ReclamoController {
     @Autowired
     ReclamoService reclamoService;
 
-    public static ReclamoController instancia;
-
-    //Constructor
-    public ReclamoController() {
-    }
-
-    //getInstancia para singleton
-    public static ReclamoController getInstancia(){
-        if (instancia == null){
-            return instancia = new ReclamoController();
-        }else {
-            return instancia;
-        }
-    }
-
-    //Metodos del controller
-
     @PostMapping(value = "/registrar",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Reclamo>guardarReclamo(@RequestBody Reclamo reclamo){
         reclamoService.guardarReclamo(reclamo);

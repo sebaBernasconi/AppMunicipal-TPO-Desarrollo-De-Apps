@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.controller;
 
+import ar.edu.uade.appmunicipal.model.DTOs.LocalDTO;
 import ar.edu.uade.appmunicipal.model.Local;
 import ar.edu.uade.appmunicipal.service.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,26 +20,13 @@ public class LocalController {
     @Autowired
     LocalService localService;
 
-    public static LocalController instancia;
-
-    //Constructor
-    public LocalController() {
-    }
-
-    //getInstancia para que sea Singleton
-    public static LocalController getInstancia(){
-        if (instancia == null) {
-            return instancia = new  LocalController();
-        }else {
-            return instancia;
+    @PostMapping(value = "/agregar")
+    public ResponseEntity<?>agregarLocal(@RequestPart LocalDTO localDTO, @RequestParam MultipartFile archivo){
+        try {
+            return new ResponseEntity<>(this.localService.guardarLocal(localDTO, archivo), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
-    }
-
-    //Metodos del controller
-    @PostMapping(value = "/agregar",consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Local>agregarLocal(@RequestBody Local local){
-        localService.guardarLocal(local);
-        return new ResponseEntity<>(local, HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/agregarPromocion/{id}/{promo}",produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -61,7 +50,7 @@ public class LocalController {
         }
     }
 
-    @GetMapping(value = "/listarLocales",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/listarLocales")
     public ResponseEntity<List<Local>>listarLocales(){
         try {
             List<Local>listadoDeLocales = localService.listarLocales();

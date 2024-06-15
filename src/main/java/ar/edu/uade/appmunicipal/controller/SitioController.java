@@ -20,23 +20,6 @@ public class SitioController {
     @Autowired
     SitioService sitioService;
 
-    public static SitioController instancia;
-
-    //Constructor
-    public SitioController() {
-    }
-
-    //getInstancia() para singleton
-    public static SitioController getInstancia(){
-        if (instancia == null) {
-            return instancia = new SitioController();
-        }else {
-            return instancia;
-        }
-    }
-
-    //Metodos del controller
-
     @PostMapping(value = "/agregar", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Sitio>guardarSitio(@RequestBody Sitio sitio){
         Sitio sitioGuardado = sitioService.guardarSitio(sitio);

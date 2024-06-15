@@ -21,7 +21,7 @@ import java.util.Date;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final int EXPIRATION_TIME_IN_MIN = 2;
+    private final int EXPIRATION_TIME_IN_MIN = 60;
 
     @Autowired
     private UsuarioService usuarioService;
