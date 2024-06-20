@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,6 +39,11 @@ public class Denuncia {
 
     @Column(name = "acepta_responsabilidad")
     private boolean aceptaResponsabilidad;
+
+    @Lob
+    @JsonIgnore
+    @Column(name = "imagen_local", columnDefinition = "LONGBLOB")
+    private byte[] imagenDenuncia;
 
     //Metodos de la clase
     public void actualizarEstado(String nuevoEstado){

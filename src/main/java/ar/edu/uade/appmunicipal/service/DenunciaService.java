@@ -1,9 +1,13 @@
 package ar.edu.uade.appmunicipal.service;
 
+import ar.edu.uade.appmunicipal.model.DTOs.DenunciaDTO;
 import ar.edu.uade.appmunicipal.model.Denuncia;
+import ar.edu.uade.appmunicipal.model.Vecino;
 import ar.edu.uade.appmunicipal.repository.DenunciaRepository;
+import ar.edu.uade.appmunicipal.repository.VecinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +17,9 @@ public class DenunciaService {
 
     @Autowired
     DenunciaRepository denunciaRepository;
+
+    @Autowired
+    VecinoRepository vecinoRepository;
 
     public List<Denuncia>listarDenuncias(){
         return denunciaRepository.findAll();
@@ -36,7 +43,28 @@ public class DenunciaService {
         return denuncia.orElse(null);
     }
 
-    public Denuncia guardarDenuncia(Denuncia denuncia){
+    public Denuncia guardarDenuncia(DenunciaDTO denunciaDTO, MultipartFile archivo) throws Exception {
+
+        Optional<Vecino>vecinoOptional = vecinoRepository.findById(denunciaDTO.getVecino().getDni());
+
+        if (vecinoOptional.isEmpty()) {
+            throw new Exception("No se encontro un vecino con ese DNI");
+        }
+
+        if (archivo.isEmpty()) {
+            throw new Exception("No hay imagen asociada a la denuncia");
+        }
+        byte[] imagenDenuncia = archivo.getBytes();
+
+        Denuncia denuncia = new Denuncia();
+
+        denuncia.setVecino(vecinoOptional.get());
+        denuncia.setSitio(denunciaDTO.getSitio());
+        denuncia.setDescripcion(denunciaDTO.getDescripcion());
+        denuncia.setEstado(denunciaDTO.getEstado());
+        denuncia.setAceptaResponsabilidad(denunciaDTO.isAceptaResponsabilidad());
+        denuncia.setImagenDenuncia(imagenDenuncia);
+
         return denunciaRepository.save(denuncia);
     }
 
