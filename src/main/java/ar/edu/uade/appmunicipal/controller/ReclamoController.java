@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.controller;
 
+import ar.edu.uade.appmunicipal.model.DTOs.ReclamoDTO;
 import ar.edu.uade.appmunicipal.model.PersonalMunicipal;
 import ar.edu.uade.appmunicipal.model.Reclamo;
 import ar.edu.uade.appmunicipal.service.ReclamoService;
@@ -21,9 +22,12 @@ public class ReclamoController {
     ReclamoService reclamoService;
 
     @PostMapping(value = "/registrar",consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Reclamo>guardarReclamo(@RequestBody Reclamo reclamo){
-        reclamoService.guardarReclamo(reclamo);
-        return new ResponseEntity<>(reclamo, HttpStatus.CREATED);
+    public ResponseEntity<Reclamo>guardarReclamo(@RequestPart ReclamoDTO reclamoDTO){
+        try {
+            return new ResponseEntity<>(reclamoService.guardarReclamo(reclamoDTO),HttpStatus.CREATED);
+        }catch (EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping(value = "/actualizarEstado/{id}/{estado}",consumes = {MediaType.APPLICATION_JSON_VALUE})
