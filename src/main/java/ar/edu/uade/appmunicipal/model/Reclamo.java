@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,6 +46,11 @@ public class Reclamo {
     //Patron state?(jodaaaa)
     @Column(name = "estado")
     private String estado;
+
+    @Lob
+    @JsonIgnore
+    @Column(name = "imagen_local", columnDefinition = "LONGBLOB")
+    private byte[] imagenReclamo;
 
     @Column(name = "id_reclamo_unificado")
     private  Integer idReclamoUnificado;

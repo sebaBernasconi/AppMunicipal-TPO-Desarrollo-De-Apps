@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,11 +23,11 @@ public class ReclamoController {
     ReclamoService reclamoService;
 
     @PostMapping(value = "/registrar",consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Reclamo>guardarReclamo(@RequestPart ReclamoDTO reclamoDTO){
+    public ResponseEntity<?>guardarReclamo(@RequestPart ReclamoDTO reclamoDTO, @RequestParam MultipartFile archivo){
         try {
-            return new ResponseEntity<>(reclamoService.guardarReclamo(reclamoDTO),HttpStatus.CREATED);
-        }catch (EmptyResultDataAccessException e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(reclamoService.guardarReclamo(reclamoDTO,archivo),HttpStatus.CREATED);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
         }
     }
 

@@ -11,6 +11,7 @@ import ar.edu.uade.appmunicipal.repository.SitioRepository;
 import ar.edu.uade.appmunicipal.repository.VecinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,10 +62,23 @@ public class ReclamoService {
         return reclamo.orElse(null);
     }
 
-    public Reclamo guardarReclamo(ReclamoDTO reclamoDTO){
+    public Reclamo guardarReclamo(ReclamoDTO reclamoDTO, MultipartFile archivo) throws Exception {
         Optional<Vecino> vecinoOptional = vecinoRepository.findById(reclamoDTO.getVecino().getDni());
         Optional<PersonalMunicipal> personalMunicipalOptional =
                 personalMunicipalRepository.findById(reclamoDTO.getPersonalMunicipal().getDni());
+
+        if (vecinoOptional.isEmpty()) {
+            throw new Exception("No se encontro un vecino con ese DNI");
+        }
+
+        if (personalMunicipalOptional.isEmpty()) {
+            throw new Exception("No se encontro un empleado municipal con ese DNI");
+        }
+        if (archivo.isEmpty()) {
+            throw new Exception("No hay imagen asociada con el reclamo");
+        }
+        byte[] imagenReclamo = archivo.getBytes();
+
         Reclamo reclamo = new Reclamo();
 
         reclamo.setVecino(vecinoOptional.get());
@@ -73,8 +87,9 @@ public class ReclamoService {
         reclamo.setDesperfecto(reclamoDTO.getDesperfecto());
         reclamo.setDescripcion(reclamoDTO.getDescripcion());
         reclamo.setEstado(reclamoDTO.getEstado());
+        reclamo.setImagenReclamo(imagenReclamo);
 
-        return  reclamo;
+        return  reclamoRepository.save(reclamo);
     }
 
     public Reclamo actualizarEstado(Integer idReclamo, String nuevoEstado){
