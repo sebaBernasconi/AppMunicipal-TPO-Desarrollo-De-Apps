@@ -29,8 +29,7 @@ public class ReclamoService {
     PersonalMunicipalRepository personalMunicipalRepository;
 
     @Autowired
-    SitioRepository sitioRepository;
-
+    SitioService sitioService;
     public List<Reclamo>listarReclamos(){
         return reclamoRepository.findAll();
     }
@@ -78,6 +77,8 @@ public class ReclamoService {
             throw new Exception("No hay imagen asociada con el reclamo");
         }
         byte[] imagenReclamo = archivo.getBytes();
+
+        sitioService.guardarSitio(reclamoDTO.getSitio());
 
         Reclamo reclamo = new Reclamo();
 

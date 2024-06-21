@@ -21,6 +21,9 @@ public class DenunciaService {
     @Autowired
     VecinoRepository vecinoRepository;
 
+    @Autowired
+    SitioService sitioService;
+
     public List<Denuncia>listarDenuncias(){
         return denunciaRepository.findAll();
     }
@@ -55,6 +58,8 @@ public class DenunciaService {
             throw new Exception("No hay imagen asociada a la denuncia");
         }
         byte[] imagenDenuncia = archivo.getBytes();
+
+        sitioService.guardarSitio(denunciaDTO.getSitio());
 
         Denuncia denuncia = new Denuncia();
 
