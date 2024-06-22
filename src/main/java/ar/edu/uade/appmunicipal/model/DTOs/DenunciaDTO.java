@@ -16,7 +16,7 @@ public class DenunciaDTO {
 
     private Integer idVecino;
 
-    private Integer idSitio;
+    private Sitio sitio;
 
     private String descripcion;
 
