@@ -17,13 +17,13 @@ import lombok.Setter;
 
 public class ReclamoDTO {
 
-    private Vecino vecino;
+    private Integer idVecino;
 
-    private PersonalMunicipal personalMunicipal;
+    private Integer idPersonalMunicipal;
 
-    private Sitio sitio;
+    private Integer idSitio;
 
-    private Desperfecto desperfecto;
+    private Integer idDesperfecto;
 
     private String descripcion;
 

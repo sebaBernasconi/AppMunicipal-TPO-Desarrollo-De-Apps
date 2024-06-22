@@ -14,9 +14,9 @@ import lombok.Setter;
 
 public class DenunciaDTO {
 
-    private Vecino vecino;
+    private Integer idVecino;
 
-    private Sitio sitio;
+    private Integer idSitio;
 
     private String descripcion;
 
