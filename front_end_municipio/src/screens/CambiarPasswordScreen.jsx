@@ -8,6 +8,7 @@ import {changePasswordSchema} from "../validations/changePasswordSchema";
 import {useDispatch} from "react-redux";
 import {setUser} from "../features/auth/authSlice";
 import {insertSession} from "../db";
+import {ipLocal} from "../global/ipLocal";
 
 export default function CambiarPasswordScreen() {
     const [dni, setDni] = useState("");
@@ -36,7 +37,7 @@ export default function CambiarPasswordScreen() {
     async function login() {
         try {
             const data = {dni, password}
-            const response = await fetch("http://192.168.68.61:8080/auth/login", {
+            const response = await fetch(`http://${ipLocal}:8080/auth/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -58,7 +59,7 @@ export default function CambiarPasswordScreen() {
         try {
             const oldPassword = password
             const data = {dni, oldPassword, newPassword}
-            const response = await fetch("http://192.168.68.61:8080/auth/changePassword", {
+            const response = await fetch(`http://${ipLocal}:8080/auth/changePassword`, {
                 method: "PATCH",
                 headers: {
                     'Content-Type': 'application/json',

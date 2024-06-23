@@ -1,6 +1,5 @@
-import {Image, Pressable, View} from "react-native";
+import {Pressable, View} from "react-native";
 import React, {useEffect, useState} from "react";
-import {useLoginMutation} from "../services/authService";
 import {loginSchema} from "../validations/loginSchema";
 import InputForm from "../components/InputForm";
 import Loader from "../components/Loader";
@@ -11,7 +10,8 @@ import StyledButton from "../styledComponents/StyledButton";
 import ErrorMessage from "../components/ErrorMessage";
 import {colors} from "../global/colors";
 import {setUser} from "../features/auth/authSlice";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
+import {ipLocal} from "../global/ipLocal";
 
 export default function Login({navigation}) {
     const [dni, setDni] = useState("");
@@ -60,7 +60,7 @@ export default function Login({navigation}) {
     async function login() {
         try {
             const data = {dni, password}
-            const response = await fetch("http://192.168.68.61:8080/auth/login", {
+            const response = await fetch(`http://${ipLocal}:8080/auth/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -123,8 +123,8 @@ export default function Login({navigation}) {
                 )) : (
                     <>
                         <ErrorMessage
-                            errorCode={result.error.data.error.code}
-                            errorMessage={result.error.data.error.message}
+                            errorCode={"ERROR 401"}
+                            errorMessage={"Credenciales invalidas"}
                         />
                         <StyledButton text={"Go Back"} onPress={() => setGlobalError(false)}/>
                     </>

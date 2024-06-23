@@ -42,7 +42,7 @@ export default function GenerarScreen({navigation}) {
                 <View style={{padding: 10, backgroundColor: colors.blue300, borderRadius: 50000}}>
                     <AntDesign name="questioncircle" size={40} color="black"/>
                 </View>
-                <Pressable>
+                <Pressable onPress={() => navigation.navigate("SolicitarAyuda")}>
                     <StyledText style={styles.texto}>Solicitar ayuda</StyledText>
                 </Pressable>
             </View>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     },
     iconoServicio: {
         borderRadius: 4000,
-        backgroundColor: colors.green,
+        backgroundColor: colors.green400,
         padding: 10
     }
 })

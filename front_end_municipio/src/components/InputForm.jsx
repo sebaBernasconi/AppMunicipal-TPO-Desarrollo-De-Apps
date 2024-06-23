@@ -4,7 +4,7 @@ import {colors} from "../global/colors";
 import Card from "../styledComponents/Card";
 import StyledText from "../styledComponents/StyledText";
 
-export default function InputForm({label, error, height, onChange, isSecure, top, color, mV, placeholder}) {
+export default function InputForm({label, error, height, onChange, isSecure, top, multiline, color, mV, placeholder}) {
     const [input, setInput] = useState("");
 
     const onChangeText = (text) => {
@@ -22,6 +22,7 @@ export default function InputForm({label, error, height, onChange, isSecure, top
                     onChangeText={onChangeText}
                     secureTextEntry={isSecure}
                     placeholder={placeholder? placeholder : ""}
+                    multiline={!!multiline}
                 />
             </Card>
             {error ? <Text>* {error}</Text> : null}

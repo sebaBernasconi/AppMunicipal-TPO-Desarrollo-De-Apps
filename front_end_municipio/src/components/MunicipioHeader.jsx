@@ -4,7 +4,7 @@ import {colors} from "../global/colors";
 import logo_municipio from "../../assets/images/logo_municipio_blanco.png";
 import Animated, {ReduceMotion, Easing, useSharedValue, withTiming} from "react-native-reanimated";
 
-export default function MunicipioHeader() {
+export default function MunicipioHeader({bgColor}) {
     const headerHeight = useSharedValue(220);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function MunicipioHeader() {
     }, []);
 
     return (
-        <Animated.View style={[styles.container, {height: headerHeight}]}>
+        <Animated.View style={[styles.container, {height: headerHeight}, {backgroundColor: bgColor? bgColor : colors.blue300}]}>
             <Image source={logo_municipio} style={styles.image}/>
         </Animated.View>
     )
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     container: {
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: colors.blue300,
         borderBottomStartRadius: 10,
         borderBottomEndRadius: 10,
         paddingTop: 10

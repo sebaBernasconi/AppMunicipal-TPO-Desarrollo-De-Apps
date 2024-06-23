@@ -4,7 +4,6 @@ import {colors} from "../global/colors";
 
 export default function ServicioCard({servicio, navigation, index}) {
     const base64ImagePrefix = 'data:image/jpeg;base64,';
-
     return (
         <Pressable
             style={[styles.container, {marginRight: index % 2 === 0 ? 20 : 0}]}
