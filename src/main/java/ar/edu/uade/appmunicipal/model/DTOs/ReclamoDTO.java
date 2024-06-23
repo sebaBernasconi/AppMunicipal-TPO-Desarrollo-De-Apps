@@ -21,9 +21,9 @@ public class ReclamoDTO {
 
     private Integer idPersonalMunicipal;
 
-    private Integer idSitio;
+    private Sitio sitio;
 
-    private Integer idDesperfecto;
+    private DesperfectoDTO desperfecto;
 
     private String descripcion;
 
