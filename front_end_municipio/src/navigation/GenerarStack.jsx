@@ -1,4 +1,3 @@
-import {StyleSheet} from 'react-native'
 import React from 'react'
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import GenerarScreen from "../screens/GenerarScreen";
@@ -7,6 +6,10 @@ import {colors} from "../global/colors";
 import GenerarReclamoScreen from "../screens/GenerarReclamoScreen";
 import GenerarDenunciaScreen from "../screens/GenerarDenunciaScreen";
 import GenerarServicioScreen from "../screens/GenerarServicioScreen";
+import SolicitarAyudaScreen from "../screens/SolicitarAyudaScreen";
+import ServicioConfirmadoScreen from "../screens/ServicioConfirmadoScreen";
+import ReclamoConfirmadoScreen from "../screens/ReclamoConfirmadoScreen";
+import DenunciaConfirmadaScreen from "../screens/DenunciaConfirmadaScreen";
 
 export default function GenerarStack() {
     const Stack = createNativeStackNavigator();
@@ -32,6 +35,13 @@ export default function GenerarStack() {
                 }}
             />
             <Stack.Screen
+                name={"ReclamoConfirmado"}
+                component={ReclamoConfirmadoScreen}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
                 name={"GenerarDenuncia"}
                 component={GenerarDenunciaScreen}
                 options={{
@@ -41,11 +51,34 @@ export default function GenerarStack() {
                 }}
             />
             <Stack.Screen
+                name={"DenunciaConfirmada"}
+                component={DenunciaConfirmadaScreen}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
                 name={"GenerarServicio"}
                 component={GenerarServicioScreen}
                 options={{
                     header: () => (
-                        <Header color={colors.green} title={"Generar Servicio / Local"}/>
+                        <Header color={colors.green400} title={"Generar Servicio / Local"}/>
+                    )
+                }}
+            />
+            <Stack.Screen
+                name={"ServicioConfirmado"}
+                component={ServicioConfirmadoScreen}
+                options={{
+                    headerShown: false
+                }}
+            />
+            <Stack.Screen
+                name={"SolicitarAyuda"}
+                component={SolicitarAyudaScreen}
+                options={{
+                    header: () => (
+                        <Header color={colors.blue300} title={"Solicitar Ayuda"}/>
                     )
                 }}
             />

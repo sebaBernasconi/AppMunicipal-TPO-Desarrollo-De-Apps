@@ -36,7 +36,7 @@ public class PersonalMunicipal {
     private String password;
 
     @Column(name = "sector")
-    private int sector;
+    private String sector;
 
     @Column(name = "categoria")
     private int categoria;

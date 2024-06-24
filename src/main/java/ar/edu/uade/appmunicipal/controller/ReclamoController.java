@@ -22,7 +22,7 @@ public class ReclamoController {
     @Autowired
     ReclamoService reclamoService;
 
-    @PostMapping(value = "/registrar",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/registrar", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?>guardarReclamo(@RequestPart ReclamoDTO reclamoDTO, @RequestParam MultipartFile archivo){
         try {
             return new ResponseEntity<>(reclamoService.guardarReclamo(reclamoDTO,archivo),HttpStatus.CREATED);

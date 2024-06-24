@@ -23,7 +23,7 @@ public class ReclamoDTO {
 
     private Sitio sitio;
 
-    private Desperfecto desperfecto;
+    private DesperfectoDTO desperfecto;
 
     private String descripcion;
 

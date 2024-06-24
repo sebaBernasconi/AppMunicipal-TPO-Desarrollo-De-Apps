@@ -2,6 +2,7 @@ package ar.edu.uade.appmunicipal.service;
 
 import ar.edu.uade.appmunicipal.model.DTOs.DenunciaDTO;
 import ar.edu.uade.appmunicipal.model.Denuncia;
+import ar.edu.uade.appmunicipal.model.Sitio;
 import ar.edu.uade.appmunicipal.model.Vecino;
 import ar.edu.uade.appmunicipal.repository.DenunciaRepository;
 import ar.edu.uade.appmunicipal.repository.VecinoRepository;
@@ -48,7 +49,7 @@ public class DenunciaService {
 
     public Denuncia guardarDenuncia(DenunciaDTO denunciaDTO, MultipartFile archivo) throws Exception {
 
-        Optional<Vecino>vecinoOptional = vecinoRepository.findById(denunciaDTO.getVecino().getDni());
+        Optional<Vecino>vecinoOptional = vecinoRepository.findById(denunciaDTO.getIdVecino());
 
         if (vecinoOptional.isEmpty()) {
             throw new Exception("No se encontro un vecino con ese DNI");
@@ -59,12 +60,12 @@ public class DenunciaService {
         }
         byte[] imagenDenuncia = archivo.getBytes();
 
-        sitioService.guardarSitio(denunciaDTO.getSitio());
+        Sitio nuevoSitio = sitioService.guardarSitio(denunciaDTO.getSitio());
 
         Denuncia denuncia = new Denuncia();
 
         denuncia.setVecino(vecinoOptional.get());
-        denuncia.setSitio(denunciaDTO.getSitio());
+        denuncia.setSitio(nuevoSitio);
         denuncia.setDescripcion(denunciaDTO.getDescripcion());
         denuncia.setEstado(denunciaDTO.getEstado());
         denuncia.setAceptaResponsabilidad(denunciaDTO.isAceptaResponsabilidad());

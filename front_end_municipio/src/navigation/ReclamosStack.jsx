@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import ReclamosScreen from "../screens/ReclamosScreen";
 import Header from "../components/Header";
 import {colors} from "../global/colors";
+import DetalleReclamoScreen from "../screens/DetalleReclamoScreen";
 
 export default function ReclamosStack() {
     const Stack = createNativeStackNavigator();
@@ -16,6 +17,15 @@ export default function ReclamosStack() {
                 options={{
                     header: () => (
                         <Header color={colors.blue600} title={"Reclamos"}/>
+                    )
+                }}
+            />
+            <Stack.Screen
+                name={"DetalleReclamo"}
+                component={DetalleReclamoScreen}
+                options={{
+                    header: () => (
+                        <Header color={colors.blue600} title={"Reclamo"}/>
                     )
                 }}
             />

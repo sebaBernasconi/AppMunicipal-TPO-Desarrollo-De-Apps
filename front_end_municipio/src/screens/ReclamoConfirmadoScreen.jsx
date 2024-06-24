@@ -1,48 +1,32 @@
-import {StyleSheet, Text, View} from "react-native";
-import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
-import Card from "../styledComponents/Card";
-import StyledText from "../styledComponents/StyledText";
-import {fonts} from "../global/fonts";
-import StyledButton from "../styledComponents/StyledButton";
+import {StyleSheet, Text, View} from 'react-native'
+import React from 'react'
+import MunicipioHeader from "../components/MunicipioHeader";
 import {colors} from "../global/colors";
-import HomeScreen from "./HomeScreen";
+import StyledText from "../styledComponents/StyledText";
+import StyledButton from "../styledComponents/StyledButton";
 
-export default function ReclamoConfirmadoScreen({navigation}){
-    return(
-        <StyledScreenWrapper>
-            <View style={styles.contenedor} >
-                <Card style={styles.card}>
-                    <StyledText>!Reclamo confirmado!</StyledText>
-                    <Text style={styles.texto}>Tu reclamo ya fue enviado,
-                        sera antendido con brevedad por nuestros agentes.
-                    </Text>
-
-                    <StyledText>Gracias.</StyledText>
-                </Card>
+export default function ReclamoConfirmadoScreen() {
+    return (
+        <View style={{backgroundColor: "#FFF", flex: 1}}>
+            <MunicipioHeader bgColor={colors.blue500}/>
+            <View style={{flex: 1, margin: 16, alignItems: "center", justifyContent: "center"}}>
+                <View style={{
+                    backgroundColor: colors.blue200,
+                    height: 300,
+                    width: "100%",
+                    padding: 20,
+                    gap: 20,
+                    borderRadius: 10
+                }}>
+                    <StyledText size30>Reclamo Confirmada!</StyledText>
+                    <StyledText size20>Tu reclamo ya fue enviada, será antendido con brevedad por nuestros
+                        agentes. </StyledText>
+                    <StyledText size20 bold>Gracias!</StyledText>
+                </View>
             </View>
-
-            <View style={styles.boton}>
-                <StyledButton text={"Home"} backgroundColor={colors.blue400}/>
+            <View style={{paddingHorizontal: 10}}>
+                <StyledButton text={"Home"} backgroundColor={colors.blue500} onPress={() => navigation.goBack()}/>
             </View>
-
-        </StyledScreenWrapper>
+        </View>
     )
 }
-
-const styles = StyleSheet.create({
-    card: {
-        backgroundColor: colors.blue200
-    },
-    texto:{
-        paddingTop:10,
-        paddingBottom: 10,
-        fontSize: 15
-    },
-    contenedor:{
-        alignContent: "center",
-        paddingTop: 200
-    },
-    boton:{
-        paddingTop: 240
-    }
-})

@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.controller;
 
+import ar.edu.uade.appmunicipal.model.DTOs.DesperfectoDTO;
 import ar.edu.uade.appmunicipal.model.Desperfecto;
 import ar.edu.uade.appmunicipal.service.DesperfectoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,8 @@ public class DesperfectoController {
     DesperfectoService desperfectoService;
 
     @PostMapping(value = "/agregar",consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<Desperfecto>guardarDesperfecto(@RequestBody Desperfecto desperfecto){
-        Desperfecto desperfectoGuardado = desperfectoService.guardarDesperfecto(desperfecto);
+    public ResponseEntity<Desperfecto>guardarDesperfecto(@RequestBody DesperfectoDTO desperfectoDTO){
+        Desperfecto desperfectoGuardado = desperfectoService.guardarDesperfecto(desperfectoDTO);
         return new ResponseEntity<>(desperfectoGuardado, HttpStatus.CREATED);
     }
 

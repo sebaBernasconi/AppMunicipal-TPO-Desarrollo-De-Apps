@@ -56,6 +56,7 @@ export default function GenerarReclamoScreen({navigation}) {
                         <StyledText size16>Acepto terminos y condiciones</StyledText>
                     </Pressable>
                 </View>
+
                 <View style={styles.botones}>
                     <View style={styles.botonCancelar}>
                         <StyledButton text={"Cancelar"} backgroundColor={colors.grey}
