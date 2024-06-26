@@ -22,7 +22,7 @@ public class DenunciaController {
     @Autowired
     DenunciaService denunciaService;
 
-    @PostMapping(value = "/agregar",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/agregar",consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Denuncia>guardarDenuncia(@RequestPart DenunciaDTO denunciaDTO, @RequestParam MultipartFile archivo){
         try {
             return new ResponseEntity<>(denunciaService.guardarDenuncia(denunciaDTO,archivo),HttpStatus.CREATED);
