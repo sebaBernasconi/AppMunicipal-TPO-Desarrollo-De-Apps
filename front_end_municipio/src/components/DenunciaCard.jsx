@@ -1,11 +1,13 @@
-import {Pressable, StyleSheet, Text, TextInput, View} from 'react-native'
+import {Pressable, StyleSheet, View} from 'react-native'
 import React from 'react'
 import StyledText from "../styledComponents/StyledText";
 import Card from "../styledComponents/Card";
 import {colors} from "../global/colors";
-import {AntDesign, MaterialIcons} from "@expo/vector-icons";
+import {MaterialIcons} from "@expo/vector-icons";
 
 export default function DenunciaCard({denuncia, navigation}) {
+    console.log(denuncia)
+    const {idDenuncia, sitio, estado, descripcion} = denuncia
 
     function getColorEstado(estado) {
         switch (estado) {
@@ -20,16 +22,17 @@ export default function DenunciaCard({denuncia, navigation}) {
 
     return (
         <View style={styles.inputContainer}>
-            <StyledText size20 style={{...styles.label}}>Id: 123456</StyledText>
+            <StyledText size20 style={{...styles.label}}>Id: {idDenuncia}</StyledText>
             <Card borderColor={colors.orange500} style={{padding: 20, flexDirection: "row"}}>
                 <View style={{gap: 10, flex: 4}}>
-                    <StyledText size30 style={{color: getColorEstado("Activo")}}>Activo</StyledText>
-                    <StyledText size20>Cabildo y Juramento</StyledText>
-                    <StyledText size16 numberOfLines={3}>Descripcion la cual se va a acortar si es que supera cierto limite de palabras asdasdasdasdasdasdas asd asd asdasd asdasd asd asd asd asd as dasd </StyledText>
+                    <StyledText size30 style={{color: getColorEstado(estado)}}>{estado}</StyledText>
+                    <StyledText size20>{sitio.calle}</StyledText>
+                    <StyledText size16 numberOfLines={3}>{descripcion}</StyledText>
                 </View>
                 <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                    <Pressable style={styles.arrowButton} onPress={() => navigation.navigate("DetalleDenuncia", {denuncia})}>
-                        <MaterialIcons name="arrow-forward-ios" size={20} color="white" />
+                    <Pressable style={styles.arrowButton}
+                               onPress={() => navigation.navigate("DetalleDenuncia", {denuncia})}>
+                        <MaterialIcons name="arrow-forward-ios" size={20} color="white"/>
                     </Pressable>
                 </View>
             </Card>
@@ -39,6 +42,7 @@ export default function DenunciaCard({denuncia, navigation}) {
 const styles = StyleSheet.create({
     inputContainer: {
         width: "100%",
+        marginVertical: 20
     },
     label: {
         position: "absolute",
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
         padding: 5,
         fontFamily: "OpenSans",
         backgroundColor: colors.white,
-        color: colors.blue600
+        color: colors.orange500
     },
     input: {
         padding: 5,
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
         fontFamily: "OpenSans"
     },
     arrowButton: {
-        backgroundColor: colors.blue600,
+        backgroundColor: colors.orange500,
         width: 50,
         height: 50,
         alignItems: "center",
