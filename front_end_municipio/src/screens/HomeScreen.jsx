@@ -5,6 +5,7 @@ import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import HomeHeader from "../components/HomeHeader";
 import {useSelector} from "react-redux";
 import {useFocusEffect} from "@react-navigation/native";
+import {ipLocal} from "../global/ipLocal";
 
 export default function HomeScreen({navigation}) {
 
@@ -13,7 +14,7 @@ export default function HomeScreen({navigation}) {
 
     async function getLocales() {
         try {
-            const response = await fetch("http://192.168.68.61:8080/servicios/listarLocales", {
+            const response = await fetch(`http://${ipLocal}:8080/servicios/listarLocales`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${jwt}`

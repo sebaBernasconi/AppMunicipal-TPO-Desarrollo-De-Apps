@@ -76,6 +76,7 @@ export default function GenerarDenunciaScreen({navigation}) {
         setLocation({ latitude: "", longitude: "" });
         setChecked(false)
     }
+
     useEffect(() => {
         async function getLocation() {
             const {status} = await Location.requestForegroundPermissionsAsync();
@@ -99,14 +100,13 @@ export default function GenerarDenunciaScreen({navigation}) {
         const latitud = location.latitude
         const longitud = location.longitude
 
-        const sitio = {latitud, longitud, calle,
-            nroCalle,entreCalleA,entreCalleB,descripcion: descripcionSitio,
-            fechaApertura,fechaCierre,comentarios}
+        const sitio = {latitud, longitud, calle, nroCalle, entreCalleA, entreCalleB,
+            descripcion: descripcionSitio, fechaApertura, fechaCierre, comentarios}
 
         const denuncia = {idVecino,sitio,descripcion}
         const formData = new FormData();
 
-        formData.append("denunciaDTO", {"String": JSON.stringify(denuncia), type:"application/json"})
+        formData.append("denunciaDTO", {"string": JSON.stringify(denuncia), type:"application/json"})
 
         if (image) {
             const fileInfo = await FileSystem.getInfoAsync(image);
@@ -125,7 +125,7 @@ export default function GenerarDenunciaScreen({navigation}) {
                 method: "POST",
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    "Autorization": `Bearer ${jwt}`
+                    "Authorization": `Bearer ${jwt}`
                 },
                 body: formData
             })
@@ -157,24 +157,28 @@ export default function GenerarDenunciaScreen({navigation}) {
                         label={"Calle"}
                         placeholder={"Nombre de la calle..."}
                         onChange={setCalle}
+                        color={colors.orange500}
                     />
 
                     <InputForm
                         label={"Nro Calle"}
                         placeholder={"Numero de la calle..."}
                         onChange={setNroCalle}
+                        color={colors.orange500}
                     />
 
                     <InputForm
                         label={"Entre calle A"}
                         placeholder={"Calle A"}
                         onChange={setEntreCalleA}
+                        color={colors.orange500}
                     />
 
                     <InputForm
                         label={"Entre calle B"}
                         placeholder={"Calle B"}
                         onChange={setEntreCalleB}
+                        color={colors.orange500}
                     />
 
                     <InputForm
@@ -183,24 +187,28 @@ export default function GenerarDenunciaScreen({navigation}) {
                         onChange={setDescripcionSitio}
                         multiline
                         height={150}
+                        color={colors.orange500}
                     />
 
                     <InputForm
                         label={"Fecha Apertura"}
                         placeholder={"Fecha apertura del sitio (dejar en blanco si es via publica)"}
                         onChange={setFechaApertura}
+                        color={colors.orange500}
                     />
 
                     <InputForm
                         label={"Fecha Cierre"}
                         placeholder={"Fecha cierre del sitio (dejar en blanco si es via publica)"}
                         onChange={setFechaCierre}
+                        color={colors.orange500}
                     />
 
                     <InputForm
                         label={"Comentarios"}
                         placeholder={"Comentarios del sitio"}
                         onChange={setComentarios}
+                        color={colors.orange500}
                     />
 
                     <Pressable style={{flexDirection: "row", gap: 10, alignItems: "center"}}
