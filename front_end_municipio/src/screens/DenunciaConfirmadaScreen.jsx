@@ -1,11 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native'
+import {View} from 'react-native'
 import React from 'react'
 import MunicipioHeader from "../components/MunicipioHeader";
 import {colors} from "../global/colors";
 import StyledText from "../styledComponents/StyledText";
 import StyledButton from "../styledComponents/StyledButton";
 
-export default function DenunciaConfirmadaScreen() {
+export default function DenunciaConfirmadaScreen({navigation}) {
     return (
         <View style={{backgroundColor: "#FFF", flex: 1}}>
             <MunicipioHeader bgColor={colors.orange500}/>
@@ -25,7 +25,7 @@ export default function DenunciaConfirmadaScreen() {
                 </View>
             </View>
             <View style={{paddingHorizontal: 10}}>
-                <StyledButton text={"Home"} backgroundColor={colors.orange500} onPress={() => navigation.goBack()}/>
+                <StyledButton text={"Home"} backgroundColor={colors.orange500} onPress={() => navigation.navigate("GenerarScreen")}/>
             </View>
         </View>
     )

@@ -24,7 +24,7 @@ export default function ServicioConfirmadoScreen({navigation}) {
                 </View>
             </View>
             <View style={{paddingHorizontal: 10}}>
-                <StyledButton text={"Home"} backgroundColor={colors.green400} onPress={() => navigation.goBack()}/>
+                <StyledButton text={"Home"} backgroundColor={colors.green400} onPress={() => navigation.navigate("GenerarScreen")}/>
             </View>
         </View>
     )

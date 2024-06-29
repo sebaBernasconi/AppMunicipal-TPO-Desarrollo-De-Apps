@@ -10,7 +10,6 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {useSelector} from "react-redux";
 import {ipLocal} from "../global/ipLocal";
 import * as FileSystem from 'expo-file-system';
-import {createSchema} from "../validations/createSchema";
 
 export default function GenerarServicioScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -36,8 +35,6 @@ export default function GenerarServicioScreen({navigation}) {
 
     const [image, setImage] = useState(null);
     const [imageName, setImageName] = useState("");
-
-    const [localCreado, setLocalCreado] = useState(false);
 
     const verifyCameraPermissions = async () => {
         const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -81,7 +78,7 @@ export default function GenerarServicioScreen({navigation}) {
             formData.append("archivo", {
                 uri: fileUri,
                 name: imageName,
-                type: `image/${fileType}`, // Ensure the type is set correctly based on the file type
+                type: `image/${fileType}`
             });
         }
         try {
@@ -100,7 +97,7 @@ export default function GenerarServicioScreen({navigation}) {
             }
 
             const res = await response.json();
-            setLocalCreado(true)
+            navigation.navigate("ServicioConfirmado")
             console.log(res);
         } catch (error) {
             console.error(error);
@@ -132,9 +129,6 @@ export default function GenerarServicioScreen({navigation}) {
                 case "telefono":
                     setErrorTelefono(err.message);
                     break;
-                case "precio":
-                    setErrorPrecio(err.message)
-                    break;
                 default:
                     break;
             }
@@ -143,98 +137,90 @@ export default function GenerarServicioScreen({navigation}) {
 
     return (
         <>
-            {!localCreado ? (
-                <StyledScreenWrapper no_padding_top>
-                    <ScrollView showsVerticalScrollIndicator={false}>
+            <StyledScreenWrapper no_padding_top>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <View style={{flex: 1}}>
+                        <InputForm
+                            label={"Nombre"}
+                            error={errorNombre}
+                            onChange={setNombre}
+                            placeholder={"Nombre del Servicio/Comercio"}
+                            color={colors.green400}
+                        />
+
+                        <InputForm
+                            label={"Rubro"}
+                            error={errorRubro}
+                            onChange={setRubro}
+                            placeholder={"Id Rubro"}
+                            color={colors.green400}
+                        />
+
+                        <InputForm
+                            label={"Descripcion"}
+                            error={errorDescripcion}
+                            onChange={setDescripcion}
+                            placeholder={"Contanos mas"}
+                            height={150}
+                            color={colors.green400}
+                            multiline
+                        />
+
+                        <InputForm
+                            label={"Promocion"}
+                            error={errorPromocion}
+                            onChange={setPromocion}
+                            placeholder={"Contanos mas"}
+                            height={120}
+                            color={colors.green400}
+                            multiline
+                        />
+
+                        <InputForm
+                            label={"Ubicacion"}
+                            error={errorUbicacion}
+                            onChange={setUbicacion}
+                            placeholder={"Calle y numero"}
+                            color={colors.green400}
+                        />
+
+                        <InputForm
+                            label={"Telefono"}
+                            error={errorTelefono}
+                            onChange={setTelefono}
+                            placeholder={"Ingrese su nro. de telefono"}
+                            color={colors.green400}
+                        />
+
+                        <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
+                            <Pressable onPress={pickImageAsync} style={{flex: 1}}>
+                                <MaterialCommunityIcons name="file-image-plus-outline" size={70} color="black"/>
+                            </Pressable>
+                            {image ? (
+                                <View style={{flex: 3}}>
+                                    <StyledText size16>{imageName}</StyledText>
+                                </View>
+                            ) : null}
+                        </View>
+
+                    </View>
+                    <View style={{flexDirection: 'row', gap: 10, alignItems: "center"}}>
                         <View style={{flex: 1}}>
-                            <InputForm
-                                label={"Nombre"}
-                                error={errorNombre}
-                                onChange={setNombre}
-                                placeholder={"Nombre del Servicio/Comercio"}
-                                color={colors.green400}
+                            <StyledButton
+                                text={"Cancelar"}
+                                no_margin_vertical
+                                onPress={() => navigation.goBack()}
+                                text_white
+                                backgroundColor={colors.grey400}
                             />
-
-                            <InputForm
-                                label={"Rubro"}
-                                error={errorRubro}
-                                onChange={setRubro}
-                                placeholder={"Id Rubro"}
-                                color={colors.green400}
-                            />
-
-                            <InputForm
-                                label={"Descripcion"}
-                                error={errorDescripcion}
-                                onChange={setDescripcion}
-                                placeholder={"Contanos mas"}
-                                height={150}
-                                color={colors.green400}
-                                multiline
-                            />
-
-                            <InputForm
-                                label={"Promocion"}
-                                error={errorPromocion}
-                                onChange={setPromocion}
-                                placeholder={"Contanos mas"}
-                                height={120}
-                                color={colors.green400}
-                                multiline
-                            />
-
-                            <InputForm
-                                label={"Ubicacion"}
-                                error={errorUbicacion}
-                                onChange={setUbicacion}
-                                placeholder={"Calle y numero"}
-                                color={colors.green400}
-                            />
-
-                            <InputForm
-                                label={"Telefono"}
-                                error={errorTelefono}
-                                onChange={setTelefono}
-                                placeholder={"Ingrese su nro. de telefono"}
-                                color={colors.green400}
-                            />
-
-                            <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
-                                <Pressable onPress={pickImageAsync} style={{flex: 1}}>
-                                    <MaterialCommunityIcons name="file-image-plus-outline" size={70} color="black"/>
-                                </Pressable>
-                                {image ? (
-                                    <View style={{flex: 3}}>
-                                        <StyledText size16>{imageName}</StyledText>
-                                    </View>
-                                ) : null}
-                            </View>
-
                         </View>
-                        <View style={{flexDirection: 'row', gap: 10, alignItems: "center"}}>
-                            <View style={{flex: 1}}>
-                                <StyledButton
-                                    text={"Cancelar"}
-                                    no_margin_vertical
-                                    onPress={() => navigation.goBack()}
-                                    text_white
-                                    backgroundColor={colors.grey400}
-                                />
-                            </View>
-                            <View style={{flex: 1}}>
-                                <StyledButton text={"Crear"} onPress={onSubmit} text_white
-                                              backgroundColor={colors.green400}/>
-                            </View>
+                        <View style={{flex: 1}}>
+                            <StyledButton text={"Crear"} onPress={onSubmit} text_white
+                                          backgroundColor={colors.green400}/>
                         </View>
-                    </ScrollView>
-                </StyledScreenWrapper>
-
-            ) : (
-                <StyledScreenWrapper align_center justify_center>
-                    <StyledText size30 >Local creado exitosamente!</StyledText>
-                    <StyledButton text={"Regresar"} backgroundColor={colors.green400} onPress={() => setLocalCreado(false)}/>
-                </StyledScreenWrapper>
-            )}
+                    </View>
+                </ScrollView>
+            </StyledScreenWrapper>
         </>
     )
 }
