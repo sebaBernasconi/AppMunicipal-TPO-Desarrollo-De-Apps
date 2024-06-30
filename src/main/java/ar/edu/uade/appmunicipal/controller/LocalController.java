@@ -32,7 +32,7 @@ public class LocalController {
             @ApiResponse(responseCode = "201",description = "Se guardo un Local/Servicio en la base de datos",
             content = {@Content(mediaType = "MultipartFile",
             schema = @Schema(implementation = Local.class))}),
-            @ApiResponse(responseCode = "403",description = "No posee el JWT correcto",content = @Content)
+            @ApiResponse(responseCode = "403",description = "Conflicto con el servidor",content = @Content)
     })
     @PostMapping(value = "/agregar")
     public ResponseEntity<?>agregarLocal(@RequestPart LocalDTO localDTO, @RequestParam MultipartFile archivo){
@@ -49,7 +49,7 @@ public class LocalController {
                     @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Local.class))
             }),
-            @ApiResponse(responseCode = "403",description = "No posee el JWT correcto",content = @Content)
+            @ApiResponse(responseCode = "403",description = "Conflicto con el servidor",content = @Content)
     })
     @PutMapping(value = "/agregarPromocion/{id}/{promo}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Local>agregarPromocion(@PathVariable("id")Integer idLocal,
@@ -68,7 +68,7 @@ public class LocalController {
                     @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Local.class))
             }),
-            @ApiResponse(responseCode = "403",description = "No posee el JWT correcto",content = @Content)
+            @ApiResponse(responseCode = "403",description = "Conflicto con el servidor",content = @Content)
     })
     @PutMapping(value = "eliminarPromocion/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Local>eliminarPromocion(@PathVariable("id")Integer idLocal){
@@ -86,7 +86,7 @@ public class LocalController {
                     @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Local.class))
             }),
-            @ApiResponse(responseCode = "403",description = "No posee el JWT correcto",content = @Content)
+            @ApiResponse(responseCode = "403",description = "Conflicto con el servidor",content = @Content)
     })
     @GetMapping(value = "/listarLocales")
     public ResponseEntity<List<Local>>listarLocales(){
@@ -104,7 +104,7 @@ public class LocalController {
                     @Content(mediaType = "application/json",
                             schema = @Schema(implementation = Local.class))
             }),
-            @ApiResponse(responseCode = "403",description = "No posee el JWT correcto",content = @Content)
+            @ApiResponse(responseCode = "403",description = "Conflicto con el servidor",content = @Content)
     })
     @GetMapping(value = "/buscarLocal/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Local>buscarLocal(@PathVariable("id")Integer idLocal){
