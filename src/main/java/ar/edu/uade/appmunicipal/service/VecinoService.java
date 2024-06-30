@@ -18,11 +18,6 @@ public class VecinoService {
         return vecinoRepository.findAll();
     }
 
-      /*
-    public List<Vecino>listarVecinosPorBarrio(int codigoBarrio){
-        return vecinoRepository.findAllByBarrio(codigoBarrio);
-    }*/
-
     public Vecino buscarVecino(int dni){
         Optional<Vecino>vecino =vecinoRepository.findById(dni);
         return vecino.orElse(null);

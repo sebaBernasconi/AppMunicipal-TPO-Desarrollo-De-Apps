@@ -29,19 +29,6 @@ public class DenunciaService {
         return denunciaRepository.findAll();
     }
 
-    /*
-    public List<Denuncia>listarDenunciasPorVecino(int dni){
-        return denunciaRepository.findDenunciaByVecino(dni).orElse(null);
-    }
-
-    public List<Denuncia>listarDenunciaPorSitio(int idSitio){
-        return denunciaRepository.findDenunciaBySitio(idSitio).orElse(null);
-    }
-
-    public List<Denuncia>listarDenunciaPorEstado(String estado){
-        return denunciaRepository.findDenunciaByEstado(estado).orElse(null);
-    }*/
-
     public Denuncia buscarDenuncia(int idDenuncia){
         Optional<Denuncia>denuncia = denunciaRepository.findById(idDenuncia);
         return denuncia.orElse(null);
@@ -67,7 +54,7 @@ public class DenunciaService {
         denuncia.setVecino(vecinoOptional.get());
         denuncia.setSitio(nuevoSitio);
         denuncia.setDescripcion(denunciaDTO.getDescripcion());
-        denuncia.setEstado(denunciaDTO.getEstado());
+        denuncia.setEstado("Pendiente");
         denuncia.setAceptaResponsabilidad(denunciaDTO.isAceptaResponsabilidad());
         denuncia.setImagenDenuncia(imagenDenuncia);
 

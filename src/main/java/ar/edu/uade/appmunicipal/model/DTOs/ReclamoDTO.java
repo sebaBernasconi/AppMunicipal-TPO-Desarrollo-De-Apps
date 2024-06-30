@@ -1,10 +1,7 @@
 package ar.edu.uade.appmunicipal.model.DTOs;
 
 
-import ar.edu.uade.appmunicipal.model.Desperfecto;
-import ar.edu.uade.appmunicipal.model.PersonalMunicipal;
 import ar.edu.uade.appmunicipal.model.Sitio;
-import ar.edu.uade.appmunicipal.model.Vecino;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +16,10 @@ public class ReclamoDTO {
 
     private Integer idVecino;
 
-    private Integer idPersonalMunicipal;
-
     private Sitio sitio;
 
     private DesperfectoDTO desperfecto;
 
     private String descripcion;
-
-    private String estado;
 
 }

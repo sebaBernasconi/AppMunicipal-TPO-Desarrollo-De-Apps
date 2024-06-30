@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.controller;
 
+import ar.edu.uade.appmunicipal.model.Usuario;
 import ar.edu.uade.appmunicipal.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,11 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
+
     @Autowired
     UsuarioService usuarioService;
 
-    @PostMapping("/subirImagenPerfil")
-    public ResponseEntity<?> subirImagenPerfil(@RequestParam String dni, @RequestParam MultipartFile archivo) {
+    @PostMapping("/subirImagenPerfil/{dni}")
+    public ResponseEntity<?> subirImagenPerfil(@PathVariable String dni, @RequestParam MultipartFile archivo) {
         try {
             byte[] imagen = archivo.getBytes();
             this.usuarioService.subirImagenPerfil(dni, imagen);
@@ -40,6 +42,15 @@ public class UsuarioController {
             e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
 
+    @GetMapping("/get/{dni}")
+    public ResponseEntity<?> getUsuario(@PathVariable String dni) {
+        Usuario user = this.usuarioService.getUsuario(dni);
+        if (user != null) {
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Usuario con dni: " + dni + " no se encuentra en la BD",
+                HttpStatus.NOT_FOUND);
     }
 }

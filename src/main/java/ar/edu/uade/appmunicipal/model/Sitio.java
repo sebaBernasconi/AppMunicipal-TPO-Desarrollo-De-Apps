@@ -27,11 +27,11 @@ public class Sitio {
 
     @Schema(description = "Latitud del Sitio", requiredMode = Schema.RequiredMode.AUTO)
     @Column(name = "latitud")
-    private int latitud;
+    private float latitud;
 
     @Schema(description = "Longitud del Sitio", requiredMode = Schema.RequiredMode.AUTO)
     @Column(name = "longitud")
-    private int longitud;
+    private float longitud;
 
     @Schema(description = "Calle del Sitio", requiredMode = Schema.RequiredMode.REQUIRED,example = "Lima")
     @Column(name = "calle")

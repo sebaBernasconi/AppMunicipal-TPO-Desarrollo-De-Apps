@@ -2,12 +2,14 @@ package ar.edu.uade.appmunicipal.service;
 
 import ar.edu.uade.appmunicipal.model.Usuario;
 import ar.edu.uade.appmunicipal.repository.UsuarioRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UsuarioService {
 
@@ -33,6 +35,11 @@ public class UsuarioService {
         } else {
             return null;
         }
+    }
+
+    public Usuario getUsuario(String dni){
+        Optional<Usuario> userOp = usuarioRepository.findUsuarioByDni(dni);
+        return userOp.orElse(null);
     }
 
     private boolean checkPassword(String password, String passwordDB) {

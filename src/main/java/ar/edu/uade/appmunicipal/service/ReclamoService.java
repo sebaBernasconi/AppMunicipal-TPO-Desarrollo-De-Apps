@@ -42,15 +42,9 @@ public class ReclamoService {
 
     public Reclamo guardarReclamo(ReclamoDTO reclamoDTO, MultipartFile archivo) throws Exception {
         Optional<Vecino> vecinoOptional = vecinoRepository.findById(reclamoDTO.getIdVecino());
-        Optional<PersonalMunicipal> personalMunicipalOptional =
-                personalMunicipalRepository.findById(reclamoDTO.getIdPersonalMunicipal());
 
         if (vecinoOptional.isEmpty()) {
             throw new Exception("No se encontro un vecino con ese DNI");
-        }
-
-        if (personalMunicipalOptional.isEmpty()) {
-            throw new Exception("No se encontro un empleado municipal con ese DNI");
         }
 
         if (archivo.isEmpty()) {
@@ -65,11 +59,10 @@ public class ReclamoService {
         Reclamo reclamo = new Reclamo();
 
         reclamo.setVecino(vecinoOptional.get());
-        reclamo.setPersonalMunicipal(personalMunicipalOptional.get());
         reclamo.setSitio(nuevoSitio);
         reclamo.setDesperfecto(nuevoDesperfecto);
         reclamo.setDescripcion(reclamoDTO.getDescripcion());
-        reclamo.setEstado(reclamoDTO.getEstado());
+        reclamo.setEstado("Pendiente");
         reclamo.setImagenReclamo(imagenReclamo);
 
         return reclamoRepository.save(reclamo);

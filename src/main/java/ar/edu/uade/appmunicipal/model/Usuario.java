@@ -1,6 +1,7 @@
 package ar.edu.uade.appmunicipal.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
@@ -8,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Base64;
 
 @Entity
 @Table(name = "usuarios")
@@ -27,8 +30,15 @@ public class Usuario {
     private String tipoUsuario;
 
     @Lob
-    @Nullable
     @JsonIgnore
     @Column(columnDefinition = "LONGBLOB")
     private byte[] imagenPerfil;
+
+    @JsonProperty("imagenPerfil")
+    public String getImagenLocalBase64() {
+        if (imagenPerfil == null) {
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(this.imagenPerfil);
+    }
 }
