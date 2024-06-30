@@ -82,4 +82,15 @@ public class ReclamoService {
         reclamoRepository.save(reclamoParaActualizar.orElse(null));
         return reclamoParaActualizar.orElse(null);
     }
+
+    public List<Reclamo>obtenerReclamosDeUnVecino(Integer dni){
+        Optional<Vecino> vecinoOptional = vecinoRepository.findById(dni);
+        if (vecinoOptional != null){
+            List<Reclamo>reclamosDelVecino = reclamoRepository.findAllByVecino(vecinoOptional.get());
+            return reclamosDelVecino;
+        }else {
+            return null;
+        }
+
+    }
 }

@@ -69,4 +69,15 @@ public class DenunciaService {
 
         return denunciaParaActualizar.orElse(null);
     }
+
+    public List<Denuncia>obtenerDenunciasDeUnVecino(Integer dni){
+        Optional<Vecino>vecinoOptional = vecinoRepository.findById(dni);
+
+        if (vecinoOptional != null){
+            List<Denuncia>denunciasDelVecino = denunciaRepository.findAllByVecino(vecinoOptional.get());
+            return denunciasDelVecino;
+        }else {
+            return null;
+        }
+    }
 }
