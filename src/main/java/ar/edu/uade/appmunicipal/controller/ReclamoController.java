@@ -1,6 +1,7 @@
 package ar.edu.uade.appmunicipal.controller;
 
 import ar.edu.uade.appmunicipal.model.DTOs.ReclamoDTO;
+import ar.edu.uade.appmunicipal.model.Denuncia;
 import ar.edu.uade.appmunicipal.model.PersonalMunicipal;
 import ar.edu.uade.appmunicipal.model.Reclamo;
 import ar.edu.uade.appmunicipal.service.ReclamoService;
@@ -116,6 +117,24 @@ public class ReclamoController {
             return new ResponseEntity<>(reclamoBuscado,HttpStatus.OK);
         }catch (EmptyResultDataAccessException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Operation(summary = "Obtener los Reclamos de un Vecino")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Listado de los Reclamos del Vecino recuperado",content = {
+                    @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Reclamo.class))
+            }),
+            @ApiResponse(responseCode = "204", description = "No contenet. El vecino no realizo ningun Reclamo")
+    })
+    @GetMapping(value = "/listarPorVecino/{dni}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<Reclamo>>listarPorVecino(@PathVariable("dni") Integer dni){
+        try {
+            List<Reclamo>reclamosDelVecino = reclamoService.obtenerReclamosDeUnVecino(dni);
+            return new ResponseEntity<>(reclamosDelVecino,HttpStatus.OK);
+        }catch (EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }

@@ -2,9 +2,7 @@ package ar.edu.uade.appmunicipal.controller;
 
 import ar.edu.uade.appmunicipal.model.DTOs.DenunciaDTO;
 import ar.edu.uade.appmunicipal.model.Denuncia;
-import ar.edu.uade.appmunicipal.model.Reclamo;
 import ar.edu.uade.appmunicipal.service.DenunciaService;
-import io.jsonwebtoken.security.PublicJwk;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -109,7 +106,7 @@ public class DenunciaController {
                     @Content(mediaType = "application/json",
                     schema = @Schema(implementation = Denuncia.class))
             }),
-            @ApiResponse(responseCode = "204", description = "No contenet. El vecino no realizo ninguna denuncia")
+            @ApiResponse(responseCode = "204", description = "No contenet. El vecino no realizo ninguna Denuncia")
     })
     @GetMapping(value = "/listarPorVecino/{dni}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<List<Denuncia>>listarPorVecino(@PathVariable("dni")Integer dni){
