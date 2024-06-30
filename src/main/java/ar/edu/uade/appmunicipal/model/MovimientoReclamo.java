@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import java.sql.Date;
 
+@Schema(description = "MovimientoReclamo Model")
 @Entity
 @Table(name = "movimientos_reclamos")
 
@@ -17,22 +19,27 @@ import java.sql.Date;
 @NoArgsConstructor //Constructor vacio para la persistencia
 public class MovimientoReclamo {
 
+    @Schema(description = "Id del MovimentoReclamo", requiredMode = Schema.RequiredMode.AUTO)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_movimiento")
     private Integer idMovimiento;
 
+    @Schema(description = "Reclamo asociado al Movimiento",requiredMode = Schema.RequiredMode.AUTO)
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name ="id_reclamo")
     private Reclamo reclamo;
 
+    @Schema(description = "PersonalMunicipal Responsable del Movimiento",requiredMode = Schema.RequiredMode.AUTO)
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "responsable")
     private PersonalMunicipal personalMunicipal;
 
+    @Schema(description = "Causa del MovimientoReclamo",requiredMode = Schema.RequiredMode.REQUIRED,example = "El reclamo fue finalizado")
     @Column(name = "causa")
     private String causa;
 
+    @Schema(description = "Fecha en la que se realizo el Movimiento", requiredMode = Schema.RequiredMode.AUTO)
     @Column(name = "fecha_movimiento")
     private Date fechaMovimiento;
 
