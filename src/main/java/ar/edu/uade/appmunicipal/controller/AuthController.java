@@ -6,6 +6,10 @@ import ar.edu.uade.appmunicipal.model.UsuarioDTO;
 import ar.edu.uade.appmunicipal.service.UsuarioService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +23,7 @@ import java.util.Date;
 @CrossOrigin
 @RestController
 @RequestMapping("/auth")
+@Tag(name = "Gestion de Seguridad",description = "Endpoints de Login")
 public class AuthController {
 
     private final int EXPIRATION_TIME_IN_MIN = 60;
@@ -29,6 +34,11 @@ public class AuthController {
     @Autowired
     private SecretKey secretKey; // Inyecta la clave secreta
 
+    @Operation(summary = "Iniciar Sesion")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Sesion iniciada"),
+            @ApiResponse(responseCode = "401",description = "Sin autorizacion")
+    })
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody UsuarioDTO credentials) {
         // Validar las credenciales aquí (puedes usar Spring Security u otros
@@ -49,6 +59,11 @@ public class AuthController {
         }
     }
 
+    @Operation(summary = "Cambiar contraseña")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Contraseña modificada con exito"),
+            @ApiResponse(responseCode = "403",description = "Conflicto con el servidor")
+    })
     @PatchMapping("/changePassword")
     public ResponseEntity<String> changePass(@RequestBody UsuarioCambioPasswordDTO userDTO) {
         Usuario usuario = this.usuarioService.findUsuario(userDTO.getDni(), userDTO.getOldPassword());
