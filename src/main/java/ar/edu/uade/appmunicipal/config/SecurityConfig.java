@@ -25,7 +25,7 @@ public class SecurityConfig {
         // 'HttpSecurity' analiza cada solicitud http que es enviada a nuestra aplicacion
         http.authorizeHttpRequests(
                         (authz) -> authz
-                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .requestMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuth(), UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
