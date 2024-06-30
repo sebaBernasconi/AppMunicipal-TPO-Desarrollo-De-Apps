@@ -41,7 +41,7 @@ public class Local {
     @JoinColumn(name = "id_rubro")
     private Rubro rubro;
 
-    @Schema(description = "Promocion del Local/Servicio",requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+    @Schema(description = "Promocion del Local/Servicio",requiredMode = Schema.RequiredMode.NOT_REQUIRED,example = "10% de descuento en efectivo")
     @Column(name = "promocion")
     private String promocion;
 
