@@ -4,6 +4,7 @@ import ar.edu.uade.appmunicipal.model.DTOs.DenunciaDTO;
 import ar.edu.uade.appmunicipal.model.Denuncia;
 import ar.edu.uade.appmunicipal.model.Reclamo;
 import ar.edu.uade.appmunicipal.service.DenunciaService;
+import io.jsonwebtoken.security.PublicJwk;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -92,13 +93,31 @@ public class DenunciaController {
             }),
             @ApiResponse(responseCode = "403",description = "Conflicto con el servidor",content = {@Content})
     })
-    @GetMapping(value = "buscarPorId/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/buscarPorId/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Denuncia>buscarDenunciaPorId(@PathVariable("id")Integer idDenuncia){
         try {
             Denuncia denunciaEncontrada = denunciaService.buscarDenuncia(idDenuncia);
             return new ResponseEntity<>(denunciaEncontrada, HttpStatus.OK);
         }catch (EmptyResultDataAccessException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Operation(summary = "Obtener las Denuncias de un Vecino")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Listado de las Denuncias del Vecino recuperado",content = {
+                    @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = Denuncia.class))
+            }),
+            @ApiResponse(responseCode = "204", description = "No contenet. El vecino no realizo ninguna denuncia")
+    })
+    @GetMapping(value = "/listarPorVecino/{dni}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<Denuncia>>listarPorVecino(@PathVariable("dni")Integer dni){
+        try {
+            List<Denuncia>denunciasDelVecino = denunciaService.obtenerDenunciasDeUnVecino(dni);
+            return new ResponseEntity<>(denunciasDelVecino,HttpStatus.OK);
+        }catch (EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 }
