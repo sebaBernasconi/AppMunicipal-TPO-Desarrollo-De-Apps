@@ -1,4 +1,4 @@
-import {Image, Pressable, ScrollView, StyleSheet, View} from "react-native";
+import {Alert, Image, Pressable, ScrollView, StyleSheet, View} from "react-native";
 import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import InputForm from "../components/InputForm";
 import React, {useEffect, useState} from "react";
@@ -13,6 +13,8 @@ import * as Location from "expo-location";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import * as FileSystem from "expo-file-system";
 import {ipLocal} from "../global/ipLocal";
+import * as Network from "expo-network";
+import {guardarDenuncia} from "../db";
 
 export default function GenerarDenunciaScreen({navigation}) {
 
@@ -94,7 +96,38 @@ export default function GenerarDenunciaScreen({navigation}) {
         console.log(location)
     }, []);
 
-    async function handleSumbit(){
+    async function handleSubmit() {
+        const network = Network.getNetworkStateAsync()
+        const networkType = (await network).type
+        if (networkType === Network.NetworkStateType.NONE) {
+            Alert.alert("Sin conexion a internet", "No tienes conexion WIFI o celular. Deseas guardar la denucnia para ser mandada una vez se renaude la conexion?", [
+                {
+                    text: "NO",
+                    onPress: () => navigation.goBack(),
+                },
+                {
+                    text: "SI",
+                    onPress: () => guardarDenunciaBD(),
+                }
+            ])
+            resetForm()
+            return;
+        }
+        if (networkType === Network.NetworkStateType.CELLULAR) {
+            Alert.alert("Estas usando datos", "Estas usando red celular. Deseas subir el reclamo con esta red? (Sino el reclamo se guardara para ser mandado una vez se renaude la conexion)", [
+                {
+                    text: "NO",
+                    onPress: () => guardarReclamoBD()
+                },
+                {
+                    text: "SI",
+                    onPress: () => guardarDenunciaNow()
+                }
+            ])
+        }
+    }
+
+    async function guardarDenunciaNow(){
         const idVecino = dni
 
         const latitud = location.latitude
@@ -141,6 +174,31 @@ export default function GenerarDenunciaScreen({navigation}) {
             console.error(error)
         }
     }
+
+    function guardarDenunciaBD() {
+        guardarDenuncia({
+            dni: dni,
+            descripcion: descripcion,
+            descripcionSitio: descripcionSitio,
+            calle: calle,
+            nroCalle: nroCalle,
+            entreCalleA: entreCalleA,
+            entreCalleB: entreCalleB,
+            fechaApertura: fechaApertura,
+            fechaCierre: fechaCierre,
+            image: image,
+            latitud: location.latitude,
+            longitud: location.longitude,
+            comentarios: comentarios
+        })
+        Alert.alert("Denuncia guardada", "La Denuncia se ha guardado en la base de datos exitosamente", [
+            {
+                text: "OK",
+                onPress: () => navigation.goBack(),
+            }
+        ]);
+    }
+
     return (
         <StyledScreenWrapper no_padding_top>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -241,7 +299,7 @@ export default function GenerarDenunciaScreen({navigation}) {
                     </View>
 
                     <View style={styles.botonAceptar}>
-                        <StyledButton text={"Denunciar"} backgroundColor={colors.orange500} onPress={() => handleSumbit()}/>
+                        <StyledButton text={"Denunciar"} backgroundColor={colors.orange500} onPress={() => handleSubmit()}/>
                     </View>
                 </View>
             </ScrollView>
