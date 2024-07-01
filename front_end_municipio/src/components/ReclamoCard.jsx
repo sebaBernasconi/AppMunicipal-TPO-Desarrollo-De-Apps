@@ -7,7 +7,6 @@ import {MaterialIcons} from "@expo/vector-icons";
 
 export default function ReclamoCard({reclamo, navigation}) {
 
-    console.log(reclamo)
     const {idReclamo, sitio, estado, descripcion} = {...reclamo}
 
     function getColorEstado(estado) {

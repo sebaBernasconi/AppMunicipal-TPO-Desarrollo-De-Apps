@@ -24,7 +24,6 @@ export default function Login({navigation}) {
 
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         if (result === "ERROR") {
             setGlobalError(true)
@@ -56,6 +55,10 @@ export default function Login({navigation}) {
             }
         }
     };
+
+    function handleGuest() {
+        dispatch(setUser({dni: -1}))
+    }
 
     async function login() {
         try {
@@ -112,7 +115,7 @@ export default function Login({navigation}) {
                         <StyledButton
                             text={"Continuar como invitado"}
                             no_margin_vertical
-                            onPress={onSubmit}
+                            onPress={() => handleGuest()}
                             text_white
                             backgroundColor={colors.grey400}
                         />

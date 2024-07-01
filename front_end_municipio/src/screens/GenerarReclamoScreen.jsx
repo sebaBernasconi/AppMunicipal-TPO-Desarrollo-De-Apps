@@ -1,4 +1,4 @@
-import {Image, Pressable, ScrollView, StyleSheet, View} from "react-native";
+import {Alert, Image, Pressable, ScrollView, StyleSheet, View} from "react-native";
 import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import InputForm from "../components/InputForm";
 import React, {useEffect, useState} from "react";
@@ -13,6 +13,8 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import * as Location from "expo-location";
+import * as Network from "expo-network";
+import {guardarReclamo} from "../db";
 
 export default function GenerarReclamoScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -21,20 +23,36 @@ export default function GenerarReclamoScreen({navigation}) {
     const [descripcionSitio, setDescripcionSitio] = useState("");
     const [descripcionDesperfecto, setDescripcionDesperfecto] = useState("");
     const [calle, setCalle] = useState("");
-    const [nroCalle, setNroCalle] = useState("");
+    const [nroCalle, setNroCalle] = useState(0);
     const [entreCalleA, setEntreCalleA] = useState("");
     const [entreCalleB, setEntreCalleB] = useState("");
     const [fechaApertura, setFechaApertura] = useState("");
     const [fechaCierre, setFechaCierre] = useState("");
     const [comentarios, setComentarios] = useState("");
-    const [idRubro, setIdRubro] = useState("");
+    const [idRubro, setIdRubro] = useState(0);
 
     const [image, setImage] = useState(null);
     const [imageName, setImageName] = useState("");
 
-    const [location, setLocation] = useState({ latitude: "", longitude: "" });
+    const [location, setLocation] = useState({latitude: "", longitude: ""});
 
     const [checked, setChecked] = useState(false);
+
+    useEffect(() => {
+        async function getLocation() {
+            const {status} = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                return;
+            }
+            let location = await Location.getCurrentPositionAsync();
+            setLocation({
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+            })
+        }
+
+        getLocation()
+    }, []);
 
     const verifyCameraPermissions = async () => {
         const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -75,37 +93,58 @@ export default function GenerarReclamoScreen({navigation}) {
         setIdRubro("");
         setImage(null);
         setImageName("");
-        setLocation({ latitude: "", longitude: "" });
+        setLocation({latitude: "", longitude: ""});
         setChecked(false)
     };
 
-    useEffect(() => {
-        async function getLocation() {
-            const {status} = await Location.requestForegroundPermissionsAsync();
-            console.log(status)
-            if (status !== "granted") {
-                return;
-            }
-            let location = await Location.getCurrentPositionAsync();
-            setLocation({
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-            })
+    async function handleSubmit() {
+        const network = Network.getNetworkStateAsync()
+        const networkType = (await network).type
+        if (networkType === Network.NetworkStateType.NONE) {
+            Alert.alert("Sin conexion a internet", "No tienes conexion WIFI o celular. Deseas guardar el reclamo para ser mandado una vez se renaude la conexion?", [
+                {
+                    text: "NO",
+                    onPress: () => navigation.goBack(),
+                },
+                {
+                    text: "SI",
+                    onPress: () => guardarReclamoBD(),
+                }
+            ])
+            resetForm()
+            return;
         }
-        getLocation()
-        console.log(location)
-    }, []);
+        if (networkType === Network.NetworkStateType.CELLULAR) {
+            Alert.alert("Estas usando datos", "Estas usando red celular. Deseas subir el reclamo con esta red? (Sino el reclamo se guardara para ser mandado una vez se renaude la conexion)", [
+                {
+                    text: "NO",
+                    onPress: () => guardarReclamoBD()
+                },
+                {
+                    text: "SI",
+                    onPress: () => guardarReclamoNow()
+                }
+            ])
+        }
+    }
 
-    async function handleSumbit() {
-        const idVecino = dni
-
-        const latitud = location.latitude
-        const longitud = location.longitude
-        const sitio = {latitud, longitud, calle, nroCalle, entreCalleA, entreCalleB, descripcion: descripcionSitio, fechaApertura, fechaCierre, comentarios}
+    async function guardarReclamoNow() {
+        const sitio = {
+            latitud: location.latitude,
+            longitud: location.longitude,
+            calle,
+            nroCalle,
+            entreCalleA,
+            entreCalleB,
+            descripcion: descripcionSitio,
+            fechaApertura,
+            fechaCierre,
+            comentarios
+        }
 
         const desperfecto = {idRubro, descripcion: descripcionDesperfecto}
 
-        const reclamo = {idVecino, sitio, desperfecto, descripcion}
+        const reclamo = {idVecino: dni, sitio, desperfecto, descripcion}
         const formData = new FormData();
 
         formData.append("reclamoDTO", {"string": JSON.stringify(reclamo), type: "application/json"});
@@ -138,10 +177,35 @@ export default function GenerarReclamoScreen({navigation}) {
             resetForm()
             navigation.navigate("ReclamoConfirmado")
             console.log(data)
-        }
-        catch (error) {
+        } catch (error) {
             console.error(error)
         }
+    }
+
+    function guardarReclamoBD() {
+        guardarReclamo({
+            dni: dni,
+            descripcion: descripcion,
+            descripcionSitio: descripcionSitio,
+            descripcionDesperfecto: descripcionDesperfecto,
+            calle: calle,
+            nroCalle: nroCalle,
+            entreCalleA: entreCalleA,
+            entreCalleB: entreCalleB,
+            fechaApertura: fechaApertura,
+            fechaCierre: fechaCierre,
+            idRubro: idRubro,
+            image: image,
+            latitud: location.latitude,
+            longitud: location.longitude,
+            comentarios: comentarios
+        })
+        Alert.alert("Reclamo guardado", "El reclamo se ha guardado en la base de datos exitosamente", [
+            {
+                text: "OK",
+                onPress: () => navigation.goBack(),
+            }
+        ]);
     }
 
     return (
@@ -248,7 +312,8 @@ export default function GenerarReclamoScreen({navigation}) {
                     </View>
 
                     <View style={styles.botonAceptar}>
-                        <StyledButton text={"Reclamar"} backgroundColor={colors.blue400} onPress={() => handleSumbit()}/>
+                        <StyledButton text={"Reclamar"} backgroundColor={colors.blue400}
+                                      onPress={() => handleSubmit()}/>
                     </View>
                 </View>
             </ScrollView>

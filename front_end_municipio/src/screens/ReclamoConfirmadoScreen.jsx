@@ -18,7 +18,7 @@ export default function ReclamoConfirmadoScreen({navigation}) {
                     gap: 20,
                     borderRadius: 10
                 }}>
-                    <StyledText size30>Reclamo Confirmada!</StyledText>
+                    <StyledText size30>Reclamo Confirmado!</StyledText>
                     <StyledText size20>Tu reclamo ya fue enviada, será antendido con brevedad por nuestros
                         agentes. </StyledText>
                     <StyledText size20 bold>Gracias!</StyledText>

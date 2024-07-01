@@ -11,17 +11,12 @@ import emptyImage from "../../assets/images/empty-blue.png";
 import {colors} from "../global/colors";
 
 export default function HomeScreen({navigation}) {
-
     const [data, setData] = useState([])
-    const {jwt} = useSelector((state) => state.authReducer.value)
 
     async function getLocales() {
         try {
             const response = await fetch(`http://${ipLocal}:8080/servicios/listarLocales`, {
                 method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${jwt}`
-                }
             })
             if (!response.ok) {
                 throw new Error("Error en el fetch de locales")
