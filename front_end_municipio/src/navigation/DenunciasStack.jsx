@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import DenunciasScreen from "../screens/DenunciasScreen";
 import Header from "../components/Header";
 import {colors} from "../global/colors";
+import DetalleDenunciaScreen from "../screens/DetalleDenunciaScreen";
 
 export default function DenunciasStack() {
     const Stack = createNativeStackNavigator();
@@ -16,6 +17,15 @@ export default function DenunciasStack() {
                 options={{
                     header: () => (
                         <Header color={colors.orange500} title={"Denuncias"}/>
+                    )
+                }}
+            />
+            <Stack.Screen
+                name={"DetalleDenuncia"}
+                component={DetalleDenunciaScreen}
+                options={{
+                    header: () => (
+                        <Header color={colors.orange500} title={"Denuncia"}/>
                     )
                 }}
             />

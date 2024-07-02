@@ -10,7 +10,7 @@ import {colors} from "../global/colors";
 import emptyImage from "../../assets/images/empty-orange.png"
 import {setNotificarDenuncia} from "../features/auth/authSlice";
 
-export default function DenunciasScreen({navigation, route}) {
+export default function DenunciasScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
     const [denuncias, setDenuncias] = useState([])
 
