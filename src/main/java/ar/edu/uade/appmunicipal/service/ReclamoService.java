@@ -76,6 +76,13 @@ public class ReclamoService {
         return reclamoParaActualizar.orElse(null);
     }
 
+    public Reclamo actualizarMovmientos(Integer idReclamo, MovimientoReclamo movimientoReclamo){
+        Optional<Reclamo>reclamoOptional = reclamoRepository.findById(idReclamo);
+        List<MovimientoReclamo>movimientosDelReclamo = reclamoOptional.orElse(null).getMovimientosDelReclamo();
+        movimientosDelReclamo.add(movimientoReclamo);
+        return reclamoRepository.save(reclamoOptional.orElse(null));
+    }
+
     public Reclamo asignarPersonalMunicipal(Integer idReclamo, PersonalMunicipal personalMunicipal){
         Optional<Reclamo>reclamoParaActualizar = reclamoRepository.findById(idReclamo);
         reclamoParaActualizar.orElse(null).asignarPersonalMunicipal(personalMunicipal);
