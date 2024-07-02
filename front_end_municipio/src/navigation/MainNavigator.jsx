@@ -5,7 +5,7 @@ import {NavigationContainer} from "@react-navigation/native";
 import TabNavigation from "./TabNavigation";
 import {useDispatch, useSelector} from "react-redux";
 import {navigationRef} from "./RootNavigation";
-import {fetchSession, getReclamosGuardados} from "../db";
+import {fetchSession, getDenunciasGuardadas, getReclamosGuardados} from "../db";
 import {setUser} from "../features/auth/authSlice";
 import {ipLocal} from "../global/ipLocal";
 import * as FileSystem from "expo-file-system";
@@ -102,6 +102,81 @@ export default function MainNavigator() {
                 }
             }
         })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const denuncias = await getDenunciasGuardadas()
+            if (denuncias ?.rows.length){
+                const networkStatus = await Network.getNetworkStateAsync()
+                if (networkStatus.type !== Network.NetworkStateType.WIFI){
+                    return;
+                }
+
+                for (let i = 0; i < denuncias.rows.length; i ++){
+                    const denuncia = denuncias.rows._array[i]
+                    const sitio = {
+                        latitud: denuncia.latitud,
+                        longitud: denuncia.longitud,
+                        calle: denuncia.calle,
+                        nroCalle: denuncia.nroCalle,
+                        entreCalleA: denuncia.entreCalleA,
+                        entreCalleB: denuncia.entreCalleB,
+                        descripcion: denuncia.descripcionSitio,
+                        fechaApertura: denuncia.fechaApertura,
+                        fechaCierre: denuncia.fechaCierre,
+                        comentarios: denuncia.comentarios
+                    }
+                    const idVecino = denuncia.dni
+                    const descripcion = denuncia.descripcion
+
+                    const denunciaDTO = {idVecino,sitio,descripcion}
+
+                    const formData = new FormData();
+
+                    formData.append("denunciaDTO", {"string": JSON.stringify(denunciaDTO), type: "application/json"})
+
+                    const fileInfo = await FileSystem.getInfoAsync(denuncia.image);
+                    const fileUri = fileInfo.uri;
+                    const fileType = fileUri.substring(fileUri.lastIndexOf('.') + 1);
+
+                    formData.append("archivo",{
+                        uri: fileUri,
+                        name: fileUri.substring(fileUri.lastIndexOf('/') + 1, fileUri.length),
+                        type: `image${fileType}`
+                    });
+
+                    try {
+                        const response = await fetch(`http://${ipLocal}:8080/denuncias/agregar`,{
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "multipart/form-data",
+                                "Authorization": `Bearer ${jwt}`
+                            },
+                            body: formData
+                        })
+
+                        if (!response.ok){
+                            throw new Error(await response.text())
+                        }
+
+                        const data = await response.json();
+                        Alert.alert("Denuncia enviada","La denuncia guardada localmente se ha enviado",[
+                            {
+                                text: "OK",
+                            }
+                        ])
+
+                        console.log("DENUNCIA GUARDADA")
+                        console.log(data)
+                    }catch (error){
+                        console.error(error)
+                    }
+                }
+            }
+
+        })();
+
     }, []);
 
     return (
