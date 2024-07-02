@@ -8,32 +8,31 @@ export default function DetalleDenunciaScreen({route}) {
     const {denuncia} = route.params;
     const base64ImagePrefix = 'data:image/jpeg;base64,';
 
-    console.log(denuncia)
     return (
         <StyledScreenWrapper no_padding_top>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.container}>
-                    <StyledText color={colors.orange500}>Id Denuncia</StyledText>
+                    <StyledText style={styles.orange}>Id Denuncia</StyledText>
                     <StyledText size20>{denuncia.idDenuncia}</StyledText>
                 </View>
 
                 <View style={styles.container}>
-                    <StyledText color={colors.orange500}>DNI</StyledText>
+                    <StyledText style={styles.orange}>DNI</StyledText>
                     <StyledText size20>{denuncia.vecino.dni}</StyledText>
                 </View>
 
                 <View style={styles.container}>
-                    <StyledText color={colors.orange500}>Descripcion</StyledText>
+                    <StyledText style={styles.orange}>Descripcion</StyledText>
                     <StyledText size20>{denuncia.descripcion}</StyledText>
                 </View>
 
                 <View style={styles.container}>
-                    <StyledText color={colors.orange500}>Estado</StyledText>
+                    <StyledText style={styles.orange}>Estado</StyledText>
                     <StyledText size20>{denuncia.estado}</StyledText>
                 </View>
 
                 <View style={styles.container}>
-                    <StyledText color={colors.orange500}>Ubicacion</StyledText>
+                    <StyledText style={styles.orange}>Ubicacion</StyledText>
                     <StyledText size20>Calle: {denuncia.sitio.calle}</StyledText>
                     <StyledText size20>Nro Calle: {denuncia.sitio.nroCalle}</StyledText>
                     <StyledText size20>Entre calle A: {denuncia.sitio.entreCalleA}</StyledText>
@@ -42,7 +41,7 @@ export default function DetalleDenunciaScreen({route}) {
                 </View>
 
                 <View style={styles.container}>
-                    <StyledText color={colors.orange500}>Imagen</StyledText>
+                    <StyledText style={styles.orange}>Imagen</StyledText>
                     <Image style={styles.imagen} source={{uri: `${base64ImagePrefix}${denuncia.imagenDenuncia}`}}/>
                 </View>
             </ScrollView>
@@ -62,5 +61,8 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         margin: 10,
         elevation: 5
+    },
+    orange: {
+        color: colors.orange500
     }
 })
