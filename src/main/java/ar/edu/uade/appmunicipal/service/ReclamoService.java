@@ -92,7 +92,7 @@ public class ReclamoService {
 
     public List<Reclamo>obtenerReclamosDeUnVecino(Integer dni){
         Optional<Vecino> vecinoOptional = vecinoRepository.findById(dni);
-        if (vecinoOptional != null){
+        if (vecinoOptional.isPresent()){
             List<Reclamo>reclamosDelVecino = reclamoRepository.findAllByVecino(vecinoOptional.get());
             return reclamosDelVecino;
         }else {

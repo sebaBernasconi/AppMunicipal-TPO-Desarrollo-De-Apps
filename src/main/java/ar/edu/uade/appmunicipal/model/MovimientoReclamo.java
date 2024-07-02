@@ -1,5 +1,6 @@
 package ar.edu.uade.appmunicipal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,6 +40,7 @@ public class MovimientoReclamo {
     @Column(name = "causa")
     private String causa;
 
+    @JsonIgnore
     @Schema(description = "Fecha en la que se realizo el Movimiento", requiredMode = Schema.RequiredMode.AUTO)
     @Column(name = "fecha_movimiento")
     private Date fechaMovimiento;

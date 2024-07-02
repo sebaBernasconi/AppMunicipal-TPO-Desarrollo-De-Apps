@@ -15,17 +15,6 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
-
-    public Usuario createUsuario(Usuario newUsuario) throws Exception {
-        Optional<Usuario> usuarioOp = this.usuarioRepository.findUsuarioByDni(newUsuario.getDni());
-        if (usuarioOp.isPresent()) {
-            throw new Exception("El usuario que esta intentando crear ya se encuentra en la base de datos");
-        }
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = bCryptPasswordEncoder.encode(newUsuario.getPassword());
-        newUsuario.setPassword(encodedPassword);
-        return this.usuarioRepository.save(newUsuario);
-    }
     
     public Usuario findUsuario(String dni, String password){
         Optional<Usuario> userOp = usuarioRepository.findUsuarioByDni(dni);
