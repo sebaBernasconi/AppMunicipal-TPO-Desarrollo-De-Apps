@@ -1,17 +1,20 @@
 import {FlatList, Image, StyleSheet, Text, View} from 'react-native'
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import ReclamoCard from "../components/ReclamoCard.jsx";
 import {useFocusEffect} from "@react-navigation/native";
 import {ipLocal} from "../global/ipLocal";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import StyledText from "../styledComponents/StyledText";
 import emptyImage from "../../assets/images/empty-blue.png";
 import {colors} from "../global/colors";
+import {setNotificarDenuncia, setNotificarReclamo} from "../features/auth/authSlice";
 
-export default function ReclamosScreen({navigation}) {
-    const {jwt} = useSelector((state) => state.authReducer.value)
+export default function ReclamosScreen({navigation, route}) {
+    const {dni, jwt} = useSelector((state) => state.authReducer.value)
     const [reclamos, setReclamos] = useState([])
+
+    const dispatch = useDispatch();
 
     async function getReclamos() {
         try {
@@ -38,6 +41,43 @@ export default function ReclamosScreen({navigation}) {
             getReclamos()
         },[])
     )
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await fetch(`http://${ipLocal}:8080/usuarios/get/${dni}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${jwt}`
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error(await response.text())
+                }
+                const user = await response.json();
+                if (user.cambiosEnReclamos) {
+                    try {
+                        const responsePost = await fetch(`http://${ipLocal}:8080/usuarios/actualizarCambioReclamo`, {
+                            method: 'POST',
+                            headers: {
+                                "Authorization": `Bearer ${jwt}`
+                            },
+                            body: dni
+                        })
+                        if (!responsePost.ok) {
+                            throw new Error(await response.text())
+                        }
+                        dispatch(setNotificarReclamo(false))
+                    }
+                    catch (err) {
+                        console.error(err)
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        })();
+    }, []);
 
     if (!reclamos.length) {
         return (

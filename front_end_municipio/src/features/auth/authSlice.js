@@ -8,7 +8,9 @@ export const authSlice = createSlice({
             jwt: null,
             imageCamera: null,
             profileImage: null,
-            userWaitingConfirmation: false
+            userWaitingConfirmation: false,
+            notificarReclamo: false,
+            notificarDenuncia: false
         },
     },
     reducers: {
@@ -45,10 +47,22 @@ export const authSlice = createSlice({
                 localId: null,
                 profileImage: null,
             }
+        },
+        setNotificarReclamo: (state, action) => {
+            state.value = {
+                ...state.value,
+                notificarReclamo: action.payload,
+            }
+        },
+        setNotificarDenuncia: (state, action) => {
+            state.value = {
+                ...state.value,
+                notificarDenuncia: action.payload,
+            }
         }
     },
 });
 
-export const { setUser, clearUser, setCameraImage, setProfileImage, logout, setUserWaitingConfirmation } = authSlice.actions;
+export const { setUser, clearUser, setCameraImage, setProfileImage, logout, setUserWaitingConfirmation, setNotificarReclamo, setNotificarDenuncia } = authSlice.actions;
 
 export default authSlice.reducer;

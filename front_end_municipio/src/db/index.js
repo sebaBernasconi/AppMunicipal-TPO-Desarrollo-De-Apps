@@ -77,7 +77,7 @@ export const dropTable = () => {
 /*
 * *********************************************************************************************
 *                                                                                             *
-*                                FUNCIONES PARA GUARDAR RECLAMO RECLAMO                       *
+*                                FUNCIONES PARA GUARDAR RECLAMO                               *
 *                                                                                             *
 * *********************************************************************************************
 * */
@@ -97,7 +97,23 @@ export const initReclamosGuardados = () => {
     return promise
 }
 
-export const guardarReclamo = ({dni, descripcion, descripcionSitio, descripcionDesperfecto, calle, nroCalle, entreCalleA, entreCalleB, fechaApertura, fechaCierre, idRubro, image, latitud, longitud, comentarios}) => {
+export const guardarReclamo = ({
+                                   dni,
+                                   descripcion,
+                                   descripcionSitio,
+                                   descripcionDesperfecto,
+                                   calle,
+                                   nroCalle,
+                                   entreCalleA,
+                                   entreCalleB,
+                                   fechaApertura,
+                                   fechaCierre,
+                                   idRubro,
+                                   image,
+                                   latitud,
+                                   longitud,
+                                   comentarios
+                               }) => {
     const promise = new Promise((accept, reject) => {
         db.transaction((tx) => {
             tx.executeSql(
@@ -150,84 +166,98 @@ export const dropTableReclamos = () => {
             );
         });
     });
-
-    /*
+    return promise
+}
+/*
 * *********************************************************************************************
 *                                                                                             *
-*                                FUNCIONES PARA GUARDAR DENUNCIA RECLAMO                       *
+*                                FUNCIONES PARA GUARDAR DENUNCIA                              *
 *                                                                                             *
 * *********************************************************************************************
 * */
 
-    export const initDenunciasGuardadas = () => {
-        const promise = new Promise((resolve, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "CREATE TABLE IF NOT EXISTS denunciasGuardadas (idDenuncia INTEGER PRIMARY KEY AUTOINCREMENT, dni TEXT NOT NULL, descripcion TEXT, descripcionSitio TEXT, calle TEXT, nroCalle INTEGER, entreCalleA TEXT, entreCalleB TEXT, fechaApertura DATE, fechaCierre DATE, image BLOB, latitud REAL, longitud REAL, comentarios TEXT)",
-                    [],
-                    () => resolve(),
-                    (_, error) => {
-                        reject(error)
-                    })
-            })
+export const initDenunciasGuardadas = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "CREATE TABLE IF NOT EXISTS denunciasGuardadas (idDenuncia INTEGER PRIMARY KEY AUTOINCREMENT, dni TEXT NOT NULL, descripcion TEXT, descripcionSitio TEXT, calle TEXT, nroCalle INTEGER, entreCalleA TEXT, entreCalleB TEXT, fechaApertura DATE, fechaCierre DATE, image BLOB, latitud REAL, longitud REAL, comentarios TEXT)",
+                [],
+                () => resolve(),
+                (_, error) => {
+                    reject(error)
+                })
         })
-        return promise
-    }
-
-    export const guardarDenuncia = ({dni, descripcion, descripcionSitio, calle, nroCalle, entreCalleA, entreCalleB, fechaApertura, fechaCierre, image, latitud, longitud, comentarios}) => {
-        const promise = new Promise((accept, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "INSERT INTO denunciasGuardadas (dni, descripcion, descripcionSitio, calle, nroCalle, entreCalleA, entreCalleB, fechaApertura, fechaCierre, image, latitud, longitud, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [dni, descripcion, descripcionSitio, calle, nroCalle, entreCalleA, entreCalleB, fechaApertura, fechaCierre, image, latitud, longitud, comentarios],
-                    (_, result) => accept(result),
-                    (_, error) => reject(error)
-                );
-            });
-        });
-        return promise
-    }
-
-    export const deleteDenuncias = () => {
-        const promise = new Promise((resolve, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "DELETE FROM denunciasGuardadas",
-                    [],
-                    (_, result) => resolve(result),
-                    (_, error) => reject(error)
-                );
-            });
-        });
-        return promise
-    }
-
-    export const getDenunciasGuardadas = () => {
-        const promise = new Promise((resolve, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "SELECT * FROM denunciasGuardadas",
-                    [],
-                    (_, result) => resolve(result),
-                    (_, error) => reject(error)
-                )
-            })
-        })
-        return promise
-    }
-
-    export const dropTableDenuncias = () => {
-        const promise = new Promise((resolve, reject) => {
-            db.transaction((tx) => {
-                tx.executeSql(
-                    "DROP TABLE denunciasGuardadas",
-                    [],
-                    (_, result) => resolve(result),
-                    (_, error) => reject(error)
-                );
-            });
-        });
-    }
-
+    })
     return promise
 }
+
+export const guardarDenuncia = ({
+                                    dni,
+                                    descripcion,
+                                    descripcionSitio,
+                                    calle,
+                                    nroCalle,
+                                    entreCalleA,
+                                    entreCalleB,
+                                    fechaApertura,
+                                    fechaCierre,
+                                    image,
+                                    latitud,
+                                    longitud,
+                                    comentarios
+                                }) => {
+    const promise = new Promise((accept, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "INSERT INTO denunciasGuardadas (dni, descripcion, descripcionSitio, calle, nroCalle, entreCalleA, entreCalleB, fechaApertura, fechaCierre, image, latitud, longitud, comentarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                [dni, descripcion, descripcionSitio, calle, nroCalle, entreCalleA, entreCalleB, fechaApertura, fechaCierre, image, latitud, longitud, comentarios],
+                (_, result) => accept(result),
+                (_, error) => reject(error)
+            );
+        });
+    });
+    return promise
+}
+
+export const deleteDenuncias = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "DELETE FROM denunciasGuardadas",
+                [],
+                (_, result) => resolve(result),
+                (_, error) => reject(error)
+            );
+        });
+    });
+    return promise
+}
+
+export const getDenunciasGuardadas = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "SELECT * FROM denunciasGuardadas",
+                [],
+                (_, result) => resolve(result),
+                (_, error) => reject(error)
+            )
+        })
+    })
+    return promise
+}
+
+export const dropTableDenuncias = () => {
+    const promise = new Promise((resolve, reject) => {
+        db.transaction((tx) => {
+            tx.executeSql(
+                "DROP TABLE denunciasGuardadas",
+                [],
+                (_, result) => resolve(result),
+                (_, error) => reject(error)
+            );
+        });
+    });
+    return promise
+}
+

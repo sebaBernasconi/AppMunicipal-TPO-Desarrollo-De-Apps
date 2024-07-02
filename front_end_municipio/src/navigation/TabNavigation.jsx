@@ -9,15 +9,15 @@ import {StyleSheet, View} from "react-native";
 import {AntDesign, Entypo, FontAwesome5, FontAwesome6, Ionicons} from "@expo/vector-icons";
 import {colors} from "../global/colors";
 import {ipLocal} from "../global/ipLocal";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setNotificarDenuncia, setNotificarReclamo} from "../features/auth/authSlice";
 
 export default function TabNavigation() {
     const Tab = createBottomTabNavigator();
 
-    const {dni, jwt} = useSelector((state) => state.authReducer.value)
+    const {dni, jwt, notificarReclamo, notificarDenuncia} = useSelector((state) => state.authReducer.value)
 
-    const [notificarReclamo, setNotificarReclamo] = useState(false);
-    const [notificarDenuncia, setNotificarDenuncia] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         (async () => {
@@ -32,16 +32,14 @@ export default function TabNavigation() {
                     throw new Error(await response.text())
                 }
                 const user = await response.json();
-                console.log(user)
-                if (user.cambiosEnReclamo){
-                    setNotificarReclamo(true)
+                if (user.cambiosEnReclamos) {
+                    dispatch(setNotificarReclamo(true))
                 }
 
-                if (user.cambiosEnDenuncia) {
-                    setNotificarDenuncia(true)
+                if (user.cambiosEnDenuncias) {
+                    dispatch(setNotificarDenuncia(true))
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 console.error(err);
             }
         })();
@@ -75,8 +73,15 @@ export default function TabNavigation() {
                     tabBarIcon: ({focused}) => {
                         return (
                             <View>
-                                <FontAwesome6 name="circle-exclamation" size={24} color="black" />
-                                <FontAwesome5 name="clipboard" size={34} color={focused ? "black" : "grey"} />
+                                {notificarReclamo ? (
+                                    <View>
+                                        <FontAwesome5 name="clipboard" size={34} color={focused ? "black" : "grey"}/>
+                                        <FontAwesome6 name="circle-exclamation" size={24} color="red" style={{position: "absolute", top: -9, right: -14}}/>
+                                    </View>
+                                ) : (
+
+                                    <FontAwesome5 name="clipboard" size={34} color={focused ? "black" : "grey"}/>
+                                )}
                             </View>
                         )
                     }
@@ -89,7 +94,7 @@ export default function TabNavigation() {
                     tabBarIcon: () => {
                         return (
                             <View>
-                                <Ionicons name="add-circle" size={60} color={colors.blue500} />
+                                <Ionicons name="add-circle" size={60} color={colors.blue500}/>
                             </View>
                         )
                     }
@@ -102,7 +107,14 @@ export default function TabNavigation() {
                     tabBarIcon: ({focused}) => {
                         return (
                             <View>
-                                <AntDesign name="exception1" size={34} color={focused ? "black" : colors.grey} />
+                                {notificarDenuncia ? (
+                                    <View>
+                                        <AntDesign name="exception1" size={34} color={focused ? "black" : colors.grey}/>
+                                        <FontAwesome6 name="circle-exclamation" size={24} color="red" style={{position: "absolute", top: -9, right: -14}}/>
+                                    </View>
+                                ) : (
+                                    <AntDesign name="exception1" size={34} color={focused ? "black" : colors.grey}/>
+                                )}
                             </View>
                         )
                     }
@@ -115,7 +127,7 @@ export default function TabNavigation() {
                     tabBarIcon: ({focused}) => {
                         return (
                             <View>
-                                <FontAwesome5 name="user-alt" size={34} color={focused ? "black" : "grey"} />
+                                <FontAwesome5 name="user-alt" size={34} color={focused ? "black" : "grey"}/>
                             </View>
                         )
                     }
