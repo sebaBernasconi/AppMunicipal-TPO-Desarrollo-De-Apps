@@ -3,6 +3,7 @@ package ar.edu.uade.appmunicipal.service;
 import ar.edu.uade.appmunicipal.model.DTOs.DenunciaDTO;
 import ar.edu.uade.appmunicipal.model.Denuncia;
 import ar.edu.uade.appmunicipal.model.Sitio;
+import ar.edu.uade.appmunicipal.model.Usuario;
 import ar.edu.uade.appmunicipal.model.Vecino;
 import ar.edu.uade.appmunicipal.repository.DenunciaRepository;
 import ar.edu.uade.appmunicipal.repository.VecinoRepository;
@@ -24,6 +25,9 @@ public class DenunciaService {
 
     @Autowired
     SitioService sitioService;
+
+    @Autowired
+    UsuarioService usuarioService;
 
     public List<Denuncia>listarDenuncias(){
         return denunciaRepository.findAll();
@@ -64,8 +68,10 @@ public class DenunciaService {
     public Denuncia actualizarEstado(Integer idDenuncia, String nuevoEstado){
         Optional<Denuncia>denunciaParaActualizar = denunciaRepository.findById(idDenuncia);
         denunciaParaActualizar.orElse(null).actualizarEstado(nuevoEstado);
-
         denunciaRepository.save(denunciaParaActualizar.orElse(null));
+
+        Usuario usr = usuarioService.getUsuario(String.valueOf(denunciaParaActualizar.orElse(null).getVecino().getDni()));
+        usuarioService.actualizarCambiosEnDenunciasUsuario(usr);
 
         return denunciaParaActualizar.orElse(null);
     }

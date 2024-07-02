@@ -31,6 +31,11 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
     }
 
+    public void actualizarCambiosEnDenunciasUsuario(Usuario usuario) {
+        usuario.setCambiosEnDenuncias(!usuario.isCambiosEnDenuncias());
+        usuarioRepository.save(usuario);
+    }
+
     public Usuario getUsuario(String dni){
         Optional<Usuario> userOp = usuarioRepository.findUsuarioByDni(dni);
         return userOp.orElse(null);
