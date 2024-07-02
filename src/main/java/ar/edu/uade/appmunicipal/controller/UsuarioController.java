@@ -76,4 +76,19 @@ public class UsuarioController {
         return new ResponseEntity<>("Usuario con dni: " + dni + " no se encuentra en la BD",
                 HttpStatus.NOT_FOUND);
     }
+
+    @Operation(summary = "Actualizar cambios en reclamo del usuario")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Actualiza el cambio en el reclamo del usuario"),
+            @ApiResponse(responseCode = "404",description = "Not Found")
+    })
+    @PostMapping("/actualizarCambioReclamo")
+    public ResponseEntity<?> actualizarCambioReclamo(@RequestBody String dni) {
+        Usuario usuario = this.usuarioService.getUsuario(dni);
+        if (usuario != null) {
+            this.usuarioService.actualizarCambiosEnReclamoUsuario(usuario);
+            return new ResponseEntity<>("Usuario actualizado correctamente", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("El usuario no se encuentra en la BD", HttpStatus.NOT_FOUND);
+    }
 }
