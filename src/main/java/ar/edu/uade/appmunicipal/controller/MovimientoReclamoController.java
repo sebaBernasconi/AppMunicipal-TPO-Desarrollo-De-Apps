@@ -9,16 +9,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.print.attribute.standard.Media;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/movimientos")
@@ -43,6 +43,26 @@ public class MovimientoReclamoController {
             return new ResponseEntity<>(movimientoGuardado, HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);
+        }
+    }
+
+    @Operation(summary = "Listar Movimientos de un Reclamo")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",description = "Devuelve el listado de los Movmientos del Reclamo solicitado",
+            content = {
+                    @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = MovimientoReclamo.class))
+            }),
+            @ApiResponse(responseCode = "204",description = "No hay ningun Movimiento registrado para ese Reclamo")
+    })
+    @GetMapping(value = "/listarMovimientos/{id}",produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<MovimientoReclamo>>listarMovimientosDeUnReclamo(@PathVariable("id") Integer idReclamo){
+        try {
+            List<MovimientoReclamo>movimientosDelReclamo =
+                    movimientoReclamoService.listarMovimientosDeUnReclamo(idReclamo);
+            return new ResponseEntity<>(movimientosDelReclamo,HttpStatus.OK);
+        }catch (EmptyResultDataAccessException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
     }
 

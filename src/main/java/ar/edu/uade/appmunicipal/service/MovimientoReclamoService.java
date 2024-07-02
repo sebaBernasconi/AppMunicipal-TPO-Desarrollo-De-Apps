@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,26 +26,18 @@ public class MovimientoReclamoService {
     @Autowired
     ReclamoService reclamoService;
 
-    public List<MovimientoReclamo>listarMovimientosEnTodosLosReclamos(){
-        return movimientoReclamoRepository.findAll();
-    }
-  /*
-    public List<MovimientoReclamo>listarMovimientosEnReclamosPorEmpleadoMunicipal(int legajo){
-        return movimientoReclamoRepository.findMovimientoReclamoByPersonalMunicipal(legajo);
-    }
+    public List<MovimientoReclamo>listarMovimientosDeUnReclamo(Integer idReclamo){
+        List<MovimientoReclamo> todosLosMovmientos = movimientoReclamoRepository.findAll();
+        List<MovimientoReclamo> movimientosDelReclamo = new ArrayList<>();
 
-    public List<MovimientoReclamo>listarMovimientosEnReclamosPorReclamo(Reclamo reclamo){
-        return movimientoReclamoRepository.findMovimientoReclamoByReclamo(reclamo.getIdReclamo());
+        for (MovimientoReclamo m :
+                todosLosMovmientos) {
+            if (m.getReclamo().getIdReclamo() == idReclamo) {
+                movimientosDelReclamo.add(m);
+            }
+        }
+        return movimientosDelReclamo;
     }
-
-    public List<MovimientoReclamo>listarMovimientosEnReclamosPorFechaMovimiento(Date fecha){
-        return movimientoReclamoRepository.findMovimientoReclamoByFechaMovimiento(fecha);
-    }
-
-    public MovimientoReclamo buscarMovimentoEnUnReclamo(int idMovimiento){
-        Optional<MovimientoReclamo>movimientoReclamo = movimientoReclamoRepository.findById(idMovimiento);
-        return movimientoReclamo.orElse(null);
-    }*/
 
     public MovimientoReclamo guardarMovmientoReclamo(MovimientoReclamoDTO movimientoReclamoDTO){
 
@@ -66,4 +59,5 @@ public class MovimientoReclamoService {
 
         return movimientoReclamoRepository.save(movimientoReclamo);
     }
+
 }
