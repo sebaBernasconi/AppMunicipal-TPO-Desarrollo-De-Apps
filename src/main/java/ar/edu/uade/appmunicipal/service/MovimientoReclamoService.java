@@ -4,6 +4,7 @@ import ar.edu.uade.appmunicipal.model.DTOs.MovimientoReclamoDTO;
 import ar.edu.uade.appmunicipal.model.MovimientoReclamo;
 import ar.edu.uade.appmunicipal.model.PersonalMunicipal;
 import ar.edu.uade.appmunicipal.model.Reclamo;
+import ar.edu.uade.appmunicipal.model.Usuario;
 import ar.edu.uade.appmunicipal.repository.MovimientoReclamoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class MovimientoReclamoService {
 
     @Autowired
     ReclamoService reclamoService;
+
+    @Autowired
+    UsuarioService usuarioService;
 
     public List<MovimientoReclamo>listarMovimientosDeUnReclamo(Integer idReclamo){
         List<MovimientoReclamo> todosLosMovmientos = movimientoReclamoRepository.findAll();
@@ -54,6 +58,9 @@ public class MovimientoReclamoService {
         movimientoReclamo.setFechaMovimiento(Date.valueOf(LocalDate.now()));
 
         reclamoActualizado = reclamoService.actualizarMovmientos(movimientoReclamoDTO.getIdReclamo(),movimientoReclamo);
+
+        Usuario usr = usuarioService.getUsuario(String.valueOf(reclamoActualizado.getVecino().getDni()));
+        usuarioService.actualizarCambiosEnReclamoUsuario(usr);
 
         movimientoReclamo.setReclamo(reclamoActualizado);
 
