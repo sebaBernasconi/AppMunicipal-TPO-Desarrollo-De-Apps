@@ -48,7 +48,6 @@ public class Denuncia {
 
     @Schema(description = "Imagenes de la Denuncia",requiredMode = Schema.RequiredMode.REQUIRED)
     @Lob
-    @JsonIgnore
     @Column(name = "imagen_local", columnDefinition = "LONGBLOB")
     private byte[] imagenDenuncia;
 

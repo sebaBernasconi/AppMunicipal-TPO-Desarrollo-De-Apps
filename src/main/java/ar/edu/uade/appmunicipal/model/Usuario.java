@@ -3,10 +3,7 @@ package ar.edu.uade.appmunicipal.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Base64;
 
@@ -32,11 +29,9 @@ public class Usuario {
     @Column(columnDefinition = "LONGBLOB")
     private byte[] imagenPerfil;
 
-    @JsonIgnore
     @Column(name = "cambios_en_reclamos")
     private boolean cambiosEnReclamos;
 
-    @JsonIgnore
     @Column(name = "cambios_en_denuncias")
     private boolean cambiosEnDenuncias;
 
