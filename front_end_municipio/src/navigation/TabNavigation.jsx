@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import HomeStack from "./HomeStack";
 import ReclamosStack from "./ReclamosStack";
@@ -6,11 +6,46 @@ import GenerarStack from "./GenerarStack";
 import DenunciasStack from "./DenunciasStack";
 import PerfilStack from "./PerfilStack";
 import {StyleSheet, View} from "react-native";
-import {AntDesign, Entypo, FontAwesome5, Ionicons} from "@expo/vector-icons";
+import {AntDesign, Entypo, FontAwesome5, FontAwesome6, Ionicons} from "@expo/vector-icons";
 import {colors} from "../global/colors";
+import {ipLocal} from "../global/ipLocal";
+import {useSelector} from "react-redux";
 
 export default function TabNavigation() {
     const Tab = createBottomTabNavigator();
+
+    const {dni, jwt} = useSelector((state) => state.authReducer.value)
+
+    const [notificarReclamo, setNotificarReclamo] = useState(false);
+    const [notificarDenuncia, setNotificarDenuncia] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await fetch(`http://${ipLocal}:8080/usuarios/get/${dni}`, {
+                    method: "GET",
+                    headers: {
+                        "Authorization": `Bearer ${jwt}`
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error(await response.text())
+                }
+                const user = await response.json();
+                console.log(user)
+                if (user.cambiosEnReclamo){
+                    setNotificarReclamo(true)
+                }
+
+                if (user.cambiosEnDenuncia) {
+                    setNotificarDenuncia(true)
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
+        })();
+    }, []);
 
     return (
         <Tab.Navigator
@@ -40,6 +75,7 @@ export default function TabNavigation() {
                     tabBarIcon: ({focused}) => {
                         return (
                             <View>
+                                <FontAwesome6 name="circle-exclamation" size={24} color="black" />
                                 <FontAwesome5 name="clipboard" size={34} color={focused ? "black" : "grey"} />
                             </View>
                         )
