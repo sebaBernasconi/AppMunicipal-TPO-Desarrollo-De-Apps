@@ -114,7 +114,7 @@ export default function GenerarDenunciaScreen({navigation}) {
             Alert.alert("Estas usando datos", "Estas usando red celular. Deseas subir el reclamo con esta red? (Sino el reclamo se guardara para ser mandado una vez se renaude la conexion)", [
                 {
                     text: "NO",
-                    onPress: () => guardarReclamoBD()
+                    onPress: () => guardarDenunciaBD()
                 },
                 {
                     text: "SI",

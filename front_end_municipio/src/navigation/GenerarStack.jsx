@@ -10,10 +10,22 @@ import SolicitarAyudaScreen from "../screens/SolicitarAyudaScreen";
 import ServicioConfirmadoScreen from "../screens/ServicioConfirmadoScreen";
 import ReclamoConfirmadoScreen from "../screens/ReclamoConfirmadoScreen";
 import DenunciaConfirmadaScreen from "../screens/DenunciaConfirmadaScreen";
+import {useSelector} from "react-redux";
+import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
+import UsuarioNoRegistradoCard from "../components/UsuarioNoRegistradoCard";
 
 export default function GenerarStack() {
     const Stack = createNativeStackNavigator();
 
+    const {dni} = useSelector((state) => state.authReducer.value)
+
+    if (dni === -1) {
+        return (
+            <StyledScreenWrapper align_center justify_center>
+                <UsuarioNoRegistradoCard/>
+            </StyledScreenWrapper>
+        )
+    }
     return (
         <Stack.Navigator>
             <Stack.Screen
