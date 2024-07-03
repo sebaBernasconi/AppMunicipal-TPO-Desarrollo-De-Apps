@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -98,5 +99,20 @@ public class ReclamoService {
             return null;
         }
 
+    }
+
+    public List<Reclamo>obtenerReclamosPorRubro(Integer idRubro){
+        List<Reclamo>reclamos = reclamoRepository.findAll();
+
+        List<Reclamo>reclamosDelRubro = new ArrayList<>();
+
+        for (Reclamo r :
+                 reclamos) {
+            if (r.getDesperfecto().getRubro().getIdRubro() == idRubro){
+                reclamosDelRubro.add(r);
+            }
+        }
+
+        return reclamosDelRubro;
     }
 }
