@@ -79,7 +79,6 @@ export default function GenerarDenunciaScreen({navigation}) {
     useEffect(() => {
         async function getLocation() {
             const {status} = await Location.requestForegroundPermissionsAsync();
-            console.log(status)
             if (status !== "granted") {
                 return;
             }
@@ -90,7 +89,6 @@ export default function GenerarDenunciaScreen({navigation}) {
             })
         }
         getLocation()
-        console.log(location)
     }, []);
 
     async function handleSubmit() {
@@ -121,6 +119,9 @@ export default function GenerarDenunciaScreen({navigation}) {
                     onPress: () => guardarDenunciaNow()
                 }
             ])
+        }
+        if (networkType === Network.NetworkStateType.WIFI) {
+            guardarDenunciaNow()
         }
     }
 
@@ -166,7 +167,6 @@ export default function GenerarDenunciaScreen({navigation}) {
             const data = await response.json();
             resetForm()
             navigation.navigate("DenunciaConfirmada")
-            console.log(data)
         }catch (error){
             console.error(error)
         }

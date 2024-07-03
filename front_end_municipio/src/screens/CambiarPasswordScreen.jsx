@@ -69,7 +69,6 @@ export default function CambiarPasswordScreen() {
             if (!response.ok) {
                 throw new Error("Error en el cambio de contrasenia")
             }
-            console.log(data)
             console.log("CONTRASENIA CAMBIADA")
         } catch (error) {
             console.error(error)

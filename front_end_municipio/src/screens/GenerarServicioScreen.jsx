@@ -90,7 +90,6 @@ export default function GenerarServicioScreen({navigation}) {
 
             const res = await response.json();
             navigation.navigate("ServicioConfirmado")
-            console.log(res);
         } catch (error) {
             console.error(error);
         }
@@ -152,14 +151,6 @@ export default function GenerarServicioScreen({navigation}) {
                             height={120}
                             color={colors.green400}
                             multiline
-                        />
-
-                        <InputForm
-                            label={"Ubicacion"}
-                            error={errorUbicacion}
-                            onChange={setUbicacion}
-                            placeholder={"Calle y numero"}
-                            color={colors.green400}
                         />
 
                         <InputForm

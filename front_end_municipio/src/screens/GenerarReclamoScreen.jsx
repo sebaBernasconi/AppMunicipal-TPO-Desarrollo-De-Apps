@@ -124,6 +124,9 @@ export default function GenerarReclamoScreen({navigation}) {
                 }
             ])
         }
+        if (networkType === Network.NetworkStateType.WIFI) {
+            guardarReclamoNow()
+        }
     }
 
     async function guardarReclamoNow() {
@@ -174,7 +177,6 @@ export default function GenerarReclamoScreen({navigation}) {
             const data = await response.json();
             resetForm()
             navigation.navigate("ReclamoConfirmado")
-            console.log(data)
         } catch (error) {
             console.error(error)
         }

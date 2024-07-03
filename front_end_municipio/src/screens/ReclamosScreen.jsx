@@ -1,4 +1,4 @@
-import {FlatList, Image, Pressable, View, StyleSheet, Text} from 'react-native'
+import {FlatList, Image, Pressable, StyleSheet, View} from 'react-native'
 import React, {useCallback, useEffect, useState} from 'react'
 import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import ReclamoCard from "../components/ReclamoCard.jsx";
@@ -35,22 +35,22 @@ export default function ReclamosScreen({navigation}) {
 
     }
 
-    async function getReclamosVecino(){
+    async function getReclamosVecino() {
         try {
-            const response = await fetch(`http://${ipLocal}:8080/reclamos/listarPorVecino/${dni}`,{
+            const response = await fetch(`http://${ipLocal}:8080/reclamos/listarPorVecino/${dni}`, {
                 method: 'GET',
                 headers: {
-                    "Authorization" : `Bearer ${jwt}`
+                    "Authorization": `Bearer ${jwt}`
                 },
             })
 
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error((await response.text()))
             }
 
             const data = await response.json();
             setReclamos(data)
-        }catch (error){
+        } catch (error) {
             console.error(error)
         }
     }
@@ -99,11 +99,22 @@ export default function ReclamosScreen({navigation}) {
 
     if (!reclamos.length) {
         return (
-            <View style={{alignItems: "center", justifyContent: "center", flex: 1}}>
-                <StyledText size30 letters_spaced={2} bold style={{color: colors.blue600}}>No has realizado
-                    reclamos</StyledText>
-                <Image source={emptyImage} style={{width: 300, height: 300}}/>
-            </View>
+            <StyledScreenWrapper style={{paddingTop: 16}}>
+                <View style={styles.pressableConteiner}>
+                    <Pressable style={styles.pressable} onPress={() => getReclamos()}>
+                        <StyledText size20>Todos</StyledText>
+                    </Pressable>
+
+                    <Pressable style={styles.pressable} onPress={() => getReclamosVecino()}>
+                        <StyledText size20>Mis Reclamos</StyledText>
+                    </Pressable>
+                </View>
+                <View style={{alignItems: "center", justifyContent: "center", flex: 1}}>
+                    <StyledText size30 letters_spaced={2} bold style={{color: colors.blue600}}>No has realizado
+                        reclamos</StyledText>
+                    <Image source={emptyImage} style={{width: 300, height: 300}}/>
+                </View>
+            </StyledScreenWrapper>
         )
     }
 
@@ -111,12 +122,12 @@ export default function ReclamosScreen({navigation}) {
         <StyledScreenWrapper style={{paddingTop: 16}}>
 
             <View style={styles.pressableConteiner}>
-                <Pressable style={styles.pressable} onPress={()  => getReclamos()}>
-                    <Text style={styles.text}>Todos</Text>
+                <Pressable style={styles.pressable} onPress={() => getReclamos()}>
+                    <StyledText size20>Todos</StyledText>
                 </Pressable>
 
                 <Pressable style={styles.pressable} onPress={() => getReclamosVecino()}>
-                    <Text style={styles.text}>Mis Reclamos</Text>
+                    <StyledText size20>Mis Reclamos</StyledText>
                 </Pressable>
             </View>
 
@@ -134,17 +145,13 @@ export default function ReclamosScreen({navigation}) {
 const styles = StyleSheet.create({
     pressableConteiner: {
         flexDirection: "row",
-        paddingTop: 10,
-        paddingLeft: 190,
-        gap: 6
+        justifyContent: "flex-end",
+        gap: 10
     },
-
     pressable: {
-        backgroundColor: colors.blue500,
-        borderRadius: 8
-    },
-
-    text: {
-        fontSize: 20
+        backgroundColor: colors.blue300,
+        borderRadius: 1000,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
     }
 })
