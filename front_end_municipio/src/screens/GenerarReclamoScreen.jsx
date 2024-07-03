@@ -67,7 +67,6 @@ export default function GenerarReclamoScreen({navigation}) {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            aspect: [9, 16],
             base64: true,
             quality: 1,
 
