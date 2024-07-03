@@ -9,7 +9,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
@@ -39,7 +37,7 @@ public class MovimientoReclamoController {
     @PostMapping(value = "/agregar",consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?>guardarReclamo(@RequestBody MovimientoReclamoDTO movimientoReclamoDTO){
         try {
-            MovimientoReclamo movimientoGuardado = movimientoReclamoService.guardarMovmientoReclamo(movimientoReclamoDTO);
+            MovimientoReclamo movimientoGuardado = movimientoReclamoService.guardarMovimientoReclamo(movimientoReclamoDTO);
             return new ResponseEntity<>(movimientoGuardado, HttpStatus.CREATED);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.CONFLICT);

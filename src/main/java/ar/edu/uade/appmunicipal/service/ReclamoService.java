@@ -4,7 +4,6 @@ import ar.edu.uade.appmunicipal.model.*;
 import ar.edu.uade.appmunicipal.model.DTOs.ReclamoDTO;
 import ar.edu.uade.appmunicipal.repository.PersonalMunicipalRepository;
 import ar.edu.uade.appmunicipal.repository.ReclamoRepository;
-import ar.edu.uade.appmunicipal.repository.SitioRepository;
 import ar.edu.uade.appmunicipal.repository.VecinoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,13 +69,13 @@ public class ReclamoService {
 
     public Reclamo actualizarEstado(Integer idReclamo, String nuevoEstado){
         Optional<Reclamo>reclamoParaActualizar = reclamoRepository.findById(idReclamo);
-        reclamoParaActualizar.orElse(null).actualizarEstado(nuevoEstado);
+        reclamoParaActualizar.orElse(null).setEstado(nuevoEstado);
         reclamoRepository.save(reclamoParaActualizar.orElse(null));
 
         return reclamoParaActualizar.orElse(null);
     }
 
-    public Reclamo actualizarMovmientos(Integer idReclamo, MovimientoReclamo movimientoReclamo){
+    public Reclamo actualizarMovimientos(Integer idReclamo, MovimientoReclamo movimientoReclamo){
         Optional<Reclamo>reclamoOptional = reclamoRepository.findById(idReclamo);
         List<MovimientoReclamo>movimientosDelReclamo = reclamoOptional.orElse(null).getMovimientosDelReclamo();
         movimientosDelReclamo.add(movimientoReclamo);
@@ -85,7 +84,7 @@ public class ReclamoService {
 
     public Reclamo asignarPersonalMunicipal(Integer idReclamo, PersonalMunicipal personalMunicipal){
         Optional<Reclamo>reclamoParaActualizar = reclamoRepository.findById(idReclamo);
-        reclamoParaActualizar.orElse(null).asignarPersonalMunicipal(personalMunicipal);
+        reclamoParaActualizar.orElse(null).setPersonalMunicipal(personalMunicipal);
         reclamoRepository.save(reclamoParaActualizar.orElse(null));
         return reclamoParaActualizar.orElse(null);
     }
