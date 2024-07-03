@@ -1,59 +1,55 @@
-import {StyleSheet, Text} from 'react-native'
-import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
-import {useState} from "react";
-import {ipLocal} from "../global/ipLocal";
+import {StyleSheet, View} from 'react-native'
 import {Dropdown} from "react-native-element-dropdown";
+import StyledText from "../styledComponents/StyledText";
+import {colors} from "../global/colors";
+import Card from "../styledComponents/Card";
 
 
-export default function DropdownList({}){
-
-    const [isFocus, setIsFocus] = useState(false);
-    const [dropDownValue, setDropDownValue] = useState(1);
+export default function DropdownList({idRubro, setIdRubro, borderColor}) {
 
     const data = [
-        {"label": "Electricidad", "value": "Electricidad"},
-        {"label": "Plomeria", "value": "Plomeria"},
-        {"label": "Albañileria", "value": "Albañileria"},
-        {"label": "Jardineria", "value": "Jardineria"},
-        {"label": "Caripinteria", "value": "Carpinteria"},
-        {"label": "Pintura", "value": "Pintura"},
-        {"label": "Cerrajeria", "value": "Cerrajeria"},
-        {"label": "Gas", "value": "Gas"},
-        {"label": "Limpieza", "value": "Limpieza"},
-        {"label": "Mantenimiento", "value": "Mantenimiento"}
+        {label: "Electricidad", value: 1},
+        {label: "Plomeria", value: 2},
+        {label: "Albañileria", value: 3},
+        {label: "Jardineria", value: 4},
+        {label: "Caripinteria", value: 5},
+        {label: "Pintura", value: 6},
+        {label: "Cerrajeria", value: 7},
+        {label: "Gas", value: 8},
+        {label: "Limpieza", value: 9},
+        {label: "Mantenimiento", value: 10}
     ]
 
-    const renderLabel = () => {
-        if (dropDownValue || isFocus){
-            return(
-                <Text>
-                    Cantidad
-                </Text>
-            )
-        }
-        return null;
+
+    function handleDropdown(item) {
+        setIdRubro(item.value)
     }
 
-    function handleDropdown(item){
-        setDropDownValue(item.value)
-    }
-
-    return(
-        <StyledScreenWrapper>
-            {renderLabel()}
-            <Dropdown
-                data={data}
-                labelField={label}
-                valueField={value}
-                onChange={(item) => handleDropdown(item)}
-                value={dropDownValue}
-                onFocus={setIsFocus(true)}
-                onBlur={setIsFocus(false)}
-            />
-        </StyledScreenWrapper>
+    return (
+        <View style={{marginVertical: 20}}>
+            <StyledText size20 style={styles.label}>Rubro</StyledText>
+            <Card borderColor={borderColor}>
+                <Dropdown
+                    data={data}
+                    labelField="label"
+                    valueField="value"
+                    onChange={(item) => handleDropdown(item)}
+                    value={idRubro}
+                    style={{height: 40, padding: 10}}
+                />
+            </Card>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-
+    label: {
+        position: "absolute",
+        zIndex: 100,
+        top: -20,
+        left: 23,
+        padding: 5,
+        fontFamily: "OpenSans",
+        backgroundColor: colors.white,
+    },
 })

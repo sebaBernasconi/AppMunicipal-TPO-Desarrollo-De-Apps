@@ -53,8 +53,6 @@ export default function GenerarDenunciaScreen({navigation}) {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             base64: true,
             quality: 1,
-
-
         });
         if (!result.canceled) {
             setImage(result.assets[0].uri);

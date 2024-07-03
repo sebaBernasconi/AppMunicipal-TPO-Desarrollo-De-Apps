@@ -15,6 +15,7 @@ import * as FileSystem from "expo-file-system";
 import * as Location from "expo-location";
 import * as Network from "expo-network";
 import {guardarReclamo} from "../db";
+import DropdownList from "../components/DropdownList";
 
 export default function GenerarReclamoScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -69,8 +70,6 @@ export default function GenerarReclamoScreen({navigation}) {
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             base64: true,
             quality: 1,
-
-
         });
         if (!result.canceled) {
             setImage(result.assets[0].uri);
@@ -219,11 +218,7 @@ export default function GenerarReclamoScreen({navigation}) {
                         height={150}
                     />
 
-                    <InputForm
-                        label={"Id Rubro"}
-                        placeholder={"Rubro al que pertenece el desperfecto"}
-                        onChange={setIdRubro}
-                    />
+                    <DropdownList idRubro={idRubro} setIdRubro={setIdRubro} borderColor={colors.blue400}/>
 
                     <InputForm
                         label={"Descripcion del desperfecto"}
