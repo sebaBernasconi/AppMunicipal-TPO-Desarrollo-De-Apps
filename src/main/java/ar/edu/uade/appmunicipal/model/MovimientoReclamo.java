@@ -1,5 +1,7 @@
 package ar.edu.uade.appmunicipal.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -27,8 +29,10 @@ public class MovimientoReclamo {
     private Integer idMovimiento;
 
     @Schema(description = "Reclamo asociado al Movimiento",requiredMode = Schema.RequiredMode.AUTO)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name ="id_reclamo")
+    @JsonIdentityReference(alwaysAsId = true)
+    @JsonIgnore
     private Reclamo reclamo;
 
     @Schema(description = "PersonalMunicipal Responsable del Movimiento",requiredMode = Schema.RequiredMode.AUTO)
@@ -40,7 +44,6 @@ public class MovimientoReclamo {
     @Column(name = "causa")
     private String causa;
 
-    @JsonIgnore
     @Schema(description = "Fecha en la que se realizo el Movimiento", requiredMode = Schema.RequiredMode.AUTO)
     @Column(name = "fecha_movimiento")
     private Date fechaMovimiento;
