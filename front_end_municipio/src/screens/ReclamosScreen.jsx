@@ -111,11 +111,11 @@ export default function ReclamosScreen({navigation}) {
         <StyledScreenWrapper style={{paddingTop: 16}}>
 
             <View style={styles.pressableConteiner}>
-                <Pressable style={styles.pressable} onPress={getReclamos()}>
+                <Pressable style={styles.pressable} onPress={()  => getReclamos()}>
                     <Text style={styles.text}>Todos</Text>
                 </Pressable>
 
-                <Pressable style={styles.pressable} onPress={getReclamosVecino()}>
+                <Pressable style={styles.pressable} onPress={() => getReclamosVecino()}>
                     <Text style={styles.text}>Mis Reclamos</Text>
                 </Pressable>
             </View>
