@@ -11,9 +11,16 @@ export default function DropdownList({}){
     const [dropDownValue, setDropDownValue] = useState(1);
 
     const data = [
-        {"label": "1", "value": 1},
-        {"label": "2", "value": 2},
-        {"label": "3", "value": 3},
+        {"label": "Electricidad", "value": "Electricidad"},
+        {"label": "Plomeria", "value": "Plomeria"},
+        {"label": "Albañileria", "value": "Albañileria"},
+        {"label": "Jardineria", "value": "Jardineria"},
+        {"label": "Caripinteria", "value": "Carpinteria"},
+        {"label": "Pintura", "value": "Pintura"},
+        {"label": "Cerrajeria", "value": "Cerrajeria"},
+        {"label": "Gas", "value": "Gas"},
+        {"label": "Limpieza", "value": "Limpieza"},
+        {"label": "Mantenimiento", "value": "Mantenimiento"}
     ]
 
     const renderLabel = () => {
