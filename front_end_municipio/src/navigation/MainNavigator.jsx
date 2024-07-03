@@ -10,6 +10,7 @@ import {setUser} from "../features/auth/authSlice";
 import {ipLocal} from "../global/ipLocal";
 import * as FileSystem from "expo-file-system";
 import * as Network from "expo-network";
+import {isExpired} from "react-jwt";
 
 export default function MainNavigator() {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -23,7 +24,9 @@ export default function MainNavigator() {
                 if (session?.rows.length) {
                     const dni = session.rows._array[0];
                     const jwt = session.rows._array[1];
-                    dispatch(setUser(dni, jwt));
+                    if (!isExpired(jwt)) {
+                        dispatch(setUser(dni, jwt));
+                    }
                 }
             } catch (error) {
                 console.log(error.message);
@@ -34,6 +37,9 @@ export default function MainNavigator() {
 
     useEffect(() => {
         (async () => {
+            if (isExpired(jwt)) {
+                return;
+            }
             const reclamos = await getReclamosGuardados()
             if (reclamos?.rows.length) {
                 const networkStatus = await Network.getNetworkStateAsync()
@@ -88,14 +94,11 @@ export default function MainNavigator() {
                         if (!response.ok) {
                             throw new Error(await response.text())
                         }
-                        const data = await response.json();
                         Alert.alert("Reclamo enviado", "El reclamo guardado localmente se ha enviado", [
                             {
                                 text: "OK",
                             }
                         ])
-                        console.log("RECLAMO GUARDADO")
-                        console.log(data)
                     } catch (error) {
                         console.error(error)
                     }
@@ -106,14 +109,17 @@ export default function MainNavigator() {
 
     useEffect(() => {
         (async () => {
+            if (isExpired(jwt)) {
+                return;
+            }
             const denuncias = await getDenunciasGuardadas()
-            if (denuncias ?.rows.length){
+            if (denuncias?.rows.length) {
                 const networkStatus = await Network.getNetworkStateAsync()
-                if (networkStatus.type !== Network.NetworkStateType.WIFI){
+                if (networkStatus.type !== Network.NetworkStateType.WIFI) {
                     return;
                 }
 
-                for (let i = 0; i < denuncias.rows.length; i ++){
+                for (let i = 0; i < denuncias.rows.length; i++) {
                     const denuncia = denuncias.rows._array[i]
                     const sitio = {
                         latitud: denuncia.latitud,
@@ -130,7 +136,7 @@ export default function MainNavigator() {
                     const idVecino = denuncia.dni
                     const descripcion = denuncia.descripcion
 
-                    const denunciaDTO = {idVecino,sitio,descripcion}
+                    const denunciaDTO = {idVecino, sitio, descripcion}
 
                     const formData = new FormData();
 
@@ -140,14 +146,14 @@ export default function MainNavigator() {
                     const fileUri = fileInfo.uri;
                     const fileType = fileUri.substring(fileUri.lastIndexOf('.') + 1);
 
-                    formData.append("archivo",{
+                    formData.append("archivo", {
                         uri: fileUri,
                         name: fileUri.substring(fileUri.lastIndexOf('/') + 1, fileUri.length),
                         type: `image${fileType}`
                     });
 
                     try {
-                        const response = await fetch(`http://${ipLocal}:8080/denuncias/agregar`,{
+                        const response = await fetch(`http://${ipLocal}:8080/denuncias/agregar`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "multipart/form-data",
@@ -156,25 +162,19 @@ export default function MainNavigator() {
                             body: formData
                         })
 
-                        if (!response.ok){
+                        if (!response.ok) {
                             throw new Error(await response.text())
                         }
-
-                        const data = await response.json();
-                        Alert.alert("Denuncia enviada","La denuncia guardada localmente se ha enviado",[
+                        Alert.alert("Denuncia enviada", "La denuncia guardada localmente se ha enviado", [
                             {
                                 text: "OK",
                             }
                         ])
-
-                        console.log("DENUNCIA GUARDADA")
-                        console.log(data)
-                    }catch (error){
+                    } catch (error) {
                         console.error(error)
                     }
                 }
             }
-
         })();
 
     }, []);

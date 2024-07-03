@@ -10,6 +10,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {useSelector} from "react-redux";
 import {ipLocal} from "../global/ipLocal";
 import * as FileSystem from 'expo-file-system';
+import DropdownList from "../components/DropdownList";
 
 export default function GenerarServicioScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -17,18 +18,13 @@ export default function GenerarServicioScreen({navigation}) {
     const [nombre, setNombre] = useState("");
     const [errorNombre, setErrorNombre] = useState("");
 
-    const [rubro, setRubro] = useState("");
-    const [errorRubro, setErrorRubro] = useState("");
+    const [idRubro, setIdRubro] = useState("");
 
     const [descripcion, setDescripcion] = useState("");
     const [errorDescripcion, setErrorDescripcion] = useState("");
 
     const [promocion, setPromocion] = useState("");
     const [errorPromocion, setErrorPromocion] = useState("");
-
-    // TODO chequear ubicacion en local
-    const [ubicacion, setUbicacion] = useState("");
-    const [errorUbicacion, setErrorUbicacion] = useState("");
 
     const [telefono, setTelefono] = useState("");
     const [errorTelefono, setErrorTelefono] = useState("");
@@ -49,11 +45,8 @@ export default function GenerarServicioScreen({navigation}) {
         let result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
             mediaTypes: ImagePicker.MediaTypeOptions.All,
-            aspect: [9, 16],
             base64: true,
             quality: 1,
-
-
         });
         if (!result.canceled) {
             setImage(result.assets[0].uri);
@@ -63,8 +56,7 @@ export default function GenerarServicioScreen({navigation}) {
 
     async function crearLocal() {
         const formData = new FormData();
-        const idRubro = parseInt(rubro);
-        const idVecino = "12345679";
+        const idVecino = dni;
         const contacto = telefono;
         const local = {idVecino, idRubro, promocion, contacto, descripcion, nombre};
 
@@ -114,22 +106,14 @@ export default function GenerarServicioScreen({navigation}) {
                 case "nombre":
                     setErrorNombre(err.message);
                     break;
-                case "rubro":
-                    setErrorRubro(err.message);
-                    break;
                 case "descripcion":
                     setErrorDescripcion(err.message);
                     break;
                 case "promocion":
                     setErrorPromocion(err.message);
                     break;
-                case "ubicacion":
-                    setErrorUbicacion(err.message);
-                    break;
                 case "telefono":
                     setErrorTelefono(err.message);
-                    break;
-                default:
                     break;
             }
         }
@@ -148,13 +132,7 @@ export default function GenerarServicioScreen({navigation}) {
                             color={colors.green400}
                         />
 
-                        <InputForm
-                            label={"Rubro"}
-                            error={errorRubro}
-                            onChange={setRubro}
-                            placeholder={"Id Rubro"}
-                            color={colors.green400}
-                        />
+                        <DropdownList idRubro={idRubro} setIdRubro={setIdRubro} borderColor={colors.green400}/>
 
                         <InputForm
                             label={"Descripcion"}
