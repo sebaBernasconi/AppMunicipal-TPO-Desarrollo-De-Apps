@@ -35,6 +35,10 @@ public class Usuario {
     @Column(name = "cambios_en_denuncias")
     private boolean cambiosEnDenuncias;
 
+    @Column(name = "espera_confirmacion")
+    @JsonIgnore
+    private boolean esperaConfirmacion;
+
     @JsonProperty("imagenPerfil")
     public String getImagenLocalBase64() {
         if (imagenPerfil == null) {

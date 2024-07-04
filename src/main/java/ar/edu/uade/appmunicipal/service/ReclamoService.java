@@ -23,13 +23,13 @@ public class ReclamoService {
     VecinoRepository vecinoRepository;
 
     @Autowired
-    PersonalMunicipalRepository personalMunicipalRepository;
-
-    @Autowired
     SitioService sitioService;
 
     @Autowired
     private DesperfectoService desperfectoService;
+
+    @Autowired
+    private PersonalMunicipalService personalMunicipalService;
 
     public List<Reclamo>listarReclamos(){
         return reclamoRepository.findAll();
@@ -43,10 +43,6 @@ public class ReclamoService {
     public Reclamo guardarReclamo(ReclamoDTO reclamoDTO, MultipartFile archivo) throws Exception {
         Optional<Vecino> vecinoOptional = vecinoRepository.findById(reclamoDTO.getIdVecino());
 
-        if (vecinoOptional.isEmpty()) {
-            throw new Exception("No se encontro un vecino con ese DNI");
-        }
-
         if (archivo.isEmpty()) {
             throw new Exception("No hay imagen asociada con el reclamo");
         }
@@ -58,7 +54,7 @@ public class ReclamoService {
 
         Reclamo reclamo = new Reclamo();
 
-        reclamo.setVecino(vecinoOptional.get());
+        reclamo.setVecino(vecinoOptional.orElse(null));
         reclamo.setSitio(nuevoSitio);
         reclamo.setDesperfecto(nuevoDesperfecto);
         reclamo.setDescripcion(reclamoDTO.getDescripcion());
