@@ -10,11 +10,13 @@ import checkbox_checked from "../../assets/images/checkbox_checked.png";
 import {useSelector} from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import * as Location from "expo-location";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {Entypo, MaterialCommunityIcons} from "@expo/vector-icons";
 import * as FileSystem from "expo-file-system";
 import {ipLocal} from "../global/ipLocal";
 import * as Network from "expo-network";
 import {guardarDenuncia} from "../db";
+import {decodeToken} from "react-jwt";
+import emptyImage from "../../assets/images/empty-orange.png";
 
 export default function GenerarDenunciaScreen({navigation}) {
 
@@ -94,8 +96,9 @@ export default function GenerarDenunciaScreen({navigation}) {
     async function handleSubmit() {
         const network = Network.getNetworkStateAsync()
         const networkType = (await network).type
+        console.log(networkType)
         if (networkType === Network.NetworkStateType.NONE) {
-            Alert.alert("Sin conexion a internet", "No tienes conexion WIFI o celular. Deseas guardar la denucnia para ser mandada una vez se renaude la conexion?", [
+            Alert.alert("Sin conexion a internet", "No tienes conexion WIFI o celular. Deseas guardar la denuncia para ser mandada una vez se renaude la conexion?", [
                 {
                     text: "NO",
                     onPress: () => navigation.goBack(),
@@ -196,6 +199,14 @@ export default function GenerarDenunciaScreen({navigation}) {
         ]);
     }
 
+    if (decodeToken(jwt).rol === "inspector") {
+        return (
+            <View style={{alignItems: "center", justifyContent: "center", flex: 1}}>
+                <StyledText size30 letters_spaced={2} bold style={{color: colors.orange500, marginBottom: 20}}>Los inspectores no pueden generar denuncias</StyledText>
+                <Entypo name="emoji-sad" size={130} color={colors.orange500} />
+            </View>
+        )
+    }
     return (
         <StyledScreenWrapper no_padding_top>
             <ScrollView showsVerticalScrollIndicator={false}>

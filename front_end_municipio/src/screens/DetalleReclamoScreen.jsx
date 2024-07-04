@@ -19,7 +19,7 @@ export default function DetalleReclamoScreen({route}) {
 
                 <View style={styles.container}>
                     <StyledText style={styles.blue}>DNI</StyledText>
-                    <StyledText size20>{reclamo.vecino.dni}</StyledText>
+                    <StyledText size20>{reclamo.vecino ? reclamo.vecino.dni : "El reclamo lo realizo un inspector"}</StyledText>
                 </View>
 
                 <View style={styles.container}>

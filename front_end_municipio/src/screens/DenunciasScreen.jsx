@@ -9,6 +9,7 @@ import StyledText from "../styledComponents/StyledText";
 import {colors} from "../global/colors";
 import emptyImage from "../../assets/images/empty-orange.png"
 import {setNotificarDenuncia} from "../features/auth/authSlice";
+import {decodeToken} from "react-jwt";
 
 export default function DenunciasScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -78,6 +79,14 @@ export default function DenunciasScreen({navigation}) {
         })();
     }, []);
 
+    if (decodeToken(jwt).rol === "inspector") {
+        return (
+            <View style={{alignItems: "center", justifyContent: "center", flex: 1}}>
+                <StyledText size30 letters_spaced={2} bold style={{color: colors.orange500}}>Los inspectores no pueden ver denuncias</StyledText>
+                <Image source={emptyImage} style={{width: 300, height: 300}}/>
+            </View>
+        )
+    }
     if (!denuncias.length) {
         return (
             <View style={{alignItems: "center", justifyContent: "center", flex: 1}}>

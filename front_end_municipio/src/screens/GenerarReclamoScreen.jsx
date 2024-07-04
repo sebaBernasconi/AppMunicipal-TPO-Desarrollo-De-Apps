@@ -16,6 +16,7 @@ import * as Location from "expo-location";
 import * as Network from "expo-network";
 import {guardarReclamo} from "../db";
 import DropdownList from "../components/DropdownList";
+import {decodeToken} from "react-jwt";
 
 export default function GenerarReclamoScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -38,6 +39,8 @@ export default function GenerarReclamoScreen({navigation}) {
     const [location, setLocation] = useState({latitude: "", longitude: ""});
 
     const [checked, setChecked] = useState(false);
+
+    const decodedToken = decodeToken(jwt)
 
     useEffect(() => {
         async function getLocation() {
@@ -206,6 +209,133 @@ export default function GenerarReclamoScreen({navigation}) {
                 onPress: () => navigation.goBack(),
             }
         ]);
+    }
+
+    async function getDataInspector() {
+        try {
+            const response = await fetch(`http://${ipLocal}:8080/personalMunicipal/buscar/${dni}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${jwt}`
+                }
+            })
+            if (!response.ok) {
+                throw new Error((await response).text())
+            }
+            const data = await response.json();
+            setIdRubro(data.categoria)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    if (decodedToken.rol === "inspector") {
+        getDataInspector()
+        return (
+            <StyledScreenWrapper no_padding_top>
+                <ScrollView>
+                    <View style={{flex: 1}}>
+                        <InputForm
+                            label={"Descripcion"}
+                            placeholder={"Descripcion del reclamo..."}
+                            multiline
+                            onChange={setDescripcion}
+                            height={150}
+                        />
+
+                        <InputForm
+                            label={"Descripcion del desperfecto"}
+                            placeholder={"Descripcion del desperfecto..."}
+                            onChange={setDescripcionDesperfecto}
+                        />
+
+                        <InputForm
+                            label={"Calle"}
+                            placeholder={"Nombre de la calle..."}
+                            onChange={setCalle}
+                        />
+
+                        <InputForm
+                            label={"Nro Calle"}
+                            placeholder={"Numero de la calle..."}
+                            onChange={setNroCalle}
+                        />
+
+                        <InputForm
+                            label={"Entre calle A"}
+                            placeholder={"Calle A"}
+                            onChange={setEntreCalleA}
+                        />
+
+                        <InputForm
+                            label={"Entre calle B"}
+                            placeholder={"Calle B"}
+                            onChange={setEntreCalleB}
+                        />
+
+                        <InputForm
+                            label={"Descripcion del sitio"}
+                            placeholder={"Descripcion del sitio..."}
+                            onChange={setDescripcionSitio}
+                            multiline
+                            height={150}
+                        />
+
+                        <InputForm
+                            label={"Fecha Apertura"}
+                            placeholder={"Fecha apertura del sitio (dejar en blanco si es via publica)"}
+                            onChange={setFechaApertura}
+                        />
+
+                        <InputForm
+                            label={"Fecha Cierre"}
+                            placeholder={"Fecha cierre del sitio (dejar en blanco si es via publica)"}
+                            onChange={setFechaCierre}
+                        />
+
+                        <InputForm
+                            label={"Comentarios"}
+                            placeholder={"Comentarios del sitio"}
+                            onChange={setComentarios}
+                        />
+
+                        <Pressable style={{flexDirection: "row", gap: 10, alignItems: "center"}}
+                                   onPress={() => setChecked(!checked)}>
+                            {checked ? (
+                                <Image source={checkbox_checked} style={{height: 30, width: 30}}/>
+                            ) : (
+                                <Image source={checkbox_not_checked} style={{height: 30, width: 30}}/>
+                            )}
+                            <StyledText size16>Acepto terminos y condiciones</StyledText>
+                        </Pressable>
+                    </View>
+
+                    {/*Manejo de imagenes*/}
+                    <View style={{flexDirection: "row", alignItems: "center", gap: 10}}>
+                        <Pressable onPress={pickImageAsync} style={{flex: 1}}>
+                            <MaterialCommunityIcons name="file-image-plus-outline" size={70} color="black"/>
+                        </Pressable>
+                        {image ? (
+                            <View style={{flex: 3}}>
+                                <StyledText size16>{imageName}</StyledText>
+                            </View>
+                        ) : null}
+                    </View>
+
+                    <View style={styles.botones}>
+                        <View style={styles.botonCancelar}>
+                            <StyledButton text={"Cancelar"} backgroundColor={colors.grey}
+                                          onPress={() => navigation.goBack()}/>
+                        </View>
+
+                        <View style={styles.botonAceptar}>
+                            <StyledButton text={"Reclamar"} backgroundColor={colors.blue400}
+                                          onPress={() => handleSubmit()}/>
+                        </View>
+                    </View>
+                </ScrollView>
+            </StyledScreenWrapper>
+        )
     }
 
     return (

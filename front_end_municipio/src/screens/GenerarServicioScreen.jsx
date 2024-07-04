@@ -6,11 +6,12 @@ import StyledScreenWrapper from "../styledComponents/StyledScreenWrapper";
 import StyledText from "../styledComponents/StyledText";
 import {colors} from "../global/colors";
 import * as ImagePicker from "expo-image-picker";
-import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {Entypo, MaterialCommunityIcons} from "@expo/vector-icons";
 import {useSelector} from "react-redux";
 import {ipLocal} from "../global/ipLocal";
 import * as FileSystem from 'expo-file-system';
 import DropdownList from "../components/DropdownList";
+import {decodeToken} from "react-jwt";
 
 export default function GenerarServicioScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -117,6 +118,15 @@ export default function GenerarServicioScreen({navigation}) {
             }
         }
     };
+
+    if (decodeToken(jwt).rol === "inspector") {
+        return (
+            <View style={{alignItems: "center", justifyContent: "center", flex: 1}}>
+                <StyledText size30 letters_spaced={2} bold style={{color: colors.green400, marginBottom: 20}}>Los inspectores no pueden generar denuncias</StyledText>
+                <Entypo name="emoji-sad" size={130} color={colors.green400} />
+            </View>
+        )
+    }
 
     return (
         <>
