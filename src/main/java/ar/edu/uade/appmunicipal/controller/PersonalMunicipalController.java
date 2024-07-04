@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "personalMunicipal")
+@RequestMapping(value = "/personalMunicipal")
 @Tag(name = "Gestion de PersonalMunicipal", description = "Endpoints del PersonalMunicipal")
 public class PersonalMunicipalController {
 
@@ -35,13 +35,13 @@ public class PersonalMunicipalController {
             @ApiResponse(responseCode = "404",description = "No hay un empleado municipal con ese legajo en la base de datos",
             content = @Content)
     })
-    @GetMapping(value = "/buscarPorLegajo/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<PersonalMunicipal>buscarPorLegajo(@PathVariable("id") Integer legajo){
+    @GetMapping(value = "/buscar/{dni}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?>buscarPorLegajo(@PathVariable Integer dni){
         try {
-            PersonalMunicipal personalMunicipal = personalMunicipalService.buscarEmpleadoMunicipal(legajo);
+            PersonalMunicipal personalMunicipal = personalMunicipalService.buscarEmpleadoMunicipal(dni);
             return new ResponseEntity<>(personalMunicipal, HttpStatus.OK);
-        }catch (EmptyResultDataAccessException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 

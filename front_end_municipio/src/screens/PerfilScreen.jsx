@@ -12,6 +12,7 @@ import {ipLocal} from "../global/ipLocal";
 import profile_icon from "../../assets/images/profile_icon_placeholder.png"
 import * as ImagePicker from "expo-image-picker";
 import {useFocusEffect} from "@react-navigation/native";
+import {decodeToken} from "react-jwt";
 
 export default function PerfilScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
@@ -20,6 +21,9 @@ export default function PerfilScreen({navigation}) {
 
     const [dataVecino, setDataVecino] = useState({nombre: "", apellido: "", barrio: {}, direccion: ""})
     const [dataUser, setDataUser] = useState({email: "", imagenPerfil: ""})
+    const [dataInspector, setDataInspector] = useState({})
+
+    const decodedToken = decodeToken(jwt)
 
     const verifyCameraPermissions = async () => {
         const {granted} = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -107,12 +111,81 @@ export default function PerfilScreen({navigation}) {
         }
     }
 
+    async function getDataInspector() {
+        try {
+            const response = await fetch(`http://${ipLocal}:8080/personalMunicipal/buscar/${dni}`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${jwt}`
+                }
+            })
+            if (!response.ok) {
+                throw new Error((await response).text())
+            }
+            const data = await response.json()
+            setDataInspector(data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     useFocusEffect(
         useCallback(() => {
-            getDataVecino()
-            getDataUsuario()
+            if (decodedToken.rol === "vecino") {
+                getDataVecino()
+                getDataUsuario()
+            }
+            else if (decodedToken.rol === "inspector") {
+                getDataUsuario()
+                getDataInspector()
+            }
         }, [])
     )
+
+    if (decodedToken.rol === "inspector") {
+        return (
+            <StyledScreenWrapper no_padding_top>
+                <View style={{flex: 1}}>
+                    <View style={styles.nombre}>
+                        {dataUser.imagenPerfil ? (
+                            <Image style={styles.imagen}
+                                   source={{uri: `${base64ImagePrefix}${dataUser.imagenPerfil}`}}/>
+                        ) : (
+                            <Image source={profile_icon} style={styles.profileIcon}/>
+                        )}
+                        <StyledText style={styles.nombrePerfil}>{dataInspector.nombre} {dataInspector.apellido}</StyledText>
+                    </View>
+
+                    <View style={styles.contenedor}>
+                        <StyledText>Mail</StyledText>
+                        <Card style={styles.contenedor}>
+                            <StyledText size20 style={{paddingHorizontal: 10, padding: 5}}>{dataUser.email}</StyledText>
+                        </Card>
+                    </View>
+
+                    <View>
+                        <StyledText>Legajo</StyledText>
+                        <Card style={styles.contenedor}>
+                            <StyledText size20
+                                        style={{paddingHorizontal: 10, padding: 5}}>{dataInspector.legajo}</StyledText>
+                        </Card>
+                    </View>
+
+                    <View>
+                        <StyledText>Sector</StyledText>
+                        <Card style={styles.contenedor}>
+                            <StyledText size20 style={{paddingHorizontal: 10, padding: 5}}>{dataInspector.sector}</StyledText>
+                        </Card>
+                    </View>
+
+                </View>
+
+                <StyledButton text={"Cambiar foto perfil"} text_white onPress={pickImageAsync}/>
+                <StyledButton text={"Cerrar sesion"} text_white backgroundColor={colors.grey400}
+                              onPress={() => onLogout()}/>
+            </StyledScreenWrapper>
+        )
+    }
     return (
         <StyledScreenWrapper no_padding_top>
             <View style={{flex: 1}}>

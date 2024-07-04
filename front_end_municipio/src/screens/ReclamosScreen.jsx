@@ -9,10 +9,13 @@ import StyledText from "../styledComponents/StyledText";
 import emptyImage from "../../assets/images/empty-blue.png";
 import {colors} from "../global/colors";
 import {setNotificarReclamo} from "../features/auth/authSlice";
+import {decodeToken} from "react-jwt";
 
 export default function ReclamosScreen({navigation}) {
     const {dni, jwt} = useSelector((state) => state.authReducer.value)
     const [reclamos, setReclamos] = useState([])
+
+    const decodedToken = decodeToken(jwt)
 
     const dispatch = useDispatch();
 
@@ -55,9 +58,48 @@ export default function ReclamosScreen({navigation}) {
         }
     }
 
+    async function getReclamosInspector() {
+        try {
+            const responseInspector = await fetch(`http://${ipLocal}:8080/personalMunicipal/buscar/${dni}`, {
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${jwt}`
+                }
+            })
+
+            if (!responseInspector.ok) {
+                throw new Error ("error en inspector")
+            }
+
+            const dataInspector = await responseInspector.json();
+
+            const idRubro = dataInspector.categoria
+
+            const response = await fetch(`http://${ipLocal}:8080/reclamos/listarPorRubro/${idRubro}`, {
+                method: 'GET',
+                headers: {
+                    "Authorization": `Bearer ${jwt}`
+                }
+            })
+
+            if (!response.ok) {
+                throw new Error((await response).text())
+            }
+
+            const data = await response.json();
+            setReclamos(data)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     useFocusEffect(
         useCallback(() => {
-            getReclamos()
+            if (decodedToken.rol === "vecino") {
+                getReclamos()
+            } else if (decodedToken.rol === "inspector") {
+                getReclamosInspector()
+            }
         }, [])
     )
 
@@ -118,9 +160,22 @@ export default function ReclamosScreen({navigation}) {
         )
     }
 
+    if (decodedToken.rol === "inspector") {
+        return (
+            <StyledScreenWrapper style={{paddingTop: 16}}>
+                <FlatList
+                    data={reclamos}
+                    renderItem={({item}) => (
+                        <ReclamoCard reclamo={item} navigation={navigation}/>
+                    )}
+                    keyExtractor={item => item.idReclamo}
+                />
+            </StyledScreenWrapper>
+        )
+    }
+
     return (
         <StyledScreenWrapper style={{paddingTop: 16}}>
-
             <View style={styles.pressableConteiner}>
                 <Pressable style={styles.pressable} onPress={() => getReclamos()}>
                     <StyledText size20>Todos</StyledText>

@@ -29,7 +29,7 @@ public class PersonalMunicipal {
 
     @Schema(description = "DNI del PersonalMuinicipal",requiredMode = Schema.RequiredMode.REQUIRED,example = "22333444")
     @Column(name = "dni")
-    private int dni;
+    private Integer dni;
 
     @Schema(description = "Nombre del PersonalMunicipal",requiredMode = Schema.RequiredMode.REQUIRED,example = "Juan")
     @Column(name = "nombre")
@@ -49,7 +49,7 @@ public class PersonalMunicipal {
 
     @Schema(description = "Categoria del PersonalMunicipal",requiredMode = Schema.RequiredMode.REQUIRED,example = "Categoria 2")
     @Column(name = "categoria")
-    private int categoria;
+    private Integer categoria;
 
     @Schema(description = "Fecha de contratacion del PersonalMunicipal",requiredMode = Schema.RequiredMode.AUTO)
     @Column(name = "fecha_ingreso")
